@@ -1,0 +1,143 @@
+{
+  "type": "Screen",
+  "attributes": {
+    "id": "page.settings.profile",
+    "safe": false,
+    "backgroundColor": "#FFFFFF"
+  },
+  "children": [
+    {
+      "type": "Form",
+      "attributes": {},
+      "children": [
+        {
+          "type": "Container",
+          "attributes": {
+            "padding": 10.0
+          },
+          "children": [
+            {
+              "type": "Input",
+              "attributes": {
+                "name": "displayName",
+                "value": "Ray Sponsible",
+                "hideText": false,
+                "required": true,
+                "caption": "Display Name",
+                "hint": "Ray Sponsible",
+                "enabled": true,
+                "readOnly": false,
+                "type": "Text",
+                "maxLength": 100,
+                "minLength": 0
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Container",
+          "attributes": {
+            "padding": 10.0
+          },
+          "children": [
+            {
+              "type": "DropdownButton",
+              "attributes": {
+                "name": "language",
+                "value": "en",
+                "hint": "Choose your Language",
+                "required": true
+              },
+              "children": [
+                {
+                  "type": "DropdownMenuItem",
+                  "attributes": {
+                    "caption": "English",
+                    "enabled": true,
+                    "value": "en"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "DropdownMenuItem",
+                  "attributes": {
+                    "caption": "French",
+                    "enabled": true,
+                    "value": "fr"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Container",
+          "attributes": {
+            "padding": 10.0
+          },
+          "children": [
+            {
+              "type": "DropdownButton",
+              "attributes": {
+                "name": "country",
+                "value": "CM",
+                "hint": "Choose your Country",
+                "required": true
+              },
+              "children": [
+                {
+                  "type": "DropdownMenuItem",
+                  "attributes": {
+                    "caption": "Cameroon",
+                    "icon": "https://flagcdn.com/w20/cm.png",
+                    "enabled": true,
+                    "value": "CM"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Container",
+          "attributes": {
+            "padding": 10.0
+          },
+          "children": [
+            {
+              "type": "Input",
+              "attributes": {
+                "name": "submit",
+                "hideText": false,
+                "required": false,
+                "caption": "Submit",
+                "enabled": true,
+                "readOnly": false,
+                "type": "Submit",
+                "minLength": 0
+              },
+              "children": [],
+              "action": {
+                "type": "Command",
+                "url": "http://localhost:0/commands/update-profile"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "My Profile",
+      "elevation": 0.0,
+      "backgroundColor": "#FFFFFF",
+      "foregroundColor": "#000000"
+    },
+    "children": []
+  }
+}

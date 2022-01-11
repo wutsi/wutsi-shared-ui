@@ -1,0 +1,244 @@
+{
+  "type": "Screen",
+  "attributes": {
+    "id": "page.profile",
+    "safe": false,
+    "backgroundColor": "#FFFFFF"
+  },
+  "children": [
+    {
+      "type": "Column",
+      "attributes": {
+        "mainAxisAlignment": "start",
+        "crossAxisAlignment": "start"
+      },
+      "children": [
+        {
+          "type": "Container",
+          "attributes": {
+            "padding": 10.0,
+            "background": "#1D7EDF"
+          },
+          "children": [
+            {
+              "type": "Row",
+              "attributes": {
+                "mainAxisAlignment": "start"
+              },
+              "children": [
+                {
+                  "type": "Container",
+                  "attributes": {
+                    "padding": 5.0
+                  },
+                  "children": [
+                    {
+                      "type": "CircleAvatar",
+                      "attributes": {
+                        "radius": 24.0
+                      },
+                      "children": [
+                        {
+                          "type": "Image",
+                          "attributes": {
+                            "url": "https://img.com/1.png",
+                            "width": 48.0,
+                            "height": 48.0
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "attributes": {
+                    "padding": 5.0
+                  },
+                  "children": [
+                    {
+                      "type": "Column",
+                      "attributes": {
+                        "mainAxisAlignment": "start",
+                        "crossAxisAlignment": "start"
+                      },
+                      "children": [
+                        {
+                          "type": "Button",
+                          "attributes": {
+                            "caption": "+ Contacts",
+                            "padding": 5.0,
+                            "type": "Elevated",
+                            "stretched": false
+                          },
+                          "children": [],
+                          "action": {
+                            "type": "Command",
+                            "url": "http://localhost:0/commands/add-contact?contact-id=5555"
+                          }
+                        },
+                        {
+                          "type": "Button",
+                          "attributes": {
+                            "caption": "WhatsApp",
+                            "padding": 5.0,
+                            "type": "Elevated",
+                            "stretched": false
+                          },
+                          "children": [],
+                          "action": {
+                            "type": "Navigate",
+                            "url": "https://wa.me/1237666666666"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "attributes": {
+            "mainAxisAlignment": "start",
+            "crossAxisAlignment": "start"
+          },
+          "children": [
+            {
+              "type": "Container",
+              "attributes": {
+                "alignment": "CenterLeft",
+                "padding": 10.0
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "attributes": {
+                    "caption": "Ray Sponsible",
+                    "bold": true,
+                    "size": 16.0
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "attributes": {
+                "padding": 10.0
+              },
+              "children": [
+                {
+                  "type": "Column",
+                  "attributes": {
+                    "mainAxisAlignment": "start",
+                    "crossAxisAlignment": "start"
+                  },
+                  "children": [
+                    {
+                      "type": "Container",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "type": "Text",
+                          "attributes": {
+                            "caption": "Advertising/Marketing",
+                            "color": "#95A5A6",
+                            "alignment": "Left"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Container",
+                      "attributes": {
+                        "alignment": "TopLeft"
+                      },
+                      "children": [
+                        {
+                          "type": "Text",
+                          "attributes": {
+                            "caption": "This is my bio",
+                            "alignment": "Left"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Row",
+                      "attributes": {
+                        "mainAxisAlignment": "spaceBetween",
+                        "mainAxisSize": "min"
+                      },
+                      "children": [
+                        {
+                          "type": "Icon",
+                          "attributes": {
+                            "code": "e380"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Button",
+                          "attributes": {
+                            "caption": "my.business.com/12432",
+                            "padding": 1.0,
+                            "type": "Text",
+                            "stretched": false
+                          },
+                          "children": [],
+                          "action": {
+                            "type": "Navigate",
+                            "url": "https://my.business.com/12432"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Row",
+                      "attributes": {
+                        "mainAxisAlignment": "spaceBetween",
+                        "mainAxisSize": "min"
+                      },
+                      "children": [
+                        {
+                          "type": "Icon",
+                          "attributes": {
+                            "code": "e4c9"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Text",
+                          "attributes": {
+                            "caption": "Cameroon"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "Profile",
+      "elevation": 0.0,
+      "backgroundColor": "#1D7EDF",
+      "foregroundColor": "#FFFFFF"
+    },
+    "children": []
+  }
+}

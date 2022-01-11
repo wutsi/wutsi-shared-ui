@@ -1,0 +1,116 @@
+{
+  "type": "Screen",
+  "attributes": {
+    "id": "page.settings.picture",
+    "safe": false
+  },
+  "children": [
+    {
+      "type": "Column",
+      "attributes": {
+        "crossAxisAlignment": "center"
+      },
+      "children": [
+        {
+          "type": "Container",
+          "attributes": {
+            "alignment": "Center",
+            "padding": 10.0
+          },
+          "children": [
+            {
+              "type": "Image",
+              "attributes": {
+                "url": "",
+                "width": 256.0,
+                "height": 256.0
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Divider",
+          "attributes": {
+            "color": "#8c8c8c"
+          },
+          "children": []
+        },
+        {
+          "type": "Input",
+          "attributes": {
+            "name": "file",
+            "hideText": false,
+            "required": false,
+            "caption": "Take a Picture",
+            "enabled": true,
+            "readOnly": false,
+            "type": "Image",
+            "minLength": 0,
+            "uploadUrl": "http://localhost:0/commands/upload-picture",
+            "imageSource": "Camera",
+            "imageMaxHeight": 512,
+            "imageMaxWidth": 512
+          },
+          "children": [],
+          "action": {
+            "type": "Route",
+            "url": "route:/.."
+          }
+        },
+        {
+          "type": "Input",
+          "attributes": {
+            "name": "file",
+            "hideText": false,
+            "required": false,
+            "caption": "Choose a Picture",
+            "enabled": true,
+            "readOnly": false,
+            "type": "Image",
+            "minLength": 0,
+            "uploadUrl": "http://localhost:0/commands/upload-picture",
+            "imageSource": "Gallery",
+            "imageMaxHeight": 512,
+            "imageMaxWidth": 512
+          },
+          "children": [],
+          "action": {
+            "type": "Route",
+            "url": "route:/.."
+          }
+        },
+        {
+          "type": "Button",
+          "attributes": {
+            "caption": "Cancel",
+            "padding": 15.0,
+            "type": "Text"
+          },
+          "children": [],
+          "action": {
+            "type": "Route",
+            "url": "route:/.."
+          }
+        },
+        {
+          "type": "Divider",
+          "attributes": {
+            "color": "#8c8c8c"
+          },
+          "children": []
+        }
+      ]
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "My Picture",
+      "elevation": 0.0,
+      "backgroundColor": "#FFFFFF",
+      "foregroundColor": "#000000"
+    },
+    "children": []
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "type": "Screen",
+  "attributes": {
+    "id": "page.settings.security",
+    "safe": false
+  },
+  "children": [
+    {
+      "type": "ListView",
+      "attributes": {},
+      "children": [
+        {
+          "type": "Divider",
+          "attributes": {
+            "color": "#8c8c8c"
+          },
+          "children": []
+        },
+        {
+          "type": "ListItemSwitch",
+          "attributes": {
+            "caption": "Security Lock",
+            "subCaption": "Require PIN to transfer funds",
+            "name": "value",
+            "selected": true
+          },
+          "children": [],
+          "action": {
+            "type": "Command",
+            "url": "http://localhost:0/commands/transfer-secured"
+          }
+        },
+        {
+          "type": "Divider",
+          "attributes": {
+            "color": "#8c8c8c"
+          },
+          "children": []
+        },
+        {
+          "type": "Container",
+          "attributes": {
+            "padding": 10.0
+          },
+          "children": [
+            {
+              "type": "Button",
+              "attributes": {
+                "caption": "Change PIN",
+                "padding": 15.0,
+                "type": "Elevated"
+              },
+              "children": [],
+              "action": {
+                "type": "Route",
+                "url": "https://wutsi-gateway-test.herokuapp.com/login/?phone=%2B1237666666666&icon=e3ae&screen-id=page.settings.security.pin.login&title=Authorization&sub-title=Enter+your+current+PIN&auth=false&return-to-route=true&return-url=http%3A%2F%2Flocalhost%3A0%2Fsettings%2Fsecurity%2Fpin"
+              }
+            }
+          ]
+        },
+        {
+          "type": "Divider",
+          "attributes": {
+            "color": "#8c8c8c"
+          },
+          "children": []
+        }
+      ]
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "Security",
+      "elevation": 0.0,
+      "backgroundColor": "#FFFFFF",
+      "foregroundColor": "#000000"
+    },
+    "children": []
+  }
+}

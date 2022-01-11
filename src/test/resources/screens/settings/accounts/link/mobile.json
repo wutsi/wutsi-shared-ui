@@ -1,0 +1,157 @@
+{
+  "type": "Screen",
+  "attributes": {
+    "id": "page.settings.account.link.mobile",
+    "safe": false
+  },
+  "children": [
+    {
+      "type": "Container",
+      "attributes": {
+        "alignment": "Center"
+      },
+      "children": [
+        {
+          "type": "Column",
+          "attributes": {},
+          "children": [
+            {
+              "type": "Container",
+              "attributes": {
+                "alignment": "Center",
+                "padding": 10.0
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "attributes": {
+                    "caption": "Link a Mobile Money account",
+                    "bold": true,
+                    "size": 16.0,
+                    "alignment": "Center"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "attributes": {
+                "alignment": "TopCenter"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "attributes": {
+                    "caption": "You will receive a SMS to confirm you are the owner of the account",
+                    "alignment": "Center"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Form",
+              "attributes": {},
+              "children": [
+                {
+                  "type": "Container",
+                  "attributes": {
+                    "padding": 10.0
+                  },
+                  "children": [
+                    {
+                      "type": "Input",
+                      "attributes": {
+                        "name": "phoneNumber",
+                        "hideText": false,
+                        "required": true,
+                        "caption": "",
+                        "enabled": true,
+                        "readOnly": false,
+                        "type": "Phone",
+                        "minLength": 0,
+                        "countries": [
+                          "CM"
+                        ]
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "attributes": {
+                    "padding": 10.0
+                  },
+                  "children": [
+                    {
+                      "type": "Row",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "type": "Image",
+                          "attributes": {
+                            "url": "http://www.goole.com/images/mtn.png",
+                            "width": 48.0,
+                            "height": 48.0
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Image",
+                          "attributes": {
+                            "url": "http://www.goole.com/images/orange.png",
+                            "width": 48.0,
+                            "height": 48.0
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "attributes": {
+                    "padding": 10.0
+                  },
+                  "children": [
+                    {
+                      "type": "Input",
+                      "attributes": {
+                        "name": "command",
+                        "hideText": false,
+                        "required": false,
+                        "caption": "Link Account",
+                        "enabled": true,
+                        "readOnly": false,
+                        "type": "Submit",
+                        "minLength": 0
+                      },
+                      "children": [],
+                      "action": {
+                        "type": "Command",
+                        "url": "http://localhost:0/commands/send-sms-code"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "Link Account",
+      "elevation": 0.0,
+      "backgroundColor": "#FFFFFF",
+      "foregroundColor": "#000000"
+    },
+    "children": []
+  }
+}

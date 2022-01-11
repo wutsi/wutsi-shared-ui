@@ -1,0 +1,104 @@
+{
+  "type": "Screen",
+  "attributes": {
+    "id": "page.qr-code",
+    "safe": false
+  },
+  "children": [
+    {
+      "type": "Column",
+      "attributes": {},
+      "children": [
+        {
+          "type": "Center",
+          "attributes": {},
+          "children": [
+            {
+              "type": "Container",
+              "attributes": {
+                "alignment": "Center",
+                "padding": 10.0
+              },
+              "children": [
+                {
+                  "type": "CircleAvatar",
+                  "attributes": {
+                    "radius": 32.0
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "attributes": {
+                        "caption": "RS",
+                        "bold": true,
+                        "size": 30.0
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Center",
+          "attributes": {},
+          "children": [
+            {
+              "type": "Container",
+              "attributes": {
+                "alignment": "Center",
+                "padding": 10.0
+              },
+              "children": [
+                {
+                  "type": "QrImage",
+                  "attributes": {
+                    "data": "xxxxx",
+                    "size": 230.0,
+                    "padding": 10.0,
+                    "embeddedImageUrl": "http://www.goole.com/images/1.png",
+                    "embeddedImageSize": 64.0
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Container",
+          "attributes": {
+            "alignment": "Center",
+            "padding": 20.0,
+            "margin": 20.0,
+            "background": "#e4edf7",
+            "border": 1.0,
+            "borderRadius": 5.0
+          },
+          "children": [
+            {
+              "type": "Text",
+              "attributes": {
+                "caption": "Your QR Code is private. Merchants can scan it to accept your paymends; your friends can scan it to add you in their contact list.",
+                "alignment": "Center"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "My QR Code",
+      "elevation": 0.0,
+      "backgroundColor": "#FFFFFF",
+      "foregroundColor": "#000000"
+    },
+    "children": []
+  }
+}

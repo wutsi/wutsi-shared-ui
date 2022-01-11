@@ -1,0 +1,131 @@
+{
+  "type": "Screen",
+  "attributes": {
+    "id": "page.settings.business",
+    "safe": false,
+    "backgroundColor": "#FFFFFF"
+  },
+  "children": [
+    {
+      "type": "Container",
+      "attributes": {},
+      "children": [
+        {
+          "type": "ListView",
+          "attributes": {
+            "separator": true,
+            "separatorColor": "#8c8c8c"
+          },
+          "children": [
+            {
+              "type": "Container",
+              "attributes": {
+                "padding": 10.0
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "attributes": {
+                "caption": "Biography",
+                "subCaption": "This is my bio",
+                "trailing": {
+                  "type": "Icon",
+                  "attributes": {
+                    "code": "e21a",
+                    "size": 24.0,
+                    "color": "#000000"
+                  },
+                  "children": []
+                }
+              },
+              "children": [],
+              "action": {
+                "type": "Route",
+                "url": "http://localhost:0/settings/business/biography"
+              }
+            },
+            {
+              "type": "ListItem",
+              "attributes": {
+                "caption": "Website",
+                "subCaption": "https://www.google.ca",
+                "trailing": {
+                  "type": "Icon",
+                  "attributes": {
+                    "code": "e21a",
+                    "size": 24.0,
+                    "color": "#000000"
+                  },
+                  "children": []
+                }
+              },
+              "children": [],
+              "action": {
+                "type": "Route",
+                "url": "http://localhost:0/settings/business/website"
+              }
+            },
+            {
+              "type": "ListItem",
+              "attributes": {
+                "caption": "Category",
+                "subCaption": "Advertising/Marketing",
+                "trailing": {
+                  "type": "Icon",
+                  "attributes": {
+                    "code": "e21a",
+                    "size": 24.0,
+                    "color": "#000000"
+                  },
+                  "children": []
+                }
+              },
+              "children": [],
+              "action": {
+                "type": "Route",
+                "url": "http://localhost:0/settings/business/category"
+              }
+            },
+            {
+              "type": "ListItemSwitch",
+              "attributes": {
+                "caption": "Connect with WhatsApp",
+                "name": "value",
+                "selected": false
+              },
+              "children": [],
+              "action": {
+                "type": "Command",
+                "url": "http://localhost:0/commands/update-business-attribute?name=whatsapp"
+              }
+            },
+            {
+              "type": "ListItemSwitch",
+              "attributes": {
+                "caption": "Business Account",
+                "name": "value",
+                "selected": true
+              },
+              "children": [],
+              "action": {
+                "type": "Command",
+                "url": "http://localhost:0/commands/update-business-attribute?name=business"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "My Business",
+      "elevation": 0.0,
+      "backgroundColor": "#FFFFFF",
+      "foregroundColor": "#000000"
+    },
+    "children": []
+  }
+}

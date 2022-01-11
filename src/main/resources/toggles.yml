@@ -1,0 +1,19 @@
+wutsi:
+  toggles:
+    send-sms-code: false         # Send verification codes via SMS?
+    verify-sms-code: false       # Verify SMS code?
+    payment: false               # Payment enabled?
+    scan: false                  # Scanning enabled?
+    account: false               # Manage account?
+    business: true               # Business account enabled?
+    logout: true                 # Logout button
+    tester-user-ids:
+      - 18   # Eric - phone #2
+      - 29   # Eric - phone #1
+      - 19   # Louis
+      - 23   # Mathis
+    test-phone-numbers:
+      - "+237670000001"   # MTN Test Account #1
+      - "+237670000002"   # MTN Test Account #2
+      - "+237690000001"   # OM Test Account #1
+      - "+237690000002"   # OM Test Account #2
