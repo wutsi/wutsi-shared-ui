@@ -1,11 +1,11 @@
 wutsi:
   toggles:
-    send-sms-code: false         # Send verification codes via SMS?
-    verify-sms-code: false       # Verify SMS code?
+    send-sms-code: true          # Send verification codes via SMS?
+    verify-sms-code: true        # Verify SMS code?
     payment: false               # Payment enabled?
     scan: false                  # Scanning enabled?
-    account: false               # Manage account?
-    business: true               # Business account enabled?
+    account: true                # Manage account?
+    business: false              # Business account enabled?
     logout: true                 # Logout button
     tester-user-ids:
       - 18   # Eric - phone #2

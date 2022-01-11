@@ -7,18 +7,19 @@ import com.wutsi.platform.account.dto.Account
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFalse
 
 internal class TogglesProviderTest {
     companion object {
         const val USER_ID = 1L
     }
 
-    private lateinit var userProvider: SecurityContext
+    private lateinit var securityContext: SecurityContext
 
     @BeforeEach
     fun setUp() {
-        userProvider = mock()
-        doReturn(USER_ID).whenever(userProvider).currentUserId()
+        securityContext = mock()
+        doReturn(USER_ID).whenever(securityContext).currentUserId()
     }
 
     @Test
@@ -96,7 +97,7 @@ internal class TogglesProviderTest {
         val service = createToggleProvider(toggles)
 
         // THEN
-        assertTrue(service.isScanEnabled(account))
+        assertTrue(service.isScanEnabled())
     }
 
     @Test
@@ -109,20 +110,19 @@ internal class TogglesProviderTest {
         val service = createToggleProvider(toggles)
 
         // THEN
-        kotlin.test.assertFalse(service.isScanEnabled(account))
+        kotlin.test.assertFalse(service.isScanEnabled())
     }
 
     @Test
     fun `scan=OFF - payment enabled for tester`() {
         // GIVEN
         val toggles = createToggleForScan(false, listOf(USER_ID, 2, 3))
-        val account = Account(USER_ID)
 
         // WHEN
         val service = createToggleProvider(toggles)
 
         // THEN
-        assertTrue(service.isScanEnabled(account))
+        assertTrue(service.isScanEnabled())
     }
 
     @Test
@@ -162,15 +162,99 @@ internal class TogglesProviderTest {
     }
 
     @Test
-    fun `sendSMS=OFF deature enabled`() {
+    fun `sendSMS=OFF feature disabled`() {
         // GIVEN
-        val toggles = createToggleForLogout(false, listOf(USER_ID))
+        val toggles = createFeatureForSendSMS(false)
 
         // WHEN
         val service = createToggleProvider(toggles)
 
         // THEN
-        assertTrue(service.isLogoutEnabled())
+        assertFalse(service.isSendSmsEnabled("1111"))
+    }
+
+    @Test
+    fun `sendSMS=ON - feature enabled`() {
+        // GIVEN
+        val phone = "11111"
+        val toggles = createFeatureForSendSMS(true, testPhoneNumbers = listOf(phone))
+
+        // WHEN
+        val service = createToggleProvider(toggles)
+
+        // THEN
+        assertTrue(service.isSendSmsEnabled("xxxxx"))
+    }
+
+    @Test
+    fun `sendSMS=ON - test phone number - feature disabled`() {
+        // GIVEN
+        val phone = "11111"
+        val toggles = createFeatureForSendSMS(true, testPhoneNumbers = listOf(phone))
+
+        // WHEN
+        val service = createToggleProvider(toggles)
+
+        // THEN
+        assertFalse(service.isSendSmsEnabled(phone))
+    }
+
+    @Test
+    fun `verifySMS=OFF feature disabled`() {
+        // GIVEN
+        val toggles = createFeatureForVerifySMS(false, testPhoneNumbers = listOf("xxxx"))
+
+        // WHEN
+        val service = createToggleProvider(toggles)
+
+        // THEN
+        assertFalse(service.isVerifySmsCodeEnabled("1111"))
+    }
+
+    @Test
+    fun `verifySMS=ON - feature enabled`() {
+        // GIVEN
+        val phone = "11111"
+        val toggles = createFeatureForVerifySMS(true, testPhoneNumbers = listOf(phone))
+
+        // WHEN
+        val service = createToggleProvider(toggles)
+
+        // THEN
+        assertTrue(service.isVerifySmsCodeEnabled("xxxxx"))
+    }
+
+    @Test
+    fun `verifySMS=ON - test phone number - feature disabled`() {
+        // GIVEN
+        val phone = "11111"
+        val toggles = createFeatureForVerifySMS(true, testPhoneNumbers = listOf(phone))
+
+        // WHEN
+        val service = createToggleProvider(toggles)
+
+        // THEN
+        assertFalse(service.isVerifySmsCodeEnabled(phone))
+    }
+
+    private fun createFeatureForVerifySMS(
+        value: Boolean,
+        testPhoneNumbers: List<String> = emptyList()
+    ): Toggles {
+        val toggles = Toggles()
+        toggles.verifySmsCode = value
+        toggles.testPhoneNumbers = testPhoneNumbers
+        return toggles
+    }
+
+    private fun createFeatureForSendSMS(
+        value: Boolean,
+        testPhoneNumbers: List<String> = emptyList()
+    ): Toggles {
+        val toggles = Toggles()
+        toggles.sendSmsCode = value
+        toggles.testPhoneNumbers = testPhoneNumbers
+        return toggles
     }
 
     private fun createToggleForLogout(value: Boolean, testerUserIds: List<Long> = emptyList()): Toggles {
@@ -195,6 +279,6 @@ internal class TogglesProviderTest {
     }
 
     private fun createToggleProvider(toggles: Toggles) = TogglesProvider(
-        toggles, userProvider
+        toggles, securityContext
     )
 }

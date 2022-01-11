@@ -12,14 +12,14 @@ open class TogglesProvider(
     fun isPaymentEnabled(account: Account): Boolean =
         account.business && (toggles.payment || isTester(account.id))
 
-    fun isScanEnabled(account: Account): Boolean =
-        toggles.scan || isTester(account.id)
+    fun isScanEnabled(): Boolean =
+        toggles.scan || isTester()
 
     fun isSendSmsEnabled(phoneNumber: String): Boolean =
-        toggles.sendSmsCode || isTestTestPhoneNumber(phoneNumber)
+        toggles.sendSmsCode && !isTestTestPhoneNumber(phoneNumber)
 
     fun isVerifySmsCodeEnabled(phoneNumber: String): Boolean =
-        toggles.verifySmsCode || isTestTestPhoneNumber(phoneNumber)
+        toggles.verifySmsCode && !isTestTestPhoneNumber(phoneNumber)
 
     fun isAccountEnabled(): Boolean =
         toggles.account

@@ -1,11 +1,11 @@
 package com.wutsi.application.shared.service
 
-class URLBuilder(
+open class URLBuilder(
     private val serverUrl: String
 ) {
-    fun build(path: String) = build(serverUrl, path)
+    open fun build(path: String) = build(serverUrl, path)
 
-    fun build(prefix: String, path: String): String {
+    open fun build(prefix: String, path: String): String {
         val xprefix = if (prefix.endsWith("/"))
             prefix.substring(0, prefix.length - 1)
         else

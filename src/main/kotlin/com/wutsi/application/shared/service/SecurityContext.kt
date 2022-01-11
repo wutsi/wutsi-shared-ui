@@ -10,14 +10,14 @@ open class SecurityContext(
     private val accountApi: WutsiAccountApi,
     private val tenantProvider: TenantProvider
 ) {
-    fun currentUserId(): Long =
+    open fun currentUserId(): Long =
         principal().id.toLong()
 
-    fun currentAccount(): Account =
+    open fun currentAccount(): Account =
         accountApi.getAccount(currentUserId()).account
 
-    fun principal(): WutsiPrincipal {
-        val principal = SecurityContextHolder.getContext().authentication.principal
+    open fun principal(): WutsiPrincipal {
+        val principal = SecurityContextHolder.getContext()?.authentication?.principal
         return if (principal is WutsiPrincipal)
             principal
         else
