@@ -15,11 +15,11 @@ open class TogglesProvider(
     open fun isScanEnabled(): Boolean =
         toggles.scan || isTester()
 
-    open fun isSendSmsEnabled(phoneNumber: String): Boolean =
-        toggles.sendSmsCode && !isTestTestPhoneNumber(phoneNumber)
+    open fun isSendSmsCodeEnabled(phoneNumber: String): Boolean =
+        toggles.sendSmsCode && !isTestPhoneNumber(phoneNumber)
 
     open fun isVerifySmsCodeEnabled(phoneNumber: String): Boolean =
-        toggles.verifySmsCode && !isTestTestPhoneNumber(phoneNumber)
+        toggles.verifySmsCode && !isTestPhoneNumber(phoneNumber)
 
     open fun isAccountEnabled(): Boolean =
         toggles.account
@@ -33,6 +33,6 @@ open class TogglesProvider(
     private fun isTester(userId: Long?): Boolean =
         userId != null && toggles.testerUserIds.contains(userId)
 
-    private fun isTestTestPhoneNumber(phoneNumber: String): Boolean =
+    private fun isTestPhoneNumber(phoneNumber: String): Boolean =
         toggles.testPhoneNumbers.contains(phoneNumber)
 }

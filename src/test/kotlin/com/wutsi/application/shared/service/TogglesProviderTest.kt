@@ -170,7 +170,7 @@ internal class TogglesProviderTest {
         val service = createToggleProvider(toggles)
 
         // THEN
-        assertFalse(service.isSendSmsEnabled("1111"))
+        assertFalse(service.isSendSmsCodeEnabled("1111"))
     }
 
     @Test
@@ -183,7 +183,7 @@ internal class TogglesProviderTest {
         val service = createToggleProvider(toggles)
 
         // THEN
-        assertTrue(service.isSendSmsEnabled("xxxxx"))
+        assertTrue(service.isSendSmsCodeEnabled("xxxxx"))
     }
 
     @Test
@@ -196,7 +196,7 @@ internal class TogglesProviderTest {
         val service = createToggleProvider(toggles)
 
         // THEN
-        assertFalse(service.isSendSmsEnabled(phone))
+        assertFalse(service.isSendSmsCodeEnabled(phone))
     }
 
     @Test
