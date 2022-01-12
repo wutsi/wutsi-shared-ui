@@ -20,4 +20,7 @@ open class TenantProvider(
 
     open fun logo(carrier: MobileCarrier): String? =
         carrier.logos.find { it.type == "PICTORIAL" }?.url
+
+    open fun logo(tenant: Tenant): String? =
+        tenant.logos.find { it.type == "PICTORIAL" }?.url
 }

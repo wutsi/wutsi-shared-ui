@@ -91,7 +91,6 @@ internal class TogglesProviderTest {
     fun `scan=ON - payment enabled`() {
         // GIVEN
         val toggles = createToggleForScan(true)
-        val account = Account()
 
         // WHEN
         val service = createToggleProvider(toggles)
@@ -104,7 +103,6 @@ internal class TogglesProviderTest {
     fun `scan=OFF - payment disabled`() {
         // GIVEN
         val toggles = createToggleForScan(false)
-        val account = Account()
 
         // WHEN
         val service = createToggleProvider(toggles)
