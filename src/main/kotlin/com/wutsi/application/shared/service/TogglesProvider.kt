@@ -28,7 +28,7 @@ open class TogglesProvider(
         toggles.logout || isTester()
 
     private fun isTester(): Boolean =
-        isTester(securityContext.currentUserId())
+        isTester(securityContext.currentAccountId())
 
     private fun isTester(userId: Long?): Boolean =
         userId != null && toggles.testerUserIds.contains(userId)

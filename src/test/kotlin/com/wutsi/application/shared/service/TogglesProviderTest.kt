@@ -19,7 +19,7 @@ internal class TogglesProviderTest {
     @BeforeEach
     fun setUp() {
         securityContext = mock()
-        doReturn(USER_ID).whenever(securityContext).currentUserId()
+        doReturn(USER_ID).whenever(securityContext).currentAccountId()
     }
 
     @Test
