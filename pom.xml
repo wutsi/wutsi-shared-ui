@@ -25,7 +25,7 @@
     <libphonenumber.version>8.12.41</libphonenumber.version>
     <spring.version>5.3.10</spring.version>
     <spring-boot.version>2.5.6</spring-boot.version>
-    <spring-security.version>5.6.0</spring-security.version>
+    <spring-security.version>5.6.1</spring-security.version>
 
     <sdui-kotlin.version>0.0.56</sdui-kotlin.version>
     <wutsi-platform-core.version>0.0.91</wutsi-platform-core.version>
