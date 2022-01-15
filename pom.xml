@@ -6,7 +6,7 @@
 
   <artifactId>wutsi-shared-ui</artifactId>
   <groupId>com.wutsi.application.shared</groupId>
-  <version>0.0.11-SNAPSHOT</version>
+  <version>0.0.14-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>wutsi-shared-ui</name>
 
@@ -22,10 +22,10 @@
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <klint.version>0.43.2</klint.version>
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
-    <libphonenumber.version>8.12.40</libphonenumber.version>
-    <spring.version>5.3.10</spring.version>
+    <libphonenumber.version>8.12.41</libphonenumber.version>
+    <spring.version>5.3.15</spring.version>
     <spring-boot.version>2.5.6</spring-boot.version>
-    <spring-security.version>5.6.0</spring-security.version>
+    <spring-security.version>5.6.1</spring-security.version>
 
     <sdui-kotlin.version>0.0.56</sdui-kotlin.version>
     <wutsi-platform-core.version>0.0.91</wutsi-platform-core.version>
