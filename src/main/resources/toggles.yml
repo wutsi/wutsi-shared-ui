@@ -13,6 +13,7 @@ wutsi:
       - 29   # Eric - phone #1
       - 19   # Louis
       - 23   # Mathis
+      - 47   # MTN Retail Account #1
     test-phone-numbers:
       - "+237670000001"   # MTN Test Account #1
       - "+237670000002"   # MTN Test Account #2
