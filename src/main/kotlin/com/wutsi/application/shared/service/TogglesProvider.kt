@@ -7,7 +7,7 @@ open class TogglesProvider(
     private val securityContext: SecurityContext,
 ) {
     open fun isBusinessAccountEnabled(): Boolean =
-        toggles.business
+        toggles.business || isTester()
 
     open fun isPaymentEnabled(account: Account): Boolean =
         account.business && (toggles.payment || isTester(account.id))

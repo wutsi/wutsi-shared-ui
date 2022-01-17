@@ -1,5 +1,6 @@
 package com.wutsi.application.shared.config
 
+import com.wutsi.application.shared.service.CategoryService
 import com.wutsi.application.shared.service.RequestLocaleResolver
 import com.wutsi.application.shared.service.SecurityContext
 import com.wutsi.application.shared.service.TenantProvider
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.ResourceBundleMessageSource
 import org.springframework.web.servlet.LocaleResolver
+import javax.servlet.http.HttpServletRequest
 
 @Configuration
 class ServiceConfiguration(
@@ -20,6 +22,10 @@ class ServiceConfiguration(
     private val tenantApi: WutsiTenantApi,
     private val tracingContext: TracingContext,
 ) {
+    @Bean
+    fun categoryService(localeResolver: LocaleResolver, request: HttpServletRequest): CategoryService =
+        CategoryService(localeResolver, request)
+
     @Bean
     fun localeResolver(): LocaleResolver =
         RequestLocaleResolver()
