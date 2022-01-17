@@ -17,8 +17,8 @@ import com.wutsi.platform.account.dto.Account
 import org.springframework.context.i18n.LocaleContextHolder
 import java.util.Locale
 
-class AccountProfileCard(
-    private val recipient: Account,
+class ProfileCard(
+    private val account: Account,
     private val phoneNumber: String? = null,
     private val categoryService: CategoryService,
     private val togglesProvider: TogglesProvider
@@ -31,8 +31,8 @@ class AccountProfileCard(
                 child = Avatar(
                     radius = 48.0,
                     textSize = 30.0,
-                    text = recipient.displayName,
-                    pictureUrl = recipient.pictureUrl,
+                    text = account.displayName,
+                    pictureUrl = account.pictureUrl,
                 )
             ),
             Container(
@@ -42,13 +42,13 @@ class AccountProfileCard(
                     mainAxisAlignment = MainAxisAlignment.center,
                     children = listOf(
                         Text(
-                            caption = recipient.displayName ?: "",
+                            caption = account.displayName ?: "",
                             alignment = TextAlignment.Center,
                             size = Theme.TEXT_SIZE_X_LARGE,
                             color = Theme.COLOR_PRIMARY,
                             bold = true,
                         ),
-                        if (recipient.retail && togglesProvider.isBusinessAccountEnabled())
+                        if (account.retail && togglesProvider.isBusinessAccountEnabled())
                             Icon(
                                 Theme.ICON_VERIFIED,
                                 color = Theme.COLOR_PRIMARY,
@@ -73,21 +73,21 @@ class AccountProfileCard(
         }
 
         // Bio
-        if (!recipient.biography.isNullOrEmpty())
+        if (!account.biography.isNullOrEmpty())
             children.add(
                 Container(
                     padding = 10.0,
                     alignment = Alignment.Center,
                     child = Text(
                         alignment = TextAlignment.Center,
-                        caption = recipient.biography!!
+                        caption = account.biography!!
                     )
                 )
             )
 
         // More
         val more = mutableListOf<WidgetAware>()
-        if (!recipient.country.isNullOrEmpty()) {
+        if (!account.country.isNullOrEmpty()) {
             val locale = LocaleContextHolder.getLocale()
             more.add(
                 Container(
@@ -96,7 +96,7 @@ class AccountProfileCard(
                             Icon(code = Theme.ICON_LOCATION, size = 16.0),
                             Container(padding = 2.0),
                             Text(
-                                caption = Locale(locale.language, recipient.country).getDisplayCountry(locale),
+                                caption = Locale(locale.language, account.country).getDisplayCountry(locale),
                                 color = Theme.COLOR_GRAY,
                             )
                         )
@@ -104,8 +104,8 @@ class AccountProfileCard(
                 )
             )
         }
-        if (recipient.business && togglesProvider.isBusinessAccountEnabled()) {
-            val category = categoryService.getTitle(recipient)
+        if (account.business && togglesProvider.isBusinessAccountEnabled()) {
+            val category = categoryService.getTitle(account)
             if (category != null)
                 more.add(
                     Container(
