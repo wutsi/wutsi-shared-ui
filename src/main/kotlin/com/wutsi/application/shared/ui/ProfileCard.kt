@@ -27,7 +27,8 @@ class ProfileCard(
     private val phoneNumber: String? = null,
     private val showWebsite: Boolean = true,
     private val categoryService: CategoryService,
-    private val togglesProvider: TogglesProvider
+    private val togglesProvider: TogglesProvider,
+    private val type: ProfileCardType = ProfileCardType.Full
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware {
         val children = mutableListOf<WidgetAware>(
@@ -79,7 +80,7 @@ class ProfileCard(
         }
 
         // Bio
-        if (!account.biography.isNullOrEmpty())
+        if (!account.biography.isNullOrEmpty() && type == ProfileCardType.Full)
             children.add(
                 Container(
                     padding = 10.0,
@@ -92,7 +93,7 @@ class ProfileCard(
             )
 
         // Web site
-        if (showWebsite && !account.website.isNullOrEmpty())
+        if (showWebsite && !account.website.isNullOrEmpty() && type == ProfileCardType.Full)
             children.add(
                 Button(
                     type = ButtonType.Text,
@@ -105,36 +106,18 @@ class ProfileCard(
             )
 
         // More
-        val more = mutableListOf<WidgetAware>()
-        if (!account.country.isNullOrEmpty()) {
-            val locale = LocaleContextHolder.getLocale()
-            more.add(
-                Container(
-                    child = Row(
-                        children = listOf(
-                            Icon(code = Theme.ICON_LOCATION, size = 16.0),
-                            Container(padding = 2.0),
-                            Text(
-                                caption = Locale(locale.language, account.country).getDisplayCountry(locale),
-                                color = Theme.COLOR_GRAY,
-                            )
-                        ),
-                        mainAxisSize = MainAxisSize.min
-                    )
-                )
-            )
-        }
-        if (account.business && togglesProvider.isBusinessAccountEnabled()) {
-            val category = categoryService.getTitle(account)
-            if (category != null)
+        if (type == ProfileCardType.Full) {
+            val more = mutableListOf<WidgetAware>()
+            if (!account.country.isNullOrEmpty()) {
+                val locale = LocaleContextHolder.getLocale()
                 more.add(
                     Container(
                         child = Row(
                             children = listOf(
-                                Icon(code = Theme.ICON_BUSINESS, size = 16.0),
+                                Icon(code = Theme.ICON_LOCATION, size = 16.0),
                                 Container(padding = 2.0),
                                 Text(
-                                    caption = category,
+                                    caption = Locale(locale.language, account.country).getDisplayCountry(locale),
                                     color = Theme.COLOR_GRAY,
                                 )
                             ),
@@ -142,17 +125,37 @@ class ProfileCard(
                         )
                     )
                 )
-        }
-        if (more.isNotEmpty())
-            children.add(
-                Container(
-                    padding = 10.0,
-                    child = Row(
-                        children = more,
-                        mainAxisAlignment = MainAxisAlignment.spaceAround
+            }
+            if (account.business && togglesProvider.isBusinessAccountEnabled()) {
+                val category = categoryService.getTitle(account)
+                if (category != null)
+                    more.add(
+                        Container(
+                            child = Row(
+                                children = listOf(
+                                    Icon(code = Theme.ICON_BUSINESS, size = 16.0),
+                                    Container(padding = 2.0),
+                                    Text(
+                                        caption = category,
+                                        color = Theme.COLOR_GRAY,
+                                    )
+                                ),
+                                mainAxisSize = MainAxisSize.min
+                            )
+                        )
+                    )
+            }
+            if (more.isNotEmpty())
+                children.add(
+                    Container(
+                        padding = 10.0,
+                        child = Row(
+                            children = more,
+                            mainAxisAlignment = MainAxisAlignment.spaceAround
+                        )
                     )
                 )
-            )
+        }
 
         return Column(
             children = children
