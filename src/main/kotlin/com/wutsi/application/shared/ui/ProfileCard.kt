@@ -4,14 +4,21 @@ import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.service.CategoryService
 import com.wutsi.application.shared.service.PhoneUtil.format
 import com.wutsi.application.shared.service.TogglesProvider
+import com.wutsi.flutter.sdui.Action
+import com.wutsi.flutter.sdui.Button
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
 import com.wutsi.flutter.sdui.Icon
 import com.wutsi.flutter.sdui.Row
 import com.wutsi.flutter.sdui.Text
 import com.wutsi.flutter.sdui.WidgetAware
+import com.wutsi.flutter.sdui.Wrap
+import com.wutsi.flutter.sdui.enums.ActionType
 import com.wutsi.flutter.sdui.enums.Alignment
+import com.wutsi.flutter.sdui.enums.Axis
+import com.wutsi.flutter.sdui.enums.ButtonType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
+import com.wutsi.flutter.sdui.enums.MainAxisSize
 import com.wutsi.flutter.sdui.enums.TextAlignment
 import com.wutsi.platform.account.dto.Account
 import org.springframework.context.i18n.LocaleContextHolder
@@ -20,6 +27,7 @@ import java.util.Locale
 class ProfileCard(
     private val account: Account,
     private val phoneNumber: String? = null,
+    private val showWebsite: Boolean = true,
     private val categoryService: CategoryService,
     private val togglesProvider: TogglesProvider
 ) : CompositeWidgetAware() {
@@ -85,6 +93,19 @@ class ProfileCard(
                 )
             )
 
+        // Web site
+        if (showWebsite && !account.website.isNullOrEmpty())
+            children.add(
+                Button(
+                    type = ButtonType.Text,
+                    caption = sanitizeWebsite(account.website!!),
+                    action = Action(
+                        type = ActionType.Navigate,
+                        url = account.website!!
+                    )
+                )
+            )
+
         // More
         val more = mutableListOf<WidgetAware>()
         if (!account.country.isNullOrEmpty()) {
@@ -99,7 +120,8 @@ class ProfileCard(
                                 caption = Locale(locale.language, account.country).getDisplayCountry(locale),
                                 color = Theme.COLOR_GRAY,
                             )
-                        )
+                        ),
+                        mainAxisSize = MainAxisSize.min
                     )
                 )
             )
@@ -117,7 +139,8 @@ class ProfileCard(
                                     caption = category,
                                     color = Theme.COLOR_GRAY,
                                 )
-                            )
+                            ),
+                            mainAxisSize = MainAxisSize.min
                         )
                     )
                 )
@@ -126,9 +149,11 @@ class ProfileCard(
             children.add(
                 Container(
                     padding = 10.0,
-                    child = Row(
+                    child = Wrap(
+                        spacing = 20.0,
+                        runSpacing = 10.0,
                         children = more,
-                        mainAxisAlignment = MainAxisAlignment.spaceAround
+                        direction = Axis.Horizontal
                     )
                 )
             )
@@ -136,5 +161,13 @@ class ProfileCard(
         return Column(
             children = children
         )
+    }
+
+    private fun sanitizeWebsite(website: String): String {
+        val i = website.indexOf("//")
+        return if (i > 0)
+            website.substring(i + 2)
+        else
+            website
     }
 }
