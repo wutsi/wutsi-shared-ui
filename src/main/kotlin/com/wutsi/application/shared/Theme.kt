@@ -43,4 +43,5 @@ object Theme {
     const val ICON_SEND = "eaf0"
     const val ICON_VERIFIED = "e699"
     const val ICON_VERIFIED_USER = "e69a"
+    const val ICON_WARNING = "e6cb"
 }
