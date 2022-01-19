@@ -4,7 +4,7 @@ wutsi:
     business: false              # Business account enabled?
     logout: true                 # Logout button
     payment: false               # Payment enabled?
-    scan: false                  # Scanning enabled?
+    scan: true                   # Scanning enabled?
     send-sms-code: true          # Send verification codes via SMS?
     verify-sms-code: true        # Verify SMS code?
     tester-user-ids:
