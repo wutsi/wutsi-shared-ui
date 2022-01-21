@@ -2,7 +2,7 @@ package com.wutsi.application.shared.service
 
 object StringUtil {
     fun initials(fullName: String?): String {
-        if (fullName == null)
+        if (fullName.isNullOrEmpty())
             return ""
 
         val xfullName = fullName.trim()
@@ -13,6 +13,9 @@ object StringUtil {
             xfullName.substring(0, 1).uppercase()
     }
 
-    fun capitalizeFirstLetter(str: String): String =
-        str.uppercase().substring(0, 1) + str.substring(1)
+    fun capitalizeFirstLetter(str: String?): String =
+        if (str.isNullOrEmpty())
+            ""
+        else
+            str.uppercase().substring(0, 1) + str.substring(1)
 }
