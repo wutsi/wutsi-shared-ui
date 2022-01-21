@@ -1,9 +1,8 @@
 package com.wutsi.application.shared.ui
 
 import com.wutsi.application.shared.Theme
-import com.wutsi.application.shared.service.CategoryService
+import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.service.PhoneUtil.format
-import com.wutsi.application.shared.service.TogglesProvider
 import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.Button
 import com.wutsi.flutter.sdui.Column
@@ -18,44 +17,39 @@ import com.wutsi.flutter.sdui.enums.ButtonType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.MainAxisSize
 import com.wutsi.flutter.sdui.enums.TextAlignment
-import com.wutsi.platform.account.dto.Account
 import org.springframework.context.i18n.LocaleContextHolder
-import java.util.Locale
 
 class ProfileCard(
-    private val account: Account,
-    private val phoneNumber: String? = null,
+    private val model: AccountModel,
     private val showWebsite: Boolean = true,
-    private val categoryService: CategoryService,
-    private val togglesProvider: TogglesProvider,
+    private val showPhoneNumber: Boolean = true,
     private val type: ProfileCardType = ProfileCardType.Full
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware {
+        var pad = 0
         val children = mutableListOf<WidgetAware>(
             Container(
-                padding = 10.0,
+                padding = if (pad++ % 2 == 0) 10.0 else null,
                 alignment = Alignment.Center,
                 child = Avatar(
                     radius = 48.0,
-                    textSize = 30.0,
-                    text = account.displayName,
-                    pictureUrl = account.pictureUrl,
+                    model = model
                 )
             ),
             Container(
                 alignment = Alignment.Center,
-                padding = 10.0,
+                padding = if (pad++ % 2 == 0) 10.0 else null,
                 child = Row(
                     mainAxisAlignment = MainAxisAlignment.center,
                     children = listOf(
                         Text(
-                            caption = account.displayName ?: "",
+                            caption = model.displayName ?: "",
                             alignment = TextAlignment.Center,
                             size = Theme.TEXT_SIZE_X_LARGE,
                             color = Theme.COLOR_PRIMARY,
                             bold = true,
                         ),
-                        if (account.retail && togglesProvider.isBusinessAccountEnabled())
+                        if (model.retail)
                             Icon(
                                 Theme.ICON_VERIFIED,
                                 color = Theme.COLOR_PRIMARY,
@@ -69,38 +63,45 @@ class ProfileCard(
         )
 
         // Phone
-        if (phoneNumber != null) {
+        if (showPhoneNumber && !model.phoneNumber.isNullOrEmpty()) {
             children.add(
-                Text(
-                    caption = format(phoneNumber)!!,
-                    alignment = TextAlignment.Center,
-                    color = Theme.COLOR_GRAY,
+                Container(
+                    padding = if (pad++ % 2 == 0) 10.0 else null,
+                    child = Text(
+                        caption = format(model.phoneNumber)!!,
+                        alignment = TextAlignment.Center,
+                        color = Theme.COLOR_GRAY,
+                    )
                 )
             )
         }
 
         // Bio
-        if (!account.biography.isNullOrEmpty() && type == ProfileCardType.Full)
+        if (!model.biography.isNullOrEmpty() && type == ProfileCardType.Full)
             children.add(
                 Container(
-                    padding = 10.0,
+                    padding = if (pad++ % 2 == 0) 10.0 else null,
                     alignment = Alignment.Center,
                     child = Text(
                         alignment = TextAlignment.Center,
-                        caption = account.biography!!
+                        caption = model.biography
                     )
                 )
             )
 
         // Web site
-        if (showWebsite && !account.website.isNullOrEmpty() && type == ProfileCardType.Full)
+        if (showWebsite && !model.website.isNullOrEmpty() && type == ProfileCardType.Full)
             children.add(
-                Button(
-                    type = ButtonType.Text,
-                    caption = sanitizeWebsite(account.website!!),
-                    action = Action(
-                        type = ActionType.Navigate,
-                        url = account.website!!
+                Container(
+                    padding = if (pad++ % 2 == 0) 10.0 else null,
+                    alignment = Alignment.Center,
+                    child = Button(
+                        type = ButtonType.Text,
+                        caption = sanitizeWebsite(model.website),
+                        action = Action(
+                            type = ActionType.Navigate,
+                            url = model.website
+                        )
                     )
                 )
             )
@@ -108,16 +109,17 @@ class ProfileCard(
         // More
         if (type == ProfileCardType.Full) {
             val more = mutableListOf<WidgetAware>()
-            if (!account.country.isNullOrEmpty()) {
+            if (!model.location.isNullOrEmpty()) {
                 val locale = LocaleContextHolder.getLocale()
                 more.add(
                     Container(
+                        padding = if (pad++ % 2 == 0) 10.0 else null,
                         child = Row(
                             children = listOf(
                                 Icon(code = Theme.ICON_LOCATION, size = 16.0),
                                 Container(padding = 2.0),
                                 Text(
-                                    caption = Locale(locale.language, account.country).getDisplayCountry(locale),
+                                    caption = model.location,
                                     color = Theme.COLOR_GRAY,
                                 )
                             ),
@@ -126,29 +128,28 @@ class ProfileCard(
                     )
                 )
             }
-            if (account.business && togglesProvider.isBusinessAccountEnabled()) {
-                val category = categoryService.getTitle(account)
-                if (category != null)
-                    more.add(
-                        Container(
-                            child = Row(
-                                children = listOf(
-                                    Icon(code = Theme.ICON_BUSINESS, size = 16.0),
-                                    Container(padding = 2.0),
-                                    Text(
-                                        caption = category,
-                                        color = Theme.COLOR_GRAY,
-                                    )
-                                ),
-                                mainAxisSize = MainAxisSize.min
-                            )
+            if (model.business && model.category != null) {
+                more.add(
+                    Container(
+                        padding = if (pad++ % 2 == 0) 10.0 else null,
+                        child = Row(
+                            children = listOf(
+                                Icon(code = Theme.ICON_BUSINESS, size = 16.0),
+                                Container(padding = 2.0),
+                                Text(
+                                    caption = model.category,
+                                    color = Theme.COLOR_GRAY,
+                                )
+                            ),
+                            mainAxisSize = MainAxisSize.min
                         )
                     )
+                )
             }
             if (more.isNotEmpty())
                 children.add(
                     Container(
-                        padding = 10.0,
+                        padding = if (pad++ % 2 == 0) 10.0 else null,
                         child = Row(
                             children = more,
                             mainAxisAlignment = MainAxisAlignment.spaceAround

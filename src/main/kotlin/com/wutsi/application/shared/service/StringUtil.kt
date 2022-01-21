@@ -12,4 +12,7 @@ object StringUtil {
         else
             xfullName.substring(0, 1).uppercase()
     }
+
+    fun capitalizeFirstLetter(str: String): String =
+        str.uppercase().substring(0, 1) + str.substring(1)
 }

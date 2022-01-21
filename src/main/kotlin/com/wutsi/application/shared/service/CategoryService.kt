@@ -1,19 +1,13 @@
 package com.wutsi.application.shared.service
 
 import com.wutsi.application.shared.entity.CategoryEntity
-import com.wutsi.platform.account.dto.Account
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.slf4j.LoggerFactory
-import org.springframework.web.servlet.LocaleResolver
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import javax.servlet.http.HttpServletRequest
 
-class CategoryService(
-    private val requestLocaleResolver: LocaleResolver,
-    private val request: HttpServletRequest,
-) {
+class CategoryService {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(CategoryService::class.java)
     }
@@ -32,21 +26,6 @@ class CategoryService(
             null
         else
             all().find { it.id == id }
-
-    fun getTitle(category: CategoryEntity): String? {
-        val locale = requestLocaleResolver.resolveLocale(request)
-        return if (locale.language == "fr")
-            category.titleFrench
-        else
-            category.title
-    }
-
-    fun getTitle(account: Account): String? {
-        val category = get(account.categoryId)
-            ?: return null
-
-        return getTitle(category)
-    }
 
     private fun load() {
         LOGGER.info("Loading categories from CSV")
