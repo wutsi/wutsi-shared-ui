@@ -17,7 +17,6 @@ import com.wutsi.flutter.sdui.enums.ButtonType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.MainAxisSize
 import com.wutsi.flutter.sdui.enums.TextAlignment
-import org.springframework.context.i18n.LocaleContextHolder
 
 class ProfileCard(
     private val model: AccountModel,
@@ -110,10 +109,8 @@ class ProfileCard(
         if (type == ProfileCardType.Full) {
             val more = mutableListOf<WidgetAware>()
             if (!model.location.isNullOrEmpty()) {
-                val locale = LocaleContextHolder.getLocale()
                 more.add(
                     Container(
-                        padding = if (pad++ % 2 == 0) 10.0 else null,
                         child = Row(
                             children = listOf(
                                 Icon(code = Theme.ICON_LOCATION, size = 16.0),
@@ -131,7 +128,6 @@ class ProfileCard(
             if (model.business && model.category != null) {
                 more.add(
                     Container(
-                        padding = if (pad++ % 2 == 0) 10.0 else null,
                         child = Row(
                             children = listOf(
                                 Icon(code = Theme.ICON_BUSINESS, size = 16.0),

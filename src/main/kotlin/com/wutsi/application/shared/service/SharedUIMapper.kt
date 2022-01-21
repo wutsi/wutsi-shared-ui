@@ -25,7 +25,7 @@ open class SharedUIMapper(
         business = obj.business,
         retail = obj.retail,
         location = locationText(obj.language, obj.country),
-        category = obj.categoryId?.let { categoryText(it) },
+        category = obj.categoryId?.let { toCategoryText(it) },
         phoneNumber = PhoneUtil.format(obj.phone?.number, obj.phone?.country),
         biography = obj.biography
     )
@@ -36,12 +36,12 @@ open class SharedUIMapper(
         return StringUtil.capitalizeFirstLetter(location)
     }
 
-    open fun categoryText(categoryId: Long): String? {
+    open fun toCategoryText(categoryId: Long): String? {
         val category = categoryService.get(categoryId)
-        return categoryText(category)
+        return toCategoryText(category)
     }
 
-    open fun categoryText(category: CategoryEntity?): String? {
+    open fun toCategoryText(category: CategoryEntity?): String? {
         if (category != null) {
             val locale = LocaleContextHolder.getLocale()
             if (locale.language == "fr")
