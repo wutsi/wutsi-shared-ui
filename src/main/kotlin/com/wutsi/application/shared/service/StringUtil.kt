@@ -18,4 +18,12 @@ object StringUtil {
             ""
         else
             str.uppercase().substring(0, 1) + str.substring(1)
+
+    fun firstName(displayName: String?): String {
+        if (displayName == null)
+            return ""
+
+        val i = displayName.indexOf(' ')
+        return if (i > 0) displayName.substring(0, i) else displayName
+    }
 }
