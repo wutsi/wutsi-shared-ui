@@ -20,4 +20,12 @@ internal class StringUtilTest {
         assertEquals("", StringUtil.capitalizeFirstLetter(""))
         assertEquals("", StringUtil.capitalizeFirstLetter(null))
     }
+
+    @Test
+    fun firstName() {
+        assertEquals("Ray", StringUtil.firstName("Ray sponsible"))
+        assertEquals("Ray", StringUtil.firstName("Ray"))
+        assertEquals("", StringUtil.firstName(""))
+        assertEquals("", StringUtil.firstName(null))
+    }
 }

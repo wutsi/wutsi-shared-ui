@@ -1,6 +1,7 @@
 package com.wutsi.application.shared.config
 
 import com.wutsi.application.shared.service.CategoryService
+import com.wutsi.application.shared.service.CityService
 import com.wutsi.application.shared.service.RequestLocaleResolver
 import com.wutsi.application.shared.service.SecurityContext
 import com.wutsi.application.shared.service.SharedUIMapper
@@ -26,6 +27,10 @@ class ServiceConfiguration(
     @Bean
     fun categoryService(): CategoryService =
         CategoryService()
+
+    @Bean
+    fun cityService(): CityService =
+        CityService()
 
     @Bean
     fun localeResolver(): LocaleResolver =

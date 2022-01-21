@@ -6,3 +6,8 @@
 ![](https://img.shields.io/badge/language-kotlin-blue.svg)
 
 # wutsi-shared-ui
+
+# Cities
+
+Cities CSV are generated
+from [OpenDataSoft](https://public.opendatasoft.com/explore/dataset/geonames-all-cities-with-a-population-1000/table/)

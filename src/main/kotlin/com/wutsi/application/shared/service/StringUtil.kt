@@ -1,6 +1,10 @@
 package com.wutsi.application.shared.service
 
+import java.text.Normalizer
+
 object StringUtil {
+    private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+
     fun initials(fullName: String?): String {
         if (fullName.isNullOrEmpty())
             return ""
@@ -25,5 +29,13 @@ object StringUtil {
 
         val i = displayName.indexOf(' ')
         return if (i > 0) displayName.substring(0, i) else displayName
+    }
+
+    fun unaccent(str: String?): String {
+        if (str == null)
+            return ""
+
+        val temp = Normalizer.normalize(str, Normalizer.Form.NFD)
+        return REGEX_UNACCENT.replace(temp, "")
     }
 }
