@@ -38,13 +38,18 @@ class CityService {
             all().find { it.id == id }
 
     private fun load() {
-        var count: Int = 0
-        count += load("CM")
+        val tmp = mutableListOf<CityEntity>()
+        tmp.addAll(load("CM", 1000))
+        tmp.addAll(load("FR", 100000))
+        tmp.addAll(load("UK", 100000))
+        tmp.addAll(load("CA", 100000))
+        tmp.addAll(load("US", 400000))
 
-        LOGGER.info("$count cities loaded")
+        LOGGER.info("${tmp.size} cities loaded")
+        cities = tmp
     }
 
-    private fun load(country: String): Int {
+    private fun load(country: String, populationThreshold: Long): List<CityEntity> {
         LOGGER.info("Loading cou from CSV from $country")
 
         val inputStream = CityService::class.java.getResourceAsStream("/geonames/$country.csv")
@@ -59,22 +64,21 @@ class CityService {
                 .withTrim()
         )
 
-        var count = 0
-        val tmp = mutableListOf<CityEntity>()
+        val items = mutableListOf<CityEntity>()
         for (csvRecord in csvParser) {
-            tmp.add(
-                CityEntity(
-                    id = csvRecord.get("Geoname ID").toLong(),
-                    name = csvRecord.get("Name"),
-                    asciiName = csvRecord.get("ASCII Name"),
-                    country = csvRecord.get("Country Code")
+            val population = csvRecord.get("Population").toLong()
+            if (population >= populationThreshold)
+                items.add(
+                    CityEntity(
+                        id = csvRecord.get("Geoname ID").toLong(),
+                        name = csvRecord.get("Name"),
+                        asciiName = csvRecord.get("ASCII Name"),
+                        country = csvRecord.get("Country Code")
+                    )
                 )
-            )
-            count++
         }
-        cities = tmp
 
-        LOGGER.info("$count cities loaded from $country")
-        return count
+        LOGGER.info("$${items.size} cities loaded from $country")
+        return items
     }
 }

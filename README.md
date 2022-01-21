@@ -7,7 +7,6 @@
 
 # wutsi-shared-ui
 
-# Cities
+# Cities Datafeed
 
-Cities CSV are generated
-from [OpenDataSoft](https://public.opendatasoft.com/explore/dataset/geonames-all-cities-with-a-population-1000/table/)
+- [OpenDataSoft](https://public.opendatasoft.com/explore/dataset/geonames-all-cities-with-a-population-1000/table/)
