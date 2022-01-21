@@ -1,6 +1,7 @@
 package com.wutsi.application.shared.service
 
 import com.wutsi.application.shared.entity.CategoryEntity
+import com.wutsi.application.shared.entity.CityEntity
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
@@ -9,13 +10,14 @@ import java.util.Locale
 
 open class SharedUIMapper(
     private val categoryService: CategoryService,
+    private val cityService: CityService,
 ) {
     open fun toAccountModel(obj: AccountSummary) = AccountModel(
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
         business = obj.business,
         retail = obj.retail,
-        location = locationText(obj.language, obj.country),
+        location = toLocationText(null, obj.country),
     )
 
     open fun toAccountModel(obj: Account) = AccountModel(
@@ -24,16 +26,21 @@ open class SharedUIMapper(
         website = obj.website,
         business = obj.business,
         retail = obj.retail,
-        location = locationText(obj.language, obj.country),
+        location = toLocationText(cityService.get(obj.cityId), obj.country),
         category = obj.categoryId?.let { toCategoryText(it) },
         phoneNumber = PhoneUtil.format(obj.phone?.number, obj.phone?.country),
         biography = obj.biography
     )
 
-    open fun locationText(language: String, country: String): String {
+    open fun toLocationText(city: CityEntity?, country: String): String {
         val locale = LocaleContextHolder.getLocale()
-        val location = Locale(language, country).getDisplayCountry(locale)
-        return StringUtil.capitalizeFirstLetter(location)
+        if (city != null) {
+            val country = StringUtil.capitalizeFirstLetter(
+                Locale(locale.language, city.country).getDisplayCountry(locale)
+            )
+            return "${city.name}, $country"
+        }
+        return StringUtil.capitalizeFirstLetter(Locale(locale.language, country).getDisplayCountry(locale))
     }
 
     open fun toCategoryText(categoryId: Long): String? {

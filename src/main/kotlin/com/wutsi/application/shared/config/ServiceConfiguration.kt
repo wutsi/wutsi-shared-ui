@@ -49,7 +49,7 @@ class ServiceConfiguration(
 
     @Bean
     fun sharedUIMapper(): SharedUIMapper =
-        SharedUIMapper(categoryService())
+        SharedUIMapper(categoryService(), cityService())
 
     @Bean
     fun tenantProvider(): TenantProvider =

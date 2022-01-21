@@ -14,13 +14,16 @@ class CityService {
 
     private var cities: List<CityEntity>? = null
 
-    fun search(query: String): List<CityEntity> {
-        val xquery = StringUtil.unaccent(query)
-        val cities = all()
-            .filter { it.asciiName.startsWith(xquery, ignoreCase = true) }
+    fun search(query: String?, countries: List<String>? = null): List<CityEntity> {
+        val ascii = StringUtil.unaccent(query)
+        return all()
+            .filter { accept(it, ascii, countries) }
             .sortedBy { it.asciiName }
-        return cities
     }
+
+    private fun accept(city: CityEntity, query: String, countries: List<String>?): Boolean =
+        (query == null || city.asciiName.startsWith(query, ignoreCase = true)) &&
+            (countries == null || countries.contains(city.country))
 
     fun all(): List<CityEntity> {
         if (cities == null)

@@ -22,14 +22,14 @@ internal class CityServiceTest {
 
     @Test
     fun searchIgnoreCase() {
-        val cities = service.search("YaOundé")
+        val cities = service.search("YaOundé", listOf("CM"))
         assertEquals(1, cities.size)
         assertEquals(2220957, cities[0].id)
     }
 
     @Test
     fun searchMultiple() {
-        val cities = service.search("ng")
+        val cities = service.search("ng", listOf("CM"))
         assertEquals(6, cities.size)
     }
 
