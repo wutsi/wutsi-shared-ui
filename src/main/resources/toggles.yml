@@ -2,6 +2,7 @@ wutsi:
   toggles:
     account: true                # Manage account?
     business: false              # Business account enabled?
+    contact: false              # Contacts enabled?
     logout: true                 # Logout button
     payment: false               # Payment enabled?
     scan: true                   # Scanning enabled?

@@ -18,6 +18,7 @@ open class SharedUIMapper(
         business = obj.business,
         retail = obj.retail,
         location = toLocationText(null, obj.country),
+        category = obj.categoryId?.let { toCategoryText(it) }
     )
 
     open fun toAccountModel(obj: Account) = AccountModel(

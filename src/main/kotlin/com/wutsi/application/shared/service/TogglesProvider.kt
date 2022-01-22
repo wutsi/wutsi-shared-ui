@@ -6,8 +6,14 @@ open class TogglesProvider(
     private val toggles: Toggles,
     private val securityContext: SecurityContext,
 ) {
+    open fun isAccountEnabled(): Boolean =
+        toggles.account
+
     open fun isBusinessAccountEnabled(): Boolean =
         toggles.business || isTester()
+
+    open fun isContactEnabled(): Boolean =
+        toggles.contact || isTester()
 
     open fun isPaymentEnabled(account: Account): Boolean =
         account.business && (toggles.payment || isTester(account.id))
@@ -20,9 +26,6 @@ open class TogglesProvider(
 
     open fun isVerifySmsCodeEnabled(phoneNumber: String): Boolean =
         toggles.verifySmsCode && !isTestPhoneNumber(phoneNumber)
-
-    open fun isAccountEnabled(): Boolean =
-        toggles.account
 
     open fun isLogoutEnabled(): Boolean =
         toggles.logout || isTester()
