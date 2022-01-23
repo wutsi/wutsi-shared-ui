@@ -92,9 +92,9 @@ class ProfileCard(
         if (showWebsite && !model.website.isNullOrEmpty() && type == ProfileCardType.Full)
             children.add(
                 Container(
-                    padding = if (pad++ % 2 == 0) 10.0 else null,
                     alignment = Alignment.Center,
                     child = Button(
+                        padding = 10.0,
                         type = ButtonType.Text,
                         caption = sanitizeWebsite(model.website),
                         action = Action(
