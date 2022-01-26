@@ -11,6 +11,7 @@ import com.wutsi.flutter.sdui.Icon
 import com.wutsi.flutter.sdui.Row
 import com.wutsi.flutter.sdui.Text
 import com.wutsi.flutter.sdui.WidgetAware
+import com.wutsi.flutter.sdui.Wrap
 import com.wutsi.flutter.sdui.enums.ActionType
 import com.wutsi.flutter.sdui.enums.Alignment
 import com.wutsi.flutter.sdui.enums.ButtonType
@@ -146,9 +147,10 @@ class ProfileCard(
                 children.add(
                     Container(
                         padding = if (pad++ % 2 == 0) 10.0 else null,
-                        child = Row(
+                        child = Wrap(
                             children = more,
-                            mainAxisAlignment = MainAxisAlignment.spaceAround
+                            spacing = 10.0,
+                            runSpacing = 10.0
                         )
                     )
                 )
