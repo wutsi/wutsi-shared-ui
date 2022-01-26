@@ -1,6 +1,7 @@
 package com.wutsi.application.shared.model
 
 data class AccountModel(
+    val id: Long = -1,
     val displayName: String? = null,
     val pictureUrl: String? = null,
     val website: String? = null,
