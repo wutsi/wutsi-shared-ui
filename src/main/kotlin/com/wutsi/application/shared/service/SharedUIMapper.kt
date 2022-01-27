@@ -45,7 +45,7 @@ open class SharedUIMapper(
 
     open fun toTransactionModel(
         obj: TransactionSummary,
-        currentUserId: Long?,
+        currentUser: Account?,
         accounts: Map<Long, AccountSummary>,
         paymentMethod: PaymentMethodSummary?,
         tenant: Tenant,
@@ -54,6 +54,7 @@ open class SharedUIMapper(
     ): TransactionModel {
         val fmt = DecimalFormat(tenant.monetaryFormat)
         val locale = LocaleContextHolder.getLocale()
+        val timezoneId = currentUser?.timezoneId
         return TransactionModel(
             id = obj.id,
             type = obj.type,
@@ -65,9 +66,10 @@ open class SharedUIMapper(
             recipient = accounts[obj.recipientId]?.let { toAccountModel(it) },
             account = accounts[obj.accountId]?.let { toAccountModel(it) },
             paymentMethod = paymentMethod?.let { toPaymentMethodModel(it, tenant, tenantProvider) },
-            description = toDescription(obj, currentUserId, messageSource),
-            createdText = obj.created.format(DateTimeFormatter.ofPattern(tenant.dateFormat, locale)),
-            currentUserId = currentUserId
+            description = toDescription(obj, currentUser?.id, messageSource),
+            createdText = DateTimeUtil.convert(obj.created, timezoneId)
+                .format(DateTimeFormatter.ofPattern(tenant.dateFormat, locale)),
+            currentUserId = currentUser?.id ?: -1
         )
     }
 
