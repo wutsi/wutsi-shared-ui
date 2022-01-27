@@ -4,6 +4,7 @@ open class Toggles {
     var account: Boolean = true
     var business: Boolean = true
     var contact: Boolean = true
+    var feedback: Boolean = true
     var logout: Boolean = true
     var payment: Boolean = true
     var scan: Boolean = true

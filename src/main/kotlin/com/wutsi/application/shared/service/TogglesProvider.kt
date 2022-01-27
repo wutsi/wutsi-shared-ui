@@ -10,10 +10,13 @@ open class TogglesProvider(
         toggles.account
 
     open fun isBusinessAccountEnabled(): Boolean =
-        toggles.business || isTester()
+        toggles.business
 
     open fun isContactEnabled(): Boolean =
-        toggles.contact || isTester()
+        toggles.contact
+
+    open fun isFeedbackEnabled(): Boolean =
+        toggles.feedback
 
     open fun isPaymentEnabled(account: Account): Boolean =
         account.business && (toggles.payment || isTester(account.id))
