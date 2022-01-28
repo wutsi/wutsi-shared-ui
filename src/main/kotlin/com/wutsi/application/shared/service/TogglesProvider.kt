@@ -15,6 +15,9 @@ open class TogglesProvider(
     open fun isContactEnabled(): Boolean =
         toggles.contact
 
+    open fun isCatalogEnabled(): Boolean =
+        (toggles.catalog && isBusinessAccountEnabled()) || isDeveloper()
+
     open fun isFeedbackEnabled(): Boolean =
         toggles.feedback
 
@@ -32,6 +35,12 @@ open class TogglesProvider(
 
     open fun isLogoutEnabled(): Boolean =
         toggles.logout || isTester()
+
+    private fun isDeveloper(): Boolean =
+        isDeveloper(securityContext.currentAccountId())
+
+    private fun isDeveloper(userId: Long?): Boolean =
+        userId != null && toggles.devUserIds.contains(userId)
 
     private fun isTester(): Boolean =
         isTester(securityContext.currentAccountId())

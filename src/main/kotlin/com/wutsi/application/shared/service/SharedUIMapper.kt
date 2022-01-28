@@ -4,10 +4,17 @@ import com.wutsi.application.shared.entity.CategoryEntity
 import com.wutsi.application.shared.entity.CityEntity
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.model.PaymentMethodModel
+import com.wutsi.application.shared.model.PictureModel
+import com.wutsi.application.shared.model.PriceModel
+import com.wutsi.application.shared.model.ProductModel
+import com.wutsi.application.shared.model.SavingsModel
 import com.wutsi.application.shared.model.TransactionModel
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.PaymentMethodSummary
+import com.wutsi.platform.catalog.dto.PictureSummary
+import com.wutsi.platform.catalog.dto.Product
+import com.wutsi.platform.catalog.dto.ProductSummary
 import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
 import org.springframework.context.MessageSource
@@ -20,6 +27,48 @@ open class SharedUIMapper(
     private val categoryService: CategoryService,
     private val cityService: CityService,
 ) {
+    open fun toProductModel(obj: ProductSummary, tenant: Tenant) = ProductModel(
+        id = obj.id,
+        title = obj.title,
+        price = obj.price?.let { toPriceModel(it, tenant) },
+        comparablePrice = obj.comparablePrice?.let { toPriceModel(it, tenant) },
+        savings = toSavings(obj.price, obj.comparablePrice),
+        thumbnail = obj.thumbnail?.let { toPictureModel(it) },
+    )
+
+    open fun toProductModel(obj: Product, tenant: Tenant) = ProductModel(
+        id = obj.id,
+        title = obj.title,
+        price = obj.price?.let { toPriceModel(it, tenant) },
+        comparablePrice = obj.comparablePrice?.let { toPriceModel(it, tenant) },
+        savings = toSavings(obj.price, obj.comparablePrice),
+        thumbnail = obj.thumbnail?.let { toPictureModel(it) },
+        pictures = obj.pictures.map { toPictureModel(it) },
+        visible = obj.visible
+    )
+
+    private fun toPriceModel(amount: Double, tenant: Tenant) = PriceModel(
+        amount = amount,
+        currency = tenant.currency,
+        text = DecimalFormat(tenant.monetaryFormat).format(amount)
+    )
+
+    private fun toSavings(price: Double?, comparablePrice: Double?): SavingsModel? {
+        if (comparablePrice != null && price != null) {
+            val value = comparablePrice - price
+            return SavingsModel(
+                value = value,
+                percent = if (comparablePrice == 0.0) null else (value * 100.0 / comparablePrice).toInt()
+            )
+        } else {
+            return null
+        }
+    }
+
+    private fun toPictureModel(obj: PictureSummary) = PictureModel(
+        url = obj.url
+    )
+
     open fun toAccountModel(obj: AccountSummary) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
@@ -133,7 +182,7 @@ open class SharedUIMapper(
             return null
     }
 
-    open fun getText(key: String, messageSource: MessageSource): String {
+    private fun getText(key: String, messageSource: MessageSource): String {
         return try {
             val locale = LocaleContextHolder.getLocale()
             messageSource.getMessage(key, emptyArray(), locale)
