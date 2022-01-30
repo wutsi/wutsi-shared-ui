@@ -23,6 +23,7 @@ object Theme {
     const val ICON_CHECK = "e856"
     const val ICON_CHEVRON_RIGHT = "e15f"
     const val ICON_CONTACT = "eb93"
+    const val ICON_DELETE = "e8b8"
     const val ICON_EDIT = "e21a"
     const val ICON_ERROR = "e237"
     const val ICON_FEEDBACK = "f73c"
