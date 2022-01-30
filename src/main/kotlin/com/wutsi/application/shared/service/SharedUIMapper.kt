@@ -27,23 +27,23 @@ open class SharedUIMapper(
     private val categoryService: CategoryService,
     private val cityService: CityService,
 ) {
-    open fun toProductModel(obj: ProductSummary, tenant: Tenant) = ProductModel(
+    open fun toProductModel(obj: ProductSummary, tenant: Tenant, defaultPictureUrl: String) = ProductModel(
         id = obj.id,
         title = obj.title,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = obj.comparablePrice?.let { toPriceModel(it, tenant) },
         savings = toSavings(obj.price, obj.comparablePrice),
-        thumbnail = obj.thumbnail?.let { toPictureModel(it) },
+        thumbnail = toPictureModel(obj.thumbnail, defaultPictureUrl)
     )
 
-    open fun toProductModel(obj: Product, tenant: Tenant) = ProductModel(
+    open fun toProductModel(obj: Product, tenant: Tenant, defaultPictureUrl: String) = ProductModel(
         id = obj.id,
         title = obj.title,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = obj.comparablePrice?.let { toPriceModel(it, tenant) },
         savings = toSavings(obj.price, obj.comparablePrice),
-        thumbnail = obj.thumbnail?.let { toPictureModel(it) },
-        pictures = obj.pictures.map { toPictureModel(it) },
+        thumbnail = toPictureModel(obj.thumbnail, defaultPictureUrl),
+        pictures = obj.pictures.map { toPictureModel(it, defaultPictureUrl) },
         visible = obj.visible
     )
 
@@ -65,8 +65,8 @@ open class SharedUIMapper(
         }
     }
 
-    private fun toPictureModel(obj: PictureSummary) = PictureModel(
-        url = obj.url
+    private fun toPictureModel(obj: PictureSummary?, defaultPictureUrl: String) = PictureModel(
+        url = obj?.url ?: defaultPictureUrl
     )
 
     open fun toAccountModel(obj: AccountSummary) = AccountModel(
