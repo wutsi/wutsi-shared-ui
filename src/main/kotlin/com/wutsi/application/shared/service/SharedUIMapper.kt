@@ -30,6 +30,7 @@ open class SharedUIMapper(
     open fun toProductModel(obj: ProductSummary, tenant: Tenant, defaultPictureUrl: String) = ProductModel(
         id = obj.id,
         title = obj.title,
+        summary = obj.summary,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = obj.comparablePrice?.let { toPriceModel(it, tenant) },
         savings = toSavings(obj.price, obj.comparablePrice),
