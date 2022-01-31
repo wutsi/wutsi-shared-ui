@@ -12,6 +12,8 @@ wutsi:
     verify-sms-code: true        # Verify SMS code?
     dev-user-ids:
       - 16   # Herve
+      - 18   # Eric - phone #2
+      - 29   # Eric - phone #1
     tester-user-ids:
       - 16   # Herve
       - 18   # Eric - phone #2

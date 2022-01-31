@@ -32,7 +32,7 @@ open class SharedUIMapper(
         title = obj.title,
         summary = obj.summary,
         price = obj.price?.let { toPriceModel(it, tenant) },
-        comparablePrice = obj.comparablePrice?.let { toPriceModel(it, tenant) },
+        comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice),
         thumbnail = toPictureModel(obj.thumbnail, defaultPictureUrl)
     )
@@ -41,29 +41,40 @@ open class SharedUIMapper(
         id = obj.id,
         title = obj.title,
         price = obj.price?.let { toPriceModel(it, tenant) },
-        comparablePrice = obj.comparablePrice?.let { toPriceModel(it, tenant) },
+        comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice),
         thumbnail = toPictureModel(obj.thumbnail, defaultPictureUrl),
         pictures = obj.pictures.map { toPictureModel(it, defaultPictureUrl) },
         visible = obj.visible
     )
 
-    private fun toPriceModel(amount: Double, tenant: Tenant) = PriceModel(
-        amount = amount,
-        currency = tenant.currency,
-        text = DecimalFormat(tenant.monetaryFormat).format(amount)
-    )
+    private fun toComparablePrice(price: Double?, comparablePrice: Double?, tenant: Tenant): PriceModel? {
+        if (price == null || comparablePrice == null)
+            return null
+
+        if (price >= comparablePrice)
+            return null
+
+        return toPriceModel(comparablePrice, tenant)
+    }
+
+    private fun toPriceModel(amount: Double, tenant: Tenant): PriceModel =
+        PriceModel(
+            amount = amount,
+            currency = tenant.currency,
+            text = DecimalFormat(tenant.monetaryFormat).format(amount)
+        )
 
     private fun toSavings(price: Double?, comparablePrice: Double?): SavingsModel? {
         if (comparablePrice != null && price != null) {
             val value = comparablePrice - price
-            return SavingsModel(
-                value = value,
-                percent = if (comparablePrice == 0.0) null else (value * 100.0 / comparablePrice).toInt()
-            )
-        } else {
-            return null
+            if (value > 0)
+                return SavingsModel(
+                    value = value,
+                    percent = if (comparablePrice == 0.0) null else (value * 100.0 / comparablePrice).toInt()
+                )
         }
+        return null
     }
 
     private fun toPictureModel(obj: PictureSummary?, defaultPictureUrl: String) = PictureModel(
