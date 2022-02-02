@@ -15,6 +15,7 @@ object Theme {
     const val COLOR_DIVIDER = "#8c8c8c"
     const val ICON_ACCOUNT = "e3f7"
     const val ICON_ADD = "e758"
+    const val ICON_ADD_PERSON = "eb8b"
     const val ICON_BUSINESS = "ef0b"
     const val ICON_CAMERA = "f60b"
     const val ICON_CANCEL = "ef28"

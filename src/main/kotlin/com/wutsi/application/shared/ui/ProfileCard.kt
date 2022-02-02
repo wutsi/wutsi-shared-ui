@@ -4,7 +4,6 @@ import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.service.PhoneUtil.format
 import com.wutsi.flutter.sdui.Action
-import com.wutsi.flutter.sdui.Button
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
 import com.wutsi.flutter.sdui.Icon
@@ -14,10 +13,11 @@ import com.wutsi.flutter.sdui.WidgetAware
 import com.wutsi.flutter.sdui.Wrap
 import com.wutsi.flutter.sdui.enums.ActionType
 import com.wutsi.flutter.sdui.enums.Alignment
-import com.wutsi.flutter.sdui.enums.ButtonType
+import com.wutsi.flutter.sdui.enums.Axis
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.MainAxisSize
 import com.wutsi.flutter.sdui.enums.TextAlignment
+import com.wutsi.flutter.sdui.enums.TextDecoration
 
 class ProfileCard(
     private val model: AccountModel,
@@ -93,15 +93,16 @@ class ProfileCard(
         if (showWebsite && !model.website.isNullOrEmpty() && type == ProfileCardType.Full)
             children.add(
                 Container(
+                    padding = if (pad++ % 2 == 0) 10.0 else null,
                     alignment = Alignment.Center,
-                    child = Button(
-                        padding = 10.0,
-                        type = ButtonType.Text,
+                    child = Text(
                         caption = sanitizeWebsite(model.website),
-                        action = Action(
-                            type = ActionType.Navigate,
-                            url = model.website
-                        )
+                        color = Theme.COLOR_PRIMARY,
+                        decoration = TextDecoration.Underline
+                    ),
+                    action = Action(
+                        type = ActionType.Navigate,
+                        url = model.website
                     )
                 )
             )
@@ -113,6 +114,7 @@ class ProfileCard(
                 more.add(
                     Container(
                         child = Row(
+                            mainAxisSize = MainAxisSize.min,
                             children = listOf(
                                 Icon(code = Theme.ICON_LOCATION, size = 16.0),
                                 Container(padding = 2.0),
@@ -121,7 +123,6 @@ class ProfileCard(
                                     color = Theme.COLOR_GRAY,
                                 )
                             ),
-                            mainAxisSize = MainAxisSize.min
                         )
                     )
                 )
@@ -130,6 +131,7 @@ class ProfileCard(
                 more.add(
                     Container(
                         child = Row(
+                            mainAxisSize = MainAxisSize.min,
                             children = listOf(
                                 Icon(code = Theme.ICON_BUSINESS, size = 16.0),
                                 Container(padding = 2.0),
@@ -138,7 +140,6 @@ class ProfileCard(
                                     color = Theme.COLOR_GRAY,
                                 )
                             ),
-                            mainAxisSize = MainAxisSize.min
                         )
                     )
                 )
@@ -150,7 +151,8 @@ class ProfileCard(
                         child = Wrap(
                             children = more,
                             spacing = 10.0,
-                            runSpacing = 10.0
+                            runSpacing = 10.0,
+                            direction = Axis.Horizontal
                         )
                     )
                 )
