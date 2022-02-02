@@ -3,17 +3,18 @@ wutsi:
     account: true                # Manage account?
     business: true               # Business account enabled?
     contact: true                # Contacts enabled?
-    catalog: false               # Catalog enabled?
     feedback: true               # Feedback enabled?
     logout: true                 # Logout button
     payment: false               # Payment enabled?
     scan: true                   # Scanning enabled?
+    store: false                 # Store enabled?
     send-sms-code: true          # Send verification codes via SMS?
     verify-sms-code: true        # Verify SMS code?
     dev-user-ids:
       - 16   # Herve
       - 18   # Eric - phone #2
       - 29   # Eric - phone #1
+      - 19   # Louis
     tester-user-ids:
       - 16   # Herve
       - 18   # Eric - phone #2

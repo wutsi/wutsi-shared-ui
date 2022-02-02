@@ -19,7 +19,6 @@ class ProductListItem(
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware = ListItem(
         caption = StringUtil.capitalizeFirstLetter(model.title),
-        subCaption = model.summary,
         padding = 10.0,
         leading = model.thumbnail?.let { Image(it.url, width = 48.0, height = 48.0) },
         trailing = if (model.price != null)
@@ -34,7 +33,7 @@ class ProductListItem(
                     ),
                     if (model.comparablePrice != null)
                         Text(
-                            caption = model.price.text,
+                            caption = model.comparablePrice.text,
                             bold = true,
                             decoration = TextDecoration.Strikethrough
                         )

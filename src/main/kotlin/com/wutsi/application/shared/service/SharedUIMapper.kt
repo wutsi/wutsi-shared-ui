@@ -27,24 +27,24 @@ open class SharedUIMapper(
     private val categoryService: CategoryService,
     private val cityService: CityService,
 ) {
-    open fun toProductModel(obj: ProductSummary, tenant: Tenant, defaultPictureUrl: String) = ProductModel(
+    open fun toProductModel(obj: ProductSummary, tenant: Tenant) = ProductModel(
         id = obj.id,
         title = obj.title,
         summary = obj.summary,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice),
-        thumbnail = toPictureModel(obj.thumbnail, defaultPictureUrl)
+        thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl)
     )
 
-    open fun toProductModel(obj: Product, tenant: Tenant, defaultPictureUrl: String) = ProductModel(
+    open fun toProductModel(obj: Product, tenant: Tenant) = ProductModel(
         id = obj.id,
         title = obj.title,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice),
-        thumbnail = toPictureModel(obj.thumbnail, defaultPictureUrl),
-        pictures = obj.pictures.map { toPictureModel(it, defaultPictureUrl) },
+        thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl),
+        pictures = obj.pictures.map { toPictureModel(it, tenant.product.defaultPictureUrl) },
         visible = obj.visible
     )
 

@@ -62,7 +62,7 @@ internal class TogglesProviderTest {
     }
 
     @Test
-    fun `payment=OFF - payment enabled for tester business account`() {
+    fun `payment=OFF - paymxent enabled for tester business account`() {
         // GIVEN
         val toggles = createToggleForPayment(false, listOf(USER_ID, 2, 3))
         val account = Account(id = USER_ID, business = true)
@@ -112,18 +112,6 @@ internal class TogglesProviderTest {
     }
 
     @Test
-    fun `scan=OFF - payment enabled for tester`() {
-        // GIVEN
-        val toggles = createToggleForScan(false, listOf(USER_ID, 2, 3))
-
-        // WHEN
-        val service = createToggleProvider(toggles)
-
-        // THEN
-        assertTrue(service.isScanEnabled())
-    }
-
-    @Test
     fun `logout=ON - logout enabled`() {
         // GIVEN
         val toggles = createToggleForLogout(true)
@@ -145,18 +133,6 @@ internal class TogglesProviderTest {
 
         // THEN
         kotlin.test.assertFalse(service.isLogoutEnabled())
-    }
-
-    @Test
-    fun `logout=OFF and user is tester - logout enabled`() {
-        // GIVEN
-        val toggles = createToggleForLogout(false, listOf(USER_ID))
-
-        // WHEN
-        val service = createToggleProvider(toggles)
-
-        // THEN
-        assertTrue(service.isLogoutEnabled())
     }
 
     @Test

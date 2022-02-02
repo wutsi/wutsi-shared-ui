@@ -32,7 +32,7 @@ class ProfileCard(
                 padding = if (pad++ % 2 == 0) 10.0 else null,
                 alignment = Alignment.Center,
                 child = Avatar(
-                    radius = 48.0,
+                    radius = 32.0,
                     model = model
                 )
             ),
@@ -45,7 +45,7 @@ class ProfileCard(
                         Text(
                             caption = model.displayName ?: "",
                             alignment = TextAlignment.Center,
-                            size = Theme.TEXT_SIZE_X_LARGE,
+                            size = Theme.TEXT_SIZE_LARGE,
                             color = Theme.COLOR_PRIMARY,
                             bold = true,
                         ),
@@ -53,7 +53,7 @@ class ProfileCard(
                             Icon(
                                 Theme.ICON_VERIFIED,
                                 color = Theme.COLOR_PRIMARY,
-                                size = Theme.TEXT_SIZE_X_LARGE
+                                size = Theme.TEXT_SIZE_LARGE
                             )
                         else
                             Container(),
