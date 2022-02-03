@@ -21,10 +21,11 @@ wutsi:
       - 29   # Eric - phone #1
       - 19   # Louis
       - 23   # Mathis
+      - 39   # Maison H
       - 47   # MTN Retail Account #1
     test-phone-numbers:
       - "+237670000001"   # MTN Test Account #1
       - "+237670000002"   # MTN Test Account #2
       - "+237670000011"   # MTN Retail Account #1
-      - "+237690000001"   # OM Test Account #1
+      - "+237690000001"   # OM Test Account #1 - Maison H (business account)
       - "+237690000002"   # OM Test Account #2
