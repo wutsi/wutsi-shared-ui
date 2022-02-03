@@ -5,7 +5,6 @@ import com.wutsi.application.shared.model.ProductModel
 import com.wutsi.application.shared.service.StringUtil
 import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.AspectRatio
-import com.wutsi.flutter.sdui.Center
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
 import com.wutsi.flutter.sdui.Image
@@ -36,15 +35,12 @@ class ProductCard(
             mainAxisAlignment = MainAxisAlignment.start,
             crossAxisAlignment = CrossAxisAlignment.start,
             children = listOf(
-                Container(
-                    child = Center(
-                        child = AspectRatio(
-                            aspectRatio = 4.0 / 3.0,
-                            child = Image(
-                                url = model.thumbnail?.url ?: "",
-                                fit = BoxFit.fitWidth,
-                                height = IMAGE_HEIGHT,
-                            )
+                AspectRatio(
+                    aspectRatio = 4.0 / 3.0,
+                    child = Container(
+                        child = Image(
+                            url = model.thumbnail?.url ?: "",
+                            fit = BoxFit.fitWidth,
                         )
                     ),
                 ),
