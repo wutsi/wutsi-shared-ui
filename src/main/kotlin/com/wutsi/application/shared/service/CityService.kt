@@ -40,10 +40,10 @@ class CityService {
     private fun load() {
         val tmp = mutableListOf<CityEntity>()
         tmp.addAll(load("CM", 1000))
-        tmp.addAll(load("FR", 100000))
-        tmp.addAll(load("UK", 100000))
-        tmp.addAll(load("CA", 100000))
-        tmp.addAll(load("US", 400000))
+//        tmp.addAll(load("FR", 100000))
+//        tmp.addAll(load("UK", 100000))
+//        tmp.addAll(load("CA", 100000))
+//        tmp.addAll(load("US", 400000))
 
         LOGGER.info("${tmp.size} cities loaded")
         cities = tmp

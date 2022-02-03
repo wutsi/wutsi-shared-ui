@@ -9,7 +9,7 @@ internal class CityServiceTest {
     @Test
     fun all() {
         val cities = service.all()
-        assertEquals(370, cities.size)
+        assertEquals(122, cities.size)
     }
 
     @Test
