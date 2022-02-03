@@ -22,32 +22,36 @@ class ProductCard(
     private val action: Action? = null
 ) : CompositeWidgetAware() {
     companion object {
-        const val IMAGE_HEIGHT = 200.0
         const val PADDING = 5.0
+        const val SPACING = 2.0
     }
 
     override fun toWidgetAware(): WidgetAware = Container(
-        border = 0.5,
+        border = 0.2,
         borderColor = Theme.COLOR_DIVIDER,
         action = action,
-        padding = PADDING,
+        margin = SPACING,
         child = Column(
             mainAxisAlignment = MainAxisAlignment.start,
             crossAxisAlignment = CrossAxisAlignment.start,
-            children = listOf(
-                AspectRatio(
-                    aspectRatio = 4.0 / 3.0,
-                    child = Container(
-                        child = Image(
-                            url = model.thumbnail?.url ?: "",
-                            fit = BoxFit.fitWidth,
-                        )
-                    ),
-                ),
-                Container(padding = PADDING),
+            children = listOfNotNull(
+                if (model.thumbnail?.url != null)
+                    AspectRatio(
+                        aspectRatio = 4.0 / 3.0,
+                        child = Container(
+                            child = Image(
+                                url = model.thumbnail.url,
+                                fit = BoxFit.fill,
+                            )
+                        ),
+                    )
+                else
+                    null,
+
                 Container(
                     height = 5 * Theme.TEXT_SIZE_SMALL,
                     alignment = Alignment.Center,
+                    padding = PADDING,
                     child = Column(
                         mainAxisAlignment = MainAxisAlignment.start,
                         crossAxisAlignment = CrossAxisAlignment.start,
