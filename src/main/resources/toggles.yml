@@ -15,13 +15,13 @@ wutsi:
       - 18   # Eric - phone #2
       - 29   # Eric - phone #1
       - 19   # Louis
+      - 39   # Maison H
     tester-user-ids:
       - 16   # Herve
       - 18   # Eric - phone #2
       - 29   # Eric - phone #1
       - 19   # Louis
       - 23   # Mathis
-      - 39   # Maison H
       - 47   # MTN Retail Account #1
     test-phone-numbers:
       - "+237670000001"   # MTN Test Account #1
