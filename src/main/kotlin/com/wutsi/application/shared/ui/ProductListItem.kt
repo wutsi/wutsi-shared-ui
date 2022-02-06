@@ -34,8 +34,9 @@ class ProductListItem(
                     if (model.comparablePrice != null)
                         Text(
                             caption = model.comparablePrice.text,
-                            bold = true,
-                            decoration = TextDecoration.Strikethrough
+                            color = Theme.COLOR_GRAY,
+                            decoration = TextDecoration.Strikethrough,
+                            size = Theme.TEXT_SIZE_SMALL,
                         )
                     else
                         null,

@@ -27,22 +27,30 @@ open class SharedUIMapper(
     private val categoryService: CategoryService,
     private val cityService: CityService,
 ) {
-    open fun toProductModel(obj: ProductSummary, tenant: Tenant) = ProductModel(
+    open fun toProductModel(
+        obj: ProductSummary,
+        tenant: Tenant,
+        messageSource: MessageSource
+    ) = ProductModel(
         id = obj.id,
         title = obj.title,
         summary = obj.summary,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
-        savings = toSavings(obj.price, obj.comparablePrice),
+        savings = toSavings(obj.price, obj.comparablePrice, tenant, messageSource),
         thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl)
     )
 
-    open fun toProductModel(obj: Product, tenant: Tenant) = ProductModel(
+    open fun toProductModel(
+        obj: Product,
+        tenant: Tenant,
+        messageSource: MessageSource
+    ) = ProductModel(
         id = obj.id,
         title = obj.title,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
-        savings = toSavings(obj.price, obj.comparablePrice),
+        savings = toSavings(obj.price, obj.comparablePrice, tenant, messageSource),
         thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl),
         pictures = obj.pictures.map { toPictureModel(it, tenant.product.defaultPictureUrl) },
         visible = obj.visible
@@ -65,13 +73,21 @@ open class SharedUIMapper(
             text = DecimalFormat(tenant.monetaryFormat).format(amount)
         )
 
-    private fun toSavings(price: Double?, comparablePrice: Double?): SavingsModel? {
+    private fun toSavings(
+        price: Double?,
+        comparablePrice: Double?,
+        tenant: Tenant,
+        messageSource: MessageSource
+    ): SavingsModel? {
         if (comparablePrice != null && price != null) {
             val value = comparablePrice - price
+            val percent = if (comparablePrice == 0.0) null else (value * 100.0 / comparablePrice).toInt()
             if (value > 0)
                 return SavingsModel(
                     value = value,
-                    percent = if (comparablePrice == 0.0) null else (value * 100.0 / comparablePrice).toInt()
+                    percent = percent,
+                    text = DecimalFormat(tenant.monetaryFormat).format(value),
+                    percentText = getText("product.saving.percentage", messageSource, arrayOf(percent.toString()))
                 )
         }
         return null
@@ -194,10 +210,10 @@ open class SharedUIMapper(
             return null
     }
 
-    private fun getText(key: String, messageSource: MessageSource): String {
+    private fun getText(key: String, messageSource: MessageSource, args: Array<String> = emptyArray()): String {
         return try {
             val locale = LocaleContextHolder.getLocale()
-            messageSource.getMessage(key, emptyArray(), locale)
+            messageSource.getMessage(key, args, locale)
         } catch (ex: Exception) {
             key
         }

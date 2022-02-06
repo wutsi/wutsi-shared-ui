@@ -8,6 +8,9 @@ import com.wutsi.flutter.sdui.AspectRatio
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
 import com.wutsi.flutter.sdui.Image
+import com.wutsi.flutter.sdui.Positioned
+import com.wutsi.flutter.sdui.Row
+import com.wutsi.flutter.sdui.Stack
 import com.wutsi.flutter.sdui.Text
 import com.wutsi.flutter.sdui.WidgetAware
 import com.wutsi.flutter.sdui.enums.Alignment
@@ -36,12 +39,40 @@ class ProductCard(
             crossAxisAlignment = CrossAxisAlignment.start,
             children = listOfNotNull(
                 if (model.thumbnail?.url != null)
-                    AspectRatio(
-                        aspectRatio = 4.0 / 3.0,
-                        child = Container(
-                            child = Image(
-                                url = model.thumbnail.url,
-                                fit = BoxFit.fill,
+                    Container(
+                        background = Theme.COLOR_GRAY_LIGHT,
+                        child = Stack(
+                            children = listOfNotNull(
+                                Container(
+                                    padding = 10.0,
+                                    child = AspectRatio(
+                                        aspectRatio = 4.0 / 3.0,
+                                        child = Container(
+                                            child = Image(
+                                                url = model.thumbnail.url,
+                                                fit = BoxFit.fitHeight,
+                                            )
+                                        )
+                                    )
+                                ),
+
+                                if (model.savings != null)
+                                    Positioned(
+                                        left = 5.0,
+                                        bottom = 5.0,
+                                        child = Container(
+                                            background = Theme.COLOR_SUCCESS,
+                                            padding = 4.0,
+                                            borderRadius = 4.0,
+                                            child = Text(
+                                                caption = "${model.savings.percent}% off",
+                                                size = Theme.TEXT_SIZE_SMALL,
+                                                color = Theme.COLOR_WHITE
+                                            ),
+                                        )
+                                    )
+                                else
+                                    null,
                             )
                         ),
                     )
@@ -49,7 +80,7 @@ class ProductCard(
                     null,
 
                 Container(
-                    height = 5 * Theme.TEXT_SIZE_SMALL,
+                    height = 6 * Theme.TEXT_SIZE_LARGE,
                     alignment = Alignment.Center,
                     padding = PADDING,
                     child = Column(
@@ -58,33 +89,39 @@ class ProductCard(
                         children = listOfNotNull(
 
                             if (model.price != null)
-                                Text(
-                                    caption = model.price.text,
-                                    bold = true,
-                                    color = if (model.comparablePrice != null) Theme.COLOR_PRIMARY else Theme.COLOR_BLACK
+                                Row(
+                                    mainAxisAlignment = MainAxisAlignment.start,
+                                    crossAxisAlignment = CrossAxisAlignment.end,
+                                    children = listOfNotNull(
+                                        Text(
+                                            caption = model.price.text,
+                                            bold = true,
+                                            color = Theme.COLOR_PRIMARY
+                                        ),
+                                        if (model.comparablePrice != null)
+                                            Text(
+                                                caption = model.comparablePrice.text,
+                                                color = Theme.COLOR_GRAY,
+                                                decoration = TextDecoration.Strikethrough,
+                                                size = Theme.TEXT_SIZE_SMALL
+                                            )
+                                        else
+                                            null,
+                                    ),
                                 )
                             else
                                 null,
 
-                            if (model.comparablePrice != null)
-                                Text(
-                                    caption = model.comparablePrice.text,
-                                    size = Theme.TEXT_SIZE_SMALL,
-                                    decoration = TextDecoration.Strikethrough,
-                                )
-                            else
-                                null,
-
+                            Container(padding = 5.0),
                             Text(
                                 caption = StringUtil.capitalizeFirstLetter(model.title),
                                 overflow = TextOverflow.Elipsis,
-                                size = Theme.TEXT_SIZE_SMALL,
-                                maxLines = 2
+                                maxLines = 3
                             ),
                         ),
                     )
                 ),
-            ),
+            )
         )
     )
 }
