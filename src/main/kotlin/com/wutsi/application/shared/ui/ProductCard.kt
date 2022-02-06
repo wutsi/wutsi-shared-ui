@@ -22,6 +22,7 @@ import com.wutsi.flutter.sdui.enums.TextOverflow
 
 class ProductCard(
     private val model: ProductModel,
+    private val savingsPercentageThreshold: Double = 1.0,
     private val action: Action? = null
 ) : CompositeWidgetAware() {
     companion object {
@@ -56,7 +57,7 @@ class ProductCard(
                                     )
                                 ),
 
-                                if (model.savings != null)
+                                if (model.savings?.percent != null && model.savings.percent >= savingsPercentageThreshold)
                                     Positioned(
                                         left = 5.0,
                                         bottom = 5.0,
