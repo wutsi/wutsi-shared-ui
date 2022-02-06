@@ -22,7 +22,7 @@ import com.wutsi.flutter.sdui.enums.TextOverflow
 
 class ProductCard(
     private val model: ProductModel,
-    private val savingsPercentageThreshold: Double = 1.0,
+    private val savingsPercentageThreshold: Int = 1,
     private val action: Action? = null
 ) : CompositeWidgetAware() {
     companion object {
