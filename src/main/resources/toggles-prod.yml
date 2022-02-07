@@ -3,8 +3,8 @@ wutsi:
     account: false               # Manage account?
     payment: false               # Payment enabled?
     store: false                 # Store enabled?
-    dev-user-ids:
-    tester-user-ids:
+    dev-user-ids: [ ]
+    tester-user-ids: [ ]
     test-phone-numbers:
       - "+237670000001"   # MTN Test Account #1
       - "+237670000002"   # MTN Test Account #2
