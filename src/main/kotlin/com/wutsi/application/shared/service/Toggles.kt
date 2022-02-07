@@ -10,6 +10,7 @@ open class Toggles {
     var scan: Boolean = true
     var sendSmsCode: Boolean = true
     var store: Boolean = true
+    var switchEnvironment: Boolean = true
     var verifySmsCode: Boolean = true
 
     var devUserIds: List<Long> = emptyList()

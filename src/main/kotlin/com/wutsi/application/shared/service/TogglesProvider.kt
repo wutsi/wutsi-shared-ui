@@ -18,6 +18,9 @@ open class TogglesProvider(
     open fun isFeedbackEnabled(): Boolean =
         toggles.feedback
 
+    open fun isLogoutEnabled(): Boolean =
+        toggles.logout
+
     open fun isPaymentEnabled(account: Account): Boolean =
         account.business && (toggles.payment || isTester(account.id))
 
@@ -30,11 +33,11 @@ open class TogglesProvider(
     open fun isStoreEnabled(): Boolean =
         (toggles.store && isBusinessAccountEnabled()) || isDeveloper()
 
+    open fun isSwitchEnvironmentEnabled(): Boolean =
+        toggles.switchEnvironment || isDeveloper() || isTester()
+
     open fun isVerifySmsCodeEnabled(phoneNumber: String): Boolean =
         toggles.verifySmsCode && !isTestPhoneNumber(phoneNumber)
-
-    open fun isLogoutEnabled(): Boolean =
-        toggles.logout
 
     private fun isDeveloper(): Boolean =
         isDeveloper(securityContext.currentAccountId())

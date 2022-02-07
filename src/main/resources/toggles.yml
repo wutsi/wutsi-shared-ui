@@ -8,6 +8,7 @@ wutsi:
     payment: false               # Payment enabled?
     scan: true                   # Scanning enabled?
     store: false                 # Store enabled?
+    switch-environment: false    # Switch between PROD and TEST environment?
     send-sms-code: true          # Send verification codes via SMS?
     verify-sms-code: true        # Verify SMS code?
     dev-user-ids:
