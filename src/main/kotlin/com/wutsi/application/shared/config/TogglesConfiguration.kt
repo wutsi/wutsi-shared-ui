@@ -8,9 +8,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
+import org.springframework.context.annotation.PropertySources
 
 @Configuration
-@PropertySource("classpath:toggles.yml", factory = YamlPropertySourceFactory::class)
+@PropertySources(
+    value = [
+        PropertySource("classpath:toggles.yml", factory = YamlPropertySourceFactory::class),
+        PropertySource(
+            "classpath:toggles-\${spring.profiles.active}.yml",
+            factory = YamlPropertySourceFactory::class,
+            ignoreResourceNotFound = true
+        )
+    ]
+)
 class TogglesConfiguration(
     private val securityContext: SecurityContext
 ) {

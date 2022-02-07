@@ -1,17 +1,12 @@
 wutsi:
   toggles:
     account: false               # Manage account?
-    business: true               # Business account enabled?
-    contact: true                # Contacts enabled?
-    feedback: true               # Feedback enabled?
-    logout: true                 # Logout button
     payment: false               # Payment enabled?
-    scan: true                   # Scanning enabled?
     store: false                 # Store enabled?
-    send-sms-code: true          # Send verification codes via SMS?
-    verify-sms-code: true        # Verify SMS code?
     dev-user-ids:
+      - 1   # Herve
     tester-user-ids:
+      - 1   # Herve
     test-phone-numbers:
       - "+237670000001"   # MTN Test Account #1
       - "+237670000002"   # MTN Test Account #2
