@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
   <modelVersion>4.0.0</modelVersion>
@@ -33,7 +34,10 @@
     <wutsi-platform-payment.version>0.0.67</wutsi-platform-payment.version>
     <wutsi-account.version>1.0.33</wutsi-account.version>
     <wutsi-catalog.version>0.0.18</wutsi-catalog.version>
+    <wutsi-contact.version>0.0.7</wutsi-contact.version>
     <wutsi-payment.version>0.0.37</wutsi-payment.version>
+    <wutsi-qr.version>0.0.7</wutsi-qr.version>
+    <wutsi-sms.version>1.0.10</wutsi-sms.version>
     <wutsi-tenant.version>0.0.24</wutsi-tenant.version>
   </properties>
 
@@ -59,15 +63,31 @@
       <version>${wutsi-account.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.wutsi.platform.contact</groupId>
+      <artifactId>wutsi-contact-sdk-kotlin</artifactId>
+      <version>${wutsi-contact.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.wutsi.platform.payment</groupId>
       <artifactId>wutsi-payment-sdk-kotlin</artifactId>
       <version>${wutsi-payment.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi.platform.qr</groupId>
+      <artifactId>wutsi-qr-sdk-kotlin</artifactId>
+      <version>${wutsi-qr.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi.platform.sms</groupId>
+      <artifactId>wutsi-sms-sdk-kotlin</artifactId>
+      <version>${wutsi-sms.version}</version>
     </dependency>
     <dependency>
       <groupId>com.wutsi.platform.tenant</groupId>
       <artifactId>wutsi-tenant-sdk-kotlin</artifactId>
       <version>${wutsi-tenant.version}</version>
     </dependency>
+
     <dependency>
       <groupId>com.wutsi.flutter</groupId>
       <artifactId>sdui-kotlin</artifactId>
@@ -291,11 +311,12 @@
             <phase>validate</phase>
             <configuration>
               <target name="ktlint">
-                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true" classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                  <arg value="src/**/*.kt" />
+                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
+                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
+                  <arg value="src/**/*.kt"/>
                   <!-- to generate report in checkstyle format prepend following args: -->
-                  <arg value="--reporter=plain" />
-                  <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml" />
+                  <arg value="--reporter=plain"/>
+                  <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
 
                   <!-- see https://github.com/pinterest/ktlint#usage for more -->
                 </java>
@@ -309,9 +330,10 @@
             <id>ktlint-format</id>
             <configuration>
               <target name="ktlint">
-                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true" classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                  <arg value="-F" />
-                  <arg value="src/**/*.kt" />
+                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
+                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
+                  <arg value="-F"/>
+                  <arg value="src/**/*.kt"/>
                 </java>
               </target>
             </configuration>
