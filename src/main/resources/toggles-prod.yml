@@ -4,10 +4,6 @@ wutsi:
     payment: false               # Payment enabled?
     store: false                 # Store enabled?
     tester-user-ids:
-      - 1
-    test-phone-numbers:
-      - "+237670000001"   # MTN Test Account #1
-      - "+237670000002"   # MTN Test Account #2
-      - "+237670000011"   # MTN Retail Account #1
-      - "+237690000001"   # OM Test Account #1 - Maison H (business account)
-      - "+237690000002"   # OM Test Account #2
+      - 1  # Herve
+      - 2  # Louis
+      - 5  # Patrick
