@@ -99,12 +99,14 @@ class ProductCard(
                                             bold = true,
                                             color = Theme.COLOR_PRIMARY
                                         ),
+                                        Container(width = 2.0),
                                         if (model.comparablePrice != null)
                                             Text(
                                                 caption = model.comparablePrice.text,
                                                 color = Theme.COLOR_GRAY,
                                                 decoration = TextDecoration.Strikethrough,
-                                                size = Theme.TEXT_SIZE_SMALL
+                                                size = Theme.TEXT_SIZE_SMALL,
+                                                overflow = TextOverflow.Elipsis
                                             )
                                         else
                                             null,

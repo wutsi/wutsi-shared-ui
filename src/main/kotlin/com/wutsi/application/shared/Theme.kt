@@ -3,6 +3,7 @@ package com.wutsi.application.shared
 object Theme {
     const val TEXT_SIZE_X_LARGE = 18.0
     const val TEXT_SIZE_LARGE = 16.0
+    const val TEXT_SIZE_DEFAULT = 14.0
     const val TEXT_SIZE_SMALL = 10.0
     const val COLOR_BLACK = "#000000"
     const val COLOR_GRAY = "#95A5A6"
