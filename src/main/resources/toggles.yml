@@ -11,12 +11,6 @@ wutsi:
     switch-environment: false    # Switch between PROD and TEST environment?
     send-sms-code: true          # Send verification codes via SMS?
     verify-sms-code: true        # Verify SMS code?
-    dev-user-ids:
-      - 16   # Herve
-      - 18   # Eric - phone #2
-      - 29   # Eric - phone #1
-      - 19   # Louis
-      - 39   # Maison H
     tester-user-ids:
       - 16   # Herve
       - 18   # Eric - phone #2

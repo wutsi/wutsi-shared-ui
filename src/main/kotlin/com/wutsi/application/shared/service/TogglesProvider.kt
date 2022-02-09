@@ -31,19 +31,13 @@ open class TogglesProvider(
         toggles.sendSmsCode && !isTestPhoneNumber(phoneNumber)
 
     open fun isStoreEnabled(): Boolean =
-        (toggles.store && isBusinessAccountEnabled()) || isDeveloper()
+        (toggles.store && isBusinessAccountEnabled()) || isTester()
 
     open fun isSwitchEnvironmentEnabled(): Boolean =
-        toggles.switchEnvironment || isDeveloper() || isTester()
+        toggles.switchEnvironment || isTester()
 
     open fun isVerifySmsCodeEnabled(phoneNumber: String): Boolean =
         toggles.verifySmsCode && !isTestPhoneNumber(phoneNumber)
-
-    private fun isDeveloper(): Boolean =
-        isDeveloper(securityContext.currentAccountId())
-
-    private fun isDeveloper(userId: Long?): Boolean =
-        userId != null && toggles.devUserIds.contains(userId)
 
     private fun isTester(): Boolean =
         isTester(securityContext.currentAccountId())

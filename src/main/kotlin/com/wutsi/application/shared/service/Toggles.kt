@@ -13,7 +13,6 @@ open class Toggles {
     var switchEnvironment: Boolean = true
     var verifySmsCode: Boolean = true
 
-    var devUserIds: List<Long> = emptyList()
     var testerUserIds: List<Long> = emptyList()
     var testPhoneNumbers: List<String> = emptyList()
 }
