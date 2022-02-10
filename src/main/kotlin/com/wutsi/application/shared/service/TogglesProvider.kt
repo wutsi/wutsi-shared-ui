@@ -25,7 +25,7 @@ open class TogglesProvider(
         toggles.logout
 
     open fun isPaymentEnabled(account: Account): Boolean =
-        isNotProd() && account.business && (toggles.payment || isTester(account.id))
+        isNotProd() && (account.business && (toggles.payment || isTester(account.id)))
 
     open fun isScanEnabled(): Boolean =
         toggles.scan
@@ -34,7 +34,7 @@ open class TogglesProvider(
         toggles.sendSmsCode && !isTestPhoneNumber(phoneNumber)
 
     open fun isStoreEnabled(): Boolean =
-        (isNotProd() && toggles.store && isBusinessAccountEnabled()) || isTester()
+        isNotProd() && ((toggles.store && isBusinessAccountEnabled()) || isTester())
 
     open fun isSwitchEnvironmentEnabled(): Boolean =
         toggles.switchEnvironment || isTester()
