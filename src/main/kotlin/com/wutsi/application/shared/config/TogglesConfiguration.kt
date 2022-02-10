@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.context.annotation.PropertySources
+import org.springframework.core.env.Environment
 
 @Configuration
 @PropertySources(
@@ -22,7 +23,8 @@ import org.springframework.context.annotation.PropertySources
     ]
 )
 class TogglesConfiguration(
-    private val securityContext: SecurityContext
+    private val securityContext: SecurityContext,
+    private val env: Environment
 ) {
     @Bean
     @ConfigurationProperties(prefix = "wutsi.toggles")
@@ -31,5 +33,5 @@ class TogglesConfiguration(
 
     @Bean
     fun toggleProvider(): TogglesProvider =
-        TogglesProvider(toggles(), securityContext)
+        TogglesProvider(toggles(), securityContext, env)
 }
