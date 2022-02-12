@@ -13,7 +13,7 @@ class ProfileListItem(
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware = ListItem(
         caption = StringUtil.capitalizeFirstLetter(model.displayName),
-        subCaption = model.category,
+        subCaption = model.businessText,
         iconRight = if (action == null) null else Theme.ICON_CHEVRON_RIGHT,
         padding = 10.0,
         leading = Avatar(

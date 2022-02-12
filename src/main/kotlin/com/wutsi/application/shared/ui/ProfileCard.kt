@@ -4,6 +4,7 @@ import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.service.PhoneUtil.format
 import com.wutsi.flutter.sdui.Action
+import com.wutsi.flutter.sdui.Center
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
 import com.wutsi.flutter.sdui.Icon
@@ -14,6 +15,7 @@ import com.wutsi.flutter.sdui.Wrap
 import com.wutsi.flutter.sdui.enums.ActionType
 import com.wutsi.flutter.sdui.enums.Alignment
 import com.wutsi.flutter.sdui.enums.Axis
+import com.wutsi.flutter.sdui.enums.CrossAxisAlignment
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.MainAxisSize
 import com.wutsi.flutter.sdui.enums.TextAlignment
@@ -39,34 +41,35 @@ class ProfileCard(
             Container(
                 alignment = Alignment.Center,
                 padding = if (pad++ % 2 == 0) 10.0 else null,
-                child = Row(
-                    mainAxisAlignment = MainAxisAlignment.center,
-                    children = listOf(
-                        Text(
-                            caption = model.displayName ?: "",
-                            alignment = TextAlignment.Center,
-                            size = Theme.TEXT_SIZE_LARGE,
-                            color = Theme.COLOR_PRIMARY,
-                            bold = true,
-                        ),
-                        if (model.retail)
-                            Icon(
-                                Theme.ICON_VERIFIED,
-                                color = Theme.COLOR_PRIMARY,
-                                size = Theme.TEXT_SIZE_LARGE
-                            )
-                        else
-                            Container(),
-                    ),
+                child = Text(
+                    caption = model.displayName ?: "",
+                    alignment = TextAlignment.Center,
+                    size = Theme.TEXT_SIZE_LARGE,
+                    color = Theme.COLOR_PRIMARY,
+                    bold = true,
                 )
-            ),
+            )
         )
+
+        // Business
+        if (model.businessText != null)
+            children.add(
+                Container(
+                    padding = if (pad++ % 2 == 0) 10.0 else null,
+                    alignment = Alignment.Center,
+                    child = Text(
+                        caption = model.businessText,
+                        alignment = TextAlignment.Center,
+                    )
+                )
+            )
 
         // Phone
         if (showPhoneNumber && !model.phoneNumber.isNullOrEmpty()) {
             children.add(
                 Container(
                     padding = if (pad++ % 2 == 0) 10.0 else null,
+                    alignment = Alignment.Center,
                     child = Text(
                         caption = format(model.phoneNumber)!!,
                         alignment = TextAlignment.Center,
@@ -136,7 +139,7 @@ class ProfileCard(
                                 Icon(code = Theme.ICON_BUSINESS, size = 16.0),
                                 Container(padding = 2.0),
                                 Text(
-                                    caption = model.category,
+                                    caption = model.category.title,
                                     color = Theme.COLOR_GRAY,
                                 )
                             ),
@@ -158,8 +161,12 @@ class ProfileCard(
                 )
         }
 
-        return Column(
-            children = children
+        return Center(
+            child = Column(
+                children = children,
+                mainAxisAlignment = MainAxisAlignment.center,
+                crossAxisAlignment = CrossAxisAlignment.center
+            )
         )
     }
 

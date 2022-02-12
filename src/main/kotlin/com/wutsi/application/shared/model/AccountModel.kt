@@ -6,9 +6,10 @@ data class AccountModel(
     val pictureUrl: String? = null,
     val website: String? = null,
     val phoneNumber: String? = null,
-    val category: String? = null,
+    val category: CategoryModel? = null,
     val location: String? = null,
     val biography: String? = null,
     val retail: Boolean = false,
     val business: Boolean = false,
+    val businessText: String? = null
 )

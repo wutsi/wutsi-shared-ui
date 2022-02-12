@@ -1,22 +1,26 @@
 package com.wutsi.application.shared.service
 
-import com.wutsi.application.shared.entity.CategoryEntity
 import com.wutsi.application.shared.entity.CityEntity
 import com.wutsi.application.shared.model.AccountModel
+import com.wutsi.application.shared.model.CategoryModel
 import com.wutsi.application.shared.model.PaymentMethodModel
 import com.wutsi.application.shared.model.PictureModel
 import com.wutsi.application.shared.model.PriceModel
 import com.wutsi.application.shared.model.ProductModel
 import com.wutsi.application.shared.model.SavingsModel
 import com.wutsi.application.shared.model.TransactionModel
+import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
+import com.wutsi.platform.account.dto.Category
 import com.wutsi.platform.account.dto.PaymentMethodSummary
 import com.wutsi.platform.catalog.dto.PictureSummary
 import com.wutsi.platform.catalog.dto.Product
 import com.wutsi.platform.catalog.dto.ProductSummary
 import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
+import feign.FeignException
+import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import java.text.DecimalFormat
@@ -24,9 +28,13 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 open class SharedUIMapper(
-    private val categoryService: CategoryService,
+    private val accountApi: WutsiAccountApi,
     private val cityService: CityService,
 ) {
+    companion object {
+        private val LOGGER = LoggerFactory.getLogger(SharedUIMapper::class.java)
+    }
+
     open fun toProductModel(
         obj: ProductSummary,
         tenant: Tenant,
@@ -87,7 +95,11 @@ open class SharedUIMapper(
                     value = value,
                     percent = percent,
                     text = DecimalFormat(tenant.monetaryFormat).format(value),
-                    percentText = getText("product.saving.percentage", messageSource, arrayOf(percent.toString()))
+                    percentText = getText(
+                        "shared-ui.product.saving.percentage",
+                        messageSource,
+                        arrayOf(percent.toString())
+                    )
                 )
         }
         return null
@@ -97,17 +109,18 @@ open class SharedUIMapper(
         url = obj?.url ?: defaultPictureUrl
     )
 
-    open fun toAccountModel(obj: AccountSummary) = AccountModel(
+    open fun toAccountModel(obj: AccountSummary, messageSource: MessageSource) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
         business = obj.business,
         retail = obj.retail,
         location = toLocationText(null, obj.country),
-        category = obj.categoryId?.let { toCategoryText(it) }
+        category = toCategoryModel(obj.categoryId),
+        businessText = toBusinessText(obj.business, obj.retail, messageSource)
     )
 
-    open fun toAccountModel(obj: Account) = AccountModel(
+    open fun toAccountModel(obj: Account, messageSource: MessageSource) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
@@ -115,10 +128,27 @@ open class SharedUIMapper(
         business = obj.business,
         retail = obj.retail,
         location = toLocationText(cityService.get(obj.cityId), obj.country),
-        category = obj.categoryId?.let { toCategoryText(it) },
+        category = toCategoryModel(obj.category),
         phoneNumber = PhoneUtil.format(obj.phone?.number, obj.phone?.country),
-        biography = obj.biography
+        biography = obj.biography,
+        businessText = toBusinessText(obj.business, obj.retail, messageSource)
     )
+
+    private fun toBusinessText(business: Boolean, retail: Boolean, messageSource: MessageSource): String? {
+        if (!business && !retail)
+            return null
+
+        val text = StringBuilder()
+        if (business)
+            text.append(getText("shared-ui.account.business", messageSource))
+
+        if (retail) {
+            if (text.isNotEmpty())
+                text.append(" - ")
+            text.append(getText("shared-ui.account.retail", messageSource))
+        }
+        return text.toString()
+    }
 
     open fun toTransactionModel(
         obj: TransactionSummary,
@@ -136,12 +166,12 @@ open class SharedUIMapper(
             id = obj.id,
             type = obj.type,
             status = obj.status,
-            statusText = getText("transaction.status.${obj.status}", messageSource),
+            statusText = getText("shared-ui.transaction.status.${obj.status}", messageSource),
             amountText = fmt.format(obj.amount),
             netText = fmt.format(obj.net),
             feesText = fmt.format(obj.fees),
-            recipient = accounts[obj.recipientId]?.let { toAccountModel(it) },
-            account = accounts[obj.accountId]?.let { toAccountModel(it) },
+            recipient = accounts[obj.recipientId]?.let { toAccountModel(it, messageSource) },
+            account = accounts[obj.accountId]?.let { toAccountModel(it, messageSource) },
             paymentMethod = paymentMethod?.let { toPaymentMethodModel(it, tenant, tenantProvider) },
             description = toDescription(obj, currentUser?.id, messageSource),
             createdText = DateTimeUtil.convert(obj.created, timezoneId)
@@ -171,16 +201,16 @@ open class SharedUIMapper(
         messageSource: MessageSource
     ): String =
         if (obj.type == "CASHIN") {
-            getText("transaction.type.CASHIN", messageSource)
+            getText("shared-ui.transaction.type.CASHIN", messageSource)
         } else if (obj.type == "CASHOUT") {
-            getText("transaction.type.CASHOUT", messageSource)
+            getText("shared-ui.transaction.type.CASHOUT", messageSource)
         } else if (obj.type == "PAYMENT") {
-            getText("transaction.type.PAYMENT", messageSource)
+            getText("shared-ui.transaction.type.PAYMENT", messageSource)
         } else {
             if (obj.recipientId == currentUserId)
-                getText("transaction.type.TRANSFER.receive", messageSource)
+                getText("shared-ui.transaction.type.TRANSFER.receive", messageSource)
             else
-                getText("transaction.type.TRANSFER.send", messageSource)
+                getText("shared-ui.transaction.type.TRANSFER.send", messageSource)
         }
 
     open fun toLocationText(city: CityEntity?, country: String): String {
@@ -194,20 +224,33 @@ open class SharedUIMapper(
         return StringUtil.capitalizeFirstLetter(Locale(locale.language, country).getDisplayCountry(locale))
     }
 
-    open fun toCategoryText(categoryId: Long): String? {
-        val category = categoryService.get(categoryId)
-        return toCategoryText(category)
+    open fun toCategoryModel(category: Category?): CategoryModel? =
+        category?.let {
+            CategoryModel(
+                id = category.id,
+                title = toTitle(it)
+            )
+        }
+
+    open fun toTitle(category: Category): String {
+        val locale = LocaleContextHolder.getLocale()
+        return if (locale.language == "fr")
+            category.titleFrench
+        else
+            category.title
     }
 
-    open fun toCategoryText(category: CategoryEntity?): String? {
-        if (category != null) {
-            val locale = LocaleContextHolder.getLocale()
-            if (locale.language == "fr")
-                return category.titleFrench
-            else
-                return category.title
-        } else
+    open fun toCategoryModel(id: Long?): CategoryModel? {
+        if (id == null)
             return null
+
+        return try {
+            val category = accountApi.getCategory(id).category
+            toCategoryModel(category)
+        } catch (ex: FeignException) {
+            LOGGER.warn("Unable to resolve Category#$id", ex)
+            null
+        }
     }
 
     private fun getText(key: String, messageSource: MessageSource, args: Array<String> = emptyArray()): String {

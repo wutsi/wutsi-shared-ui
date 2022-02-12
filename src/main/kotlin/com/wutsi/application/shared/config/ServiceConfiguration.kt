@@ -1,6 +1,5 @@
 package com.wutsi.application.shared.config
 
-import com.wutsi.application.shared.service.CategoryService
 import com.wutsi.application.shared.service.CityService
 import com.wutsi.application.shared.service.RequestLocaleResolver
 import com.wutsi.application.shared.service.SecurityContext
@@ -25,10 +24,6 @@ class ServiceConfiguration(
     @Value("\${wutsi.application.server-url}") private val serverUrl: String,
 ) {
     @Bean
-    fun categoryService(): CategoryService =
-        CategoryService()
-
-    @Bean
     fun cityService(): CityService =
         CityService()
 
@@ -49,7 +44,7 @@ class ServiceConfiguration(
 
     @Bean
     fun sharedUIMapper(): SharedUIMapper =
-        SharedUIMapper(categoryService(), cityService())
+        SharedUIMapper(accountApi, cityService())
 
     @Bean
     fun tenantProvider(): TenantProvider =
