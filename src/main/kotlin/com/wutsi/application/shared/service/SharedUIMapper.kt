@@ -21,11 +21,12 @@ import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
 import feign.FeignException
 import org.slf4j.LoggerFactory
-import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import java.text.DecimalFormat
+import java.text.MessageFormat
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.ResourceBundle
 
 open class SharedUIMapper(
     private val accountApi: WutsiAccountApi,
@@ -35,30 +36,31 @@ open class SharedUIMapper(
         private val LOGGER = LoggerFactory.getLogger(SharedUIMapper::class.java)
     }
 
+    private val defaultBundle = ResourceBundle.getBundle("shared-ui-messages")
+    private val frBundle = ResourceBundle.getBundle("shared-ui-messages", Locale("fr"))
+
     open fun toProductModel(
         obj: ProductSummary,
         tenant: Tenant,
-        messageSource: MessageSource
     ) = ProductModel(
         id = obj.id,
         title = obj.title,
         summary = obj.summary,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
-        savings = toSavings(obj.price, obj.comparablePrice, tenant, messageSource),
+        savings = toSavings(obj.price, obj.comparablePrice, tenant),
         thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl)
     )
 
     open fun toProductModel(
         obj: Product,
         tenant: Tenant,
-        messageSource: MessageSource
     ) = ProductModel(
         id = obj.id,
         title = obj.title,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
-        savings = toSavings(obj.price, obj.comparablePrice, tenant, messageSource),
+        savings = toSavings(obj.price, obj.comparablePrice, tenant),
         thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl),
         pictures = obj.pictures.map { toPictureModel(it, tenant.product.defaultPictureUrl) },
         visible = obj.visible
@@ -84,8 +86,7 @@ open class SharedUIMapper(
     private fun toSavings(
         price: Double?,
         comparablePrice: Double?,
-        tenant: Tenant,
-        messageSource: MessageSource
+        tenant: Tenant
     ): SavingsModel? {
         if (comparablePrice != null && price != null) {
             val value = comparablePrice - price
@@ -97,7 +98,6 @@ open class SharedUIMapper(
                     text = DecimalFormat(tenant.monetaryFormat).format(value),
                     percentText = getText(
                         "shared-ui.product.saving.percentage",
-                        messageSource,
                         arrayOf(percent.toString())
                     )
                 )
@@ -109,7 +109,7 @@ open class SharedUIMapper(
         url = obj?.url ?: defaultPictureUrl
     )
 
-    open fun toAccountModel(obj: AccountSummary, messageSource: MessageSource) = AccountModel(
+    open fun toAccountModel(obj: AccountSummary) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
@@ -117,10 +117,10 @@ open class SharedUIMapper(
         retail = obj.retail,
         location = toLocationText(null, obj.country),
         category = toCategoryModel(obj.categoryId),
-        businessText = toBusinessText(obj.business, obj.retail, messageSource)
+        businessText = toBusinessText(obj.business, obj.retail)
     )
 
-    open fun toAccountModel(obj: Account, messageSource: MessageSource) = AccountModel(
+    open fun toAccountModel(obj: Account) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
@@ -131,21 +131,21 @@ open class SharedUIMapper(
         category = toCategoryModel(obj.category),
         phoneNumber = PhoneUtil.format(obj.phone?.number, obj.phone?.country),
         biography = obj.biography,
-        businessText = toBusinessText(obj.business, obj.retail, messageSource)
+        businessText = toBusinessText(obj.business, obj.retail)
     )
 
-    private fun toBusinessText(business: Boolean, retail: Boolean, messageSource: MessageSource): String? {
+    private fun toBusinessText(business: Boolean, retail: Boolean): String? {
         if (!business && !retail)
             return null
 
         val text = StringBuilder()
         if (business)
-            text.append(getText("shared-ui.account.business", messageSource))
+            text.append(getText("shared-ui.account.business"))
 
         if (retail) {
             if (text.isNotEmpty())
                 text.append(" - ")
-            text.append(getText("shared-ui.account.retail", messageSource))
+            text.append(getText("shared-ui.account.retail"))
         }
         return text.toString()
     }
@@ -157,7 +157,6 @@ open class SharedUIMapper(
         paymentMethod: PaymentMethodSummary?,
         tenant: Tenant,
         tenantProvider: TenantProvider,
-        messageSource: MessageSource
     ): TransactionModel {
         val fmt = DecimalFormat(tenant.monetaryFormat)
         val locale = LocaleContextHolder.getLocale()
@@ -166,14 +165,14 @@ open class SharedUIMapper(
             id = obj.id,
             type = obj.type,
             status = obj.status,
-            statusText = getText("shared-ui.transaction.status.${obj.status}", messageSource),
+            statusText = getText("shared-ui.transaction.status.${obj.status}"),
             amountText = fmt.format(obj.amount),
             netText = fmt.format(obj.net),
             feesText = fmt.format(obj.fees),
-            recipient = accounts[obj.recipientId]?.let { toAccountModel(it, messageSource) },
-            account = accounts[obj.accountId]?.let { toAccountModel(it, messageSource) },
+            recipient = accounts[obj.recipientId]?.let { toAccountModel(it) },
+            account = accounts[obj.accountId]?.let { toAccountModel(it) },
             paymentMethod = paymentMethod?.let { toPaymentMethodModel(it, tenant, tenantProvider) },
-            description = toDescription(obj, currentUser?.id, messageSource),
+            description = toDescription(obj, currentUser?.id),
             createdText = DateTimeUtil.convert(obj.created, timezoneId)
                 .format(DateTimeFormatter.ofPattern(tenant.dateFormat, locale)),
             currentUserId = currentUser?.id ?: -1
@@ -198,19 +197,18 @@ open class SharedUIMapper(
     private fun toDescription(
         obj: TransactionSummary,
         currentUserId: Long?,
-        messageSource: MessageSource
     ): String =
         if (obj.type == "CASHIN") {
-            getText("shared-ui.transaction.type.CASHIN", messageSource)
+            getText("shared-ui.transaction.type.CASHIN")
         } else if (obj.type == "CASHOUT") {
-            getText("shared-ui.transaction.type.CASHOUT", messageSource)
+            getText("shared-ui.transaction.type.CASHOUT")
         } else if (obj.type == "PAYMENT") {
-            getText("shared-ui.transaction.type.PAYMENT", messageSource)
+            getText("shared-ui.transaction.type.PAYMENT")
         } else {
             if (obj.recipientId == currentUserId)
-                getText("shared-ui.transaction.type.TRANSFER.receive", messageSource)
+                getText("shared-ui.transaction.type.TRANSFER.receive")
             else
-                getText("shared-ui.transaction.type.TRANSFER.send", messageSource)
+                getText("shared-ui.transaction.type.TRANSFER.send")
         }
 
     open fun toLocationText(city: CityEntity?, country: String): String {
@@ -253,10 +251,15 @@ open class SharedUIMapper(
         }
     }
 
-    private fun getText(key: String, messageSource: MessageSource, args: Array<String> = emptyArray()): String {
+    private fun getText(key: String, args: Array<String> = emptyArray()): String {
         return try {
             val locale = LocaleContextHolder.getLocale()
-            messageSource.getMessage(key, args, locale)
+            val bundle = if (locale.language == "fr")
+                frBundle
+            else
+                defaultBundle
+
+            return bundle.getString(MessageFormat.format(key, args))
         } catch (ex: Exception) {
             key
         }
