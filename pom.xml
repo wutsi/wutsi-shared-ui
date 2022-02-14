@@ -7,7 +7,7 @@
 
   <artifactId>wutsi-shared-ui</artifactId>
   <groupId>com.wutsi.application.shared</groupId>
-  <version>0.0.93-SNAPSHOT</version>
+  <version>0.0.94-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>wutsi-shared-ui</name>
 
