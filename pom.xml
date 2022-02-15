@@ -6,7 +6,7 @@
 
   <artifactId>wutsi-shared-ui</artifactId>
   <groupId>com.wutsi.application.shared</groupId>
-  <version>0.0.99-SNAPSHOT</version>
+  <version>0.0.99</version>
   <packaging>jar</packaging>
   <name>wutsi-shared-ui</name>
 
@@ -179,7 +179,7 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/wutsi/wutsi-shared-ui.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>wutsi-shared-ui-0.0.99</tag>
   </scm>
   <distributionManagement>
     <repository>
