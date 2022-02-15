@@ -8,21 +8,18 @@ import com.wutsi.application.shared.service.TenantProvider
 import com.wutsi.application.shared.service.URLBuilder
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.core.tracing.TracingContext
-import com.wutsi.platform.core.util.feign.FeignAcceptLanguageInterceptor
 import com.wutsi.platform.tenant.WutsiTenantApi
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.ResourceBundleMessageSource
 import org.springframework.web.servlet.LocaleResolver
-import javax.servlet.http.HttpServletRequest
 
 @Configuration
 class ServiceConfiguration(
     private val tenantApi: WutsiTenantApi,
     private val tracingContext: TracingContext,
     private val accountApi: WutsiAccountApi,
-    private val request: HttpServletRequest,
 
     @Value("\${wutsi.application.server-url}") private val serverUrl: String,
 ) {
@@ -33,10 +30,6 @@ class ServiceConfiguration(
     @Bean
     fun localeResolver(): LocaleResolver =
         RequestLocaleResolver()
-
-    @Bean
-    fun feignAcceptLanguageInterceptor(): FeignAcceptLanguageInterceptor =
-        FeignAcceptLanguageInterceptor(request)
 
     @Bean
     fun messageSource(): ResourceBundleMessageSource? {
