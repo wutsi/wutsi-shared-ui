@@ -34,6 +34,7 @@ object Theme {
     const val ICON_FEEDBACK = "f73c"
     const val ICON_FOLDER = "f77e"
     const val ICON_HISTORY = "e314"
+    const val ICON_HOME = "e319"
     const val ICON_INFO = "f816"
     const val ICON_LINK = "e380"
     const val ICON_LOGIN = "eaab"
