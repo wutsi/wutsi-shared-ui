@@ -226,17 +226,9 @@ open class SharedUIMapper(
         category?.let {
             CategoryModel(
                 id = category.id,
-                title = toTitle(it)
+                title = it.title
             )
         }
-
-    open fun toTitle(category: Category): String {
-        val locale = LocaleContextHolder.getLocale()
-        return if (locale.language == "fr")
-            category.titleFrench
-        else
-            category.title
-    }
 
     open fun toCategoryModel(id: Long?): CategoryModel? {
         if (id == null)
