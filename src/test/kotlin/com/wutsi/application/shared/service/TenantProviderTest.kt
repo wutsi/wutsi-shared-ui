@@ -4,7 +4,6 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.wutsi.platform.core.tracing.TracingContext
 import com.wutsi.platform.tenant.WutsiTenantApi
 import com.wutsi.platform.tenant.dto.GetTenantResponse
 import com.wutsi.platform.tenant.dto.Logo
@@ -17,18 +16,18 @@ import org.junit.jupiter.api.Test
 
 internal class TenantProviderTest {
     private lateinit var tenantApi: WutsiTenantApi
-    private lateinit var tracingContext: TracingContext
     private lateinit var provider: TenantProvider
     private lateinit var tenant: Tenant
     private lateinit var mobileCarrier1: MobileCarrier
     private lateinit var mobileCarrier2: MobileCarrier
     private lateinit var mobileCarrier3: MobileCarrier
     private lateinit var mobileCarrier4: MobileCarrier
+    private lateinit var tenantIdProvider: TenantIdProvider
 
     @BeforeEach
     fun setUp() {
-        tracingContext = mock()
-        doReturn("1").whenever(tracingContext).tenantId()
+        tenantIdProvider = mock()
+        doReturn(1L).whenever(tenantIdProvider).get()
 
         mobileCarrier1 = MobileCarrier(
             code = "OM",
@@ -71,7 +70,7 @@ internal class TenantProviderTest {
         tenantApi = mock()
         doReturn(GetTenantResponse(tenant)).whenever(tenantApi).getTenant(any())
 
-        provider = TenantProvider(tenantApi, tracingContext)
+        provider = TenantProvider(tenantApi, tenantIdProvider)
     }
 
     @Test

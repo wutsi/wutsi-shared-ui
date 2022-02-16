@@ -3,6 +3,7 @@ package com.wutsi.application.shared
 import com.wutsi.application.shared.config.AcceptLanguageConfiguration
 import com.wutsi.application.shared.config.PhoneNumberConfiguration
 import com.wutsi.application.shared.config.ServiceConfiguration
+import com.wutsi.application.shared.config.TenantConfiguration
 import com.wutsi.application.shared.config.TogglesConfiguration
 import org.springframework.context.annotation.Import
 
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Import
         AcceptLanguageConfiguration::class,
         PhoneNumberConfiguration::class,
         ServiceConfiguration::class,
+        TenantConfiguration::class,
         TogglesConfiguration::class,
     ]
 )

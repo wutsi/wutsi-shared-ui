@@ -7,8 +7,6 @@ import com.wutsi.application.shared.service.SharedUIMapper
 import com.wutsi.application.shared.service.TenantProvider
 import com.wutsi.application.shared.service.URLBuilder
 import com.wutsi.platform.account.WutsiAccountApi
-import com.wutsi.platform.core.tracing.TracingContext
-import com.wutsi.platform.tenant.WutsiTenantApi
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,8 +15,7 @@ import org.springframework.web.servlet.LocaleResolver
 
 @Configuration
 class ServiceConfiguration(
-    private val tenantApi: WutsiTenantApi,
-    private val tracingContext: TracingContext,
+    private val tenantProvider: TenantProvider,
     private val accountApi: WutsiAccountApi,
 
     @Value("\${wutsi.application.server-url}") private val serverUrl: String,
@@ -40,15 +37,11 @@ class ServiceConfiguration(
 
     @Bean
     fun securityContext(): SecurityContext =
-        SecurityContext(accountApi, tenantProvider())
+        SecurityContext(accountApi, tenantProvider)
 
     @Bean
     fun sharedUIMapper(): SharedUIMapper =
         SharedUIMapper(accountApi, cityService())
-
-    @Bean
-    fun tenantProvider(): TenantProvider =
-        TenantProvider(tenantApi, tracingContext)
 
     @Bean
     fun urlBuilder(): URLBuilder =

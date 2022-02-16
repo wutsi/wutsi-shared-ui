@@ -58,6 +58,7 @@ open class SharedUIMapper(
     ) = ProductModel(
         id = obj.id,
         title = obj.title,
+        summary = obj.summary,
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice, tenant),
