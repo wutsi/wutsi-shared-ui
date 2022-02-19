@@ -24,7 +24,7 @@ class ProductListItem(
         trailing = if (model.price != null)
             Column(
                 mainAxisAlignment = MainAxisAlignment.start,
-                crossAxisAlignment = CrossAxisAlignment.start,
+                crossAxisAlignment = CrossAxisAlignment.end,
                 children = listOfNotNull(
                     Text(
                         caption = model.price.text,

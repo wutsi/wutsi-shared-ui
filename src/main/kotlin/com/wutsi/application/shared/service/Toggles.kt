@@ -3,6 +3,7 @@ package com.wutsi.application.shared.service
 open class Toggles {
     var account: Boolean = true
     var business: Boolean = true
+    var cart: Boolean = true
     var contact: Boolean = true
     var feedback: Boolean = true
     var logout: Boolean = true

@@ -52,13 +52,13 @@ class ProfileCard(
         )
 
         // Business
-        if (model.businessText != null)
+        if (model.category != null)
             children.add(
                 Container(
                     padding = if (pad++ % 2 == 0) 10.0 else null,
                     alignment = Alignment.Center,
                     child = Text(
-                        caption = model.businessText,
+                        caption = model.category.title,
                         alignment = TextAlignment.Center,
                     )
                 )

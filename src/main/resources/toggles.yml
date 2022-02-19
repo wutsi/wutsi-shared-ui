@@ -2,6 +2,7 @@ wutsi:
   toggles:
     account: true                # Manage account?
     business: true               # Business account enabled?
+    cart: false                  # Cart enabled?
     contact: true                # Contacts enabled?
     feedback: true               # Feedback enabled?
     logout: true                 # Logout button
