@@ -9,14 +9,14 @@ import com.wutsi.application.shared.model.PriceModel
 import com.wutsi.application.shared.model.ProductModel
 import com.wutsi.application.shared.model.SavingsModel
 import com.wutsi.application.shared.model.TransactionModel
+import com.wutsi.ecommerce.catalog.dto.PictureSummary
+import com.wutsi.ecommerce.catalog.dto.Product
+import com.wutsi.ecommerce.catalog.dto.ProductSummary
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.Category
 import com.wutsi.platform.account.dto.PaymentMethodSummary
-import com.wutsi.platform.catalog.dto.PictureSummary
-import com.wutsi.platform.catalog.dto.Product
-import com.wutsi.platform.catalog.dto.ProductSummary
 import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
 import feign.FeignException
