@@ -33,7 +33,7 @@
     <wutsi-platform-core.version>0.0.101</wutsi-platform-core.version>
     <wutsi-platform-payment.version>0.0.67</wutsi-platform-payment.version>
     <wutsi-account.version>1.0.38</wutsi-account.version>
-    <wutsi-cart.version>0.0.2</wutsi-cart.version>
+    <wutsi-cart.version>0.0.5</wutsi-cart.version>
     <wutsi-catalog.version>0.0.22</wutsi-catalog.version>
     <wutsi-contact.version>0.0.7</wutsi-contact.version>
     <wutsi-payment.version>0.0.37</wutsi-payment.version>
@@ -49,7 +49,7 @@
       <version>${wutsi-platform-core.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.wutsi.platform.cart</groupId>
+      <groupId>com.wutsi.ecommerce.cart</groupId>
       <artifactId>wutsi-cart-sdk-kotlin</artifactId>
       <version>${wutsi-cart.version}</version>
     </dependency>
