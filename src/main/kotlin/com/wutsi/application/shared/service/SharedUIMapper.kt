@@ -2,16 +2,23 @@ package com.wutsi.application.shared.service
 
 import com.wutsi.application.shared.entity.CityEntity
 import com.wutsi.application.shared.model.AccountModel
+import com.wutsi.application.shared.model.CartItemModel
 import com.wutsi.application.shared.model.CategoryModel
+import com.wutsi.application.shared.model.OrderItemModel
 import com.wutsi.application.shared.model.PaymentMethodModel
 import com.wutsi.application.shared.model.PictureModel
 import com.wutsi.application.shared.model.PriceModel
+import com.wutsi.application.shared.model.PriceSummaryModel
 import com.wutsi.application.shared.model.ProductModel
 import com.wutsi.application.shared.model.SavingsModel
 import com.wutsi.application.shared.model.TransactionModel
+import com.wutsi.application.shared.service.TransactionUtil.getText
+import com.wutsi.ecommerce.cart.dto.Cart
 import com.wutsi.ecommerce.catalog.dto.PictureSummary
 import com.wutsi.ecommerce.catalog.dto.Product
 import com.wutsi.ecommerce.catalog.dto.ProductSummary
+import com.wutsi.ecommerce.order.dto.Order
+import com.wutsi.ecommerce.order.dto.OrderItem
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
@@ -23,10 +30,8 @@ import feign.FeignException
 import org.slf4j.LoggerFactory
 import org.springframework.context.i18n.LocaleContextHolder
 import java.text.DecimalFormat
-import java.text.MessageFormat
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.ResourceBundle
 
 open class SharedUIMapper(
     private val accountApi: WutsiAccountApi,
@@ -36,8 +41,74 @@ open class SharedUIMapper(
         private val LOGGER = LoggerFactory.getLogger(SharedUIMapper::class.java)
     }
 
-    private val defaultBundle = ResourceBundle.getBundle("shared-ui-messages")
-    private val frBundle = ResourceBundle.getBundle("shared-ui-messages", Locale("fr"))
+    open fun toPriceSummaryModel(obj: Order, tenant: Tenant): PriceSummaryModel = PriceSummaryModel(
+        itemCount = obj.items.size,
+        subTotal = toPriceModel(obj.subTotalPrice, tenant),
+        total = toPriceModel(obj.totalPrice, tenant),
+        deliveryFees = null,
+        savings = toSavings(obj.totalPrice, obj.subTotalPrice, tenant)
+    )
+
+    open fun toPriceSummaryModel(obj: Cart, products: List<ProductSummary>, tenant: Tenant): PriceSummaryModel {
+        val subTotal = products.sumOf { getQuantity(obj, it.id) * (it.comparablePrice ?: it.price ?: 0.0) }
+        val total = products.sumOf { getQuantity(obj, it.id) * (it.price ?: 0.0) }
+
+        return PriceSummaryModel(
+            itemCount = obj.products.size,
+            subTotal = toPriceModel(subTotal, tenant),
+            total = toPriceModel(total, tenant),
+            deliveryFees = null,
+            savings = toSavings(total, subTotal, tenant)
+        )
+    }
+
+    private fun getQuantity(cart: Cart, productId: Long): Int =
+        cart.products.find { it.productId == productId }?.quantity ?: 0
+
+    open fun toCartItemModel(
+        obj: com.wutsi.ecommerce.cart.dto.Product,
+        product: ProductSummary,
+        tenant: Tenant,
+    ): CartItemModel {
+        val price = product.price ?: 0.0
+        return CartItemModel(
+            title = product.title,
+            unitPrice = toPriceModel(product.price!!, tenant),
+            price = toPriceModel(price * obj.quantity, tenant),
+            comparablePrice = product.comparablePrice?.let {
+                toComparablePrice(
+                    price * obj.quantity,
+                    it * obj.quantity,
+                    tenant
+                )
+            },
+            savings = toSavings(obj.quantity * price, product.comparablePrice?.let { obj.quantity * it }, tenant),
+            thumbnail = toPictureModel(product.thumbnail, tenant.product.defaultPictureUrl),
+            quantity = obj.quantity,
+            quantityInStock = product.quantity,
+            maxQuantity = product.maxOrder ?: obj.quantity
+        )
+    }
+
+    open fun toOrderItemModel(
+        obj: OrderItem,
+        product: ProductSummary,
+        tenant: Tenant,
+    ) = OrderItemModel(
+        title = product.title,
+        unitPrice = toPriceModel(obj.unitPrice, tenant),
+        price = toPriceModel(obj.unitPrice * obj.quantity, tenant),
+        comparablePrice = obj.unitComparablePrice?.let {
+            toComparablePrice(
+                obj.unitPrice * obj.quantity,
+                it * obj.quantity,
+                tenant
+            )
+        },
+        savings = toSavings(obj.quantity * obj.unitPrice, obj.unitComparablePrice?.let { obj.quantity * it }, tenant),
+        thumbnail = toPictureModel(product.thumbnail, tenant.product.defaultPictureUrl),
+        quantity = obj.quantity
+    )
 
     open fun toProductModel(
         obj: ProductSummary,
@@ -77,14 +148,14 @@ open class SharedUIMapper(
         return toPriceModel(comparablePrice, tenant)
     }
 
-    private fun toPriceModel(amount: Double, tenant: Tenant): PriceModel =
+    fun toPriceModel(amount: Double, tenant: Tenant): PriceModel =
         PriceModel(
             amount = amount,
             currency = tenant.currency,
             text = DecimalFormat(tenant.monetaryFormat).format(amount)
         )
 
-    private fun toSavings(
+    fun toSavings(
         price: Double?,
         comparablePrice: Double?,
         tenant: Tenant
@@ -241,20 +312,6 @@ open class SharedUIMapper(
         } catch (ex: FeignException) {
             LOGGER.warn("Unable to resolve Category#$id", ex)
             null
-        }
-    }
-
-    private fun getText(key: String, args: Array<String> = emptyArray()): String {
-        return try {
-            val locale = LocaleContextHolder.getLocale()
-            val bundle = if (locale.language == "fr")
-                frBundle
-            else
-                defaultBundle
-
-            return bundle.getString(MessageFormat.format(key, args))
-        } catch (ex: Exception) {
-            key
         }
     }
 }
