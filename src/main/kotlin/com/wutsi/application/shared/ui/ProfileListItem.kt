@@ -4,6 +4,7 @@ import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.service.StringUtil
 import com.wutsi.flutter.sdui.Action
+import com.wutsi.flutter.sdui.Icon
 import com.wutsi.flutter.sdui.ListItem
 import com.wutsi.flutter.sdui.WidgetAware
 
@@ -20,6 +21,7 @@ class ProfileListItem(
             radius = 24.0,
             model = model
         ),
-        action = action
+        action = action,
+        trailing = action?.let { Icon(code = Theme.ICON_CHEVRON_RIGHT) }
     )
 }
