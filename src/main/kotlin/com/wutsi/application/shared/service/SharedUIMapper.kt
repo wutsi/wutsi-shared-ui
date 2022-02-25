@@ -20,28 +20,20 @@ import com.wutsi.ecommerce.catalog.dto.Product
 import com.wutsi.ecommerce.catalog.dto.ProductSummary
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.order.dto.OrderItem
-import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.Category
 import com.wutsi.platform.account.dto.PaymentMethodSummary
 import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
-import feign.FeignException
-import org.slf4j.LoggerFactory
 import org.springframework.context.i18n.LocaleContextHolder
 import java.text.DecimalFormat
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 open class SharedUIMapper(
-    private val accountApi: WutsiAccountApi,
     private val cityService: CityService,
 ) {
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger(SharedUIMapper::class.java)
-    }
-
     open fun toPriceSummaryModel(obj: Order, tenant: Tenant): PriceSummaryModel = PriceSummaryModel(
         itemCount = obj.items.size,
         subTotal = toPriceModel(obj.subTotalPrice, tenant),
@@ -182,14 +174,13 @@ open class SharedUIMapper(
         url = obj?.url ?: defaultPictureUrl
     )
 
-    open fun toAccountModel(obj: AccountSummary, category: CategorySummary? = null) = AccountModel(
+    open fun toAccountModel(obj: AccountSummary) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
         business = obj.business,
         retail = obj.retail,
         location = toLocationText(null, obj.country),
-        category = toCategoryModel(category),
         businessText = toBusinessText(obj.business, obj.retail)
     )
 
@@ -310,17 +301,4 @@ open class SharedUIMapper(
                 title = it.title
             )
         }
-
-    open fun toCategoryModel(id: Long?): CategoryModel? {
-        if (id == null)
-            return null
-
-        return try {
-            val category = accountApi.getCategory(id).category
-            toCategoryModel(category)
-        } catch (ex: FeignException) {
-            LOGGER.warn("Unable to resolve Category#$id", ex)
-            null
-        }
-    }
 }

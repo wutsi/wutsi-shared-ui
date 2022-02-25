@@ -41,7 +41,7 @@ class ServiceConfiguration(
 
     @Bean
     fun sharedUIMapper(): SharedUIMapper =
-        SharedUIMapper(accountApi, cityService())
+        SharedUIMapper(cityService())
 
     @Bean
     fun urlBuilder(): URLBuilder =
