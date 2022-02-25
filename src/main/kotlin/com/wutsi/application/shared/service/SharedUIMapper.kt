@@ -86,7 +86,7 @@ open class SharedUIMapper(
             thumbnail = toPictureModel(product.thumbnail, tenant.product.defaultPictureUrl),
             quantity = obj.quantity,
             quantityInStock = product.quantity,
-            maxQuantity = product.maxOrder ?: obj.quantity
+            maxQuantity = if (product.maxOrder == null || product.maxOrder == 0) obj.quantity else product.maxOrder!!
         )
     }
 

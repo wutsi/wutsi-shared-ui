@@ -21,7 +21,13 @@ class PriceSummaryCard(
     override fun toWidgetAware(): WidgetAware {
         val children = mutableListOf(
             toRow(
-                getText("shared-ui.price-summary.sub-total", arrayOf(model.itemCount.toString())),
+                getText(
+                    if (model.itemCount > 1)
+                        "shared-ui.price-summary.sub-total-n-products"
+                    else
+                        "shared-ui.price-summary.sub-total",
+                    arrayOf(model.itemCount.toString())
+                ),
                 model.subTotal.text
             ),
             model.deliveryFees?.let {
