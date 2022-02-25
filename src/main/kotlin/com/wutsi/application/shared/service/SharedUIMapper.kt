@@ -14,6 +14,7 @@ import com.wutsi.application.shared.model.SavingsModel
 import com.wutsi.application.shared.model.TransactionModel
 import com.wutsi.application.shared.service.TransactionUtil.getText
 import com.wutsi.ecommerce.cart.dto.Cart
+import com.wutsi.ecommerce.catalog.dto.CategorySummary
 import com.wutsi.ecommerce.catalog.dto.PictureSummary
 import com.wutsi.ecommerce.catalog.dto.Product
 import com.wutsi.ecommerce.catalog.dto.ProductSummary
@@ -181,14 +182,14 @@ open class SharedUIMapper(
         url = obj?.url ?: defaultPictureUrl
     )
 
-    open fun toAccountModel(obj: AccountSummary) = AccountModel(
+    open fun toAccountModel(obj: AccountSummary, category: CategorySummary? = null) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
         business = obj.business,
         retail = obj.retail,
         location = toLocationText(null, obj.country),
-        category = toCategoryModel(obj.categoryId),
+        category = toCategoryModel(category),
         businessText = toBusinessText(obj.business, obj.retail)
     )
 
@@ -293,6 +294,14 @@ open class SharedUIMapper(
         }
         return StringUtil.capitalizeFirstLetter(Locale(locale.language, country).getDisplayCountry(locale))
     }
+
+    open fun toCategoryModel(category: CategorySummary?): CategoryModel? =
+        category?.let {
+            CategoryModel(
+                id = category.id,
+                title = it.title
+            )
+        }
 
     open fun toCategoryModel(category: Category?): CategoryModel? =
         category?.let {
