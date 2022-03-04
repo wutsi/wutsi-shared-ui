@@ -7,14 +7,14 @@ import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class CityService {
+open class CityService {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(CityService::class.java)
     }
 
     private var cities: List<CityEntity>? = null
 
-    fun search(query: String?, countries: List<String>? = null): List<CityEntity> {
+    open fun search(query: String?, countries: List<String>? = null): List<CityEntity> {
         val ascii = StringUtil.unaccent(query)
         return all()
             .filter { accept(it, ascii, countries) }
@@ -25,13 +25,13 @@ class CityService {
         (query == null || city.asciiName.startsWith(query, ignoreCase = true)) &&
             (countries == null || countries.contains(city.country))
 
-    fun all(): List<CityEntity> {
+    open fun all(): List<CityEntity> {
         if (cities == null)
             load()
         return cities ?: emptyList()
     }
 
-    fun get(id: Long?): CityEntity? =
+    open fun get(id: Long?): CityEntity? =
         if (id == null)
             null
         else

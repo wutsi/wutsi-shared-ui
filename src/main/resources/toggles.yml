@@ -7,6 +7,8 @@ wutsi:
     feedback: true               # Feedback enabled?
     logout: true                 # Logout button
     payment: false               # Payment enabled?
+    shipping-email: false        # Email shipping enabled?
+    shipping-international: false # International shipping enabled?
     scan: true                   # Scanning enabled?
     store: false                 # Store enabled?
     switch-environment: false    # Switch between PROD and TEST environment?

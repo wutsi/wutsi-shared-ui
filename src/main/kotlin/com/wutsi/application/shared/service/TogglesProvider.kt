@@ -36,6 +36,12 @@ open class TogglesProvider(
     open fun isSendSmsCodeEnabled(phoneNumber: String): Boolean =
         toggles.sendSmsCode && !isTestPhoneNumber(phoneNumber)
 
+    open fun isShippingEmailEnabled(): Boolean =
+        toggles.shippingEmail
+
+    open fun isShippingInternationalEnabled(): Boolean =
+        toggles.shippingInternational
+
     open fun isStoreEnabled(): Boolean =
         isNotProd() && ((toggles.store && isBusinessAccountEnabled()) || isTester())
 

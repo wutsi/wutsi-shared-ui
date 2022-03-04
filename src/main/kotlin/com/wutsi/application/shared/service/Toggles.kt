@@ -10,6 +10,8 @@ open class Toggles {
     var payment: Boolean = true
     var scan: Boolean = true
     var sendSmsCode: Boolean = true
+    var shippingEmail: Boolean = true
+    var shippingInternational: Boolean = true
     var store: Boolean = true
     var switchEnvironment: Boolean = true
     var verifySmsCode: Boolean = true

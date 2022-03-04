@@ -29,7 +29,7 @@
     <spring-boot.version>2.6.3</spring-boot.version>
     <spring-security.version>5.6.1</spring-security.version>
 
-    <sdui-kotlin.version>0.0.81</sdui-kotlin.version>
+    <sdui-kotlin.version>0.0.83</sdui-kotlin.version>
 
     <!-- Platform -->
     <wutsi-platform-core.version>0.0.101</wutsi-platform-core.version>
@@ -44,7 +44,7 @@
     <!-- e-commerce -->
     <wutsi-cart.version>0.0.5</wutsi-cart.version>
     <wutsi-catalog.version>0.0.26</wutsi-catalog.version>
-    <wutsi-order.version>0.0.7</wutsi-order.version>
+    <wutsi-order.version>0.0.14</wutsi-order.version>
   </properties>
 
   <dependencies>
