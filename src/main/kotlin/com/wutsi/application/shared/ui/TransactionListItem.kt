@@ -27,8 +27,8 @@ class TransactionListItem(
     private fun icon(): WidgetAware? {
         if (model.type == "CASHIN" || model.type == "CASHOUT")
             return Image(
-                width = 24.0,
-                height = 24.0,
+                width = 48.0,
+                height = 48.0,
                 url = model.paymentMethod?.iconUrl ?: ""
             )
         else {
