@@ -2,7 +2,6 @@ wutsi:
   toggles:
     account: false               # Manage account?
     payment: false               # Payment enabled?
-    store: false                 # Store enabled?
     tester-user-ids:
       - 1  # Herve
       - 2  # Louis
