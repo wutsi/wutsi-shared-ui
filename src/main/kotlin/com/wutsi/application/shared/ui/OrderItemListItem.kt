@@ -2,7 +2,7 @@ package com.wutsi.application.shared.ui
 
 import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.OrderItemModel
-import com.wutsi.application.shared.service.TransactionUtil.getText
+import com.wutsi.application.shared.service.TranslationUtil.getText
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Image
 import com.wutsi.flutter.sdui.ListItem

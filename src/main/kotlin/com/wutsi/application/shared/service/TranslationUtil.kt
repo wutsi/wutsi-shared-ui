@@ -5,7 +5,7 @@ import java.text.MessageFormat
 import java.util.Locale
 import java.util.ResourceBundle
 
-object TransactionUtil {
+object TranslationUtil {
     private val defaultBundle = ResourceBundle.getBundle("shared-ui-messages")
     private val frBundle = ResourceBundle.getBundle("shared-ui-messages", Locale("fr"))
 

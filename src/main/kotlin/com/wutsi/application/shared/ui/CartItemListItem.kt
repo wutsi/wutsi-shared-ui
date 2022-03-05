@@ -3,7 +3,7 @@ package com.wutsi.application.shared.ui
 import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.ActionModel
 import com.wutsi.application.shared.model.CartItemModel
-import com.wutsi.application.shared.service.TransactionUtil.getText
+import com.wutsi.application.shared.service.TranslationUtil.getText
 import com.wutsi.flutter.sdui.Button
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container

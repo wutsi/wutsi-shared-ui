@@ -2,6 +2,7 @@ package com.wutsi.application.shared.service
 
 import com.wutsi.application.shared.entity.CityEntity
 import com.wutsi.application.shared.model.AccountModel
+import com.wutsi.application.shared.model.AddressModel
 import com.wutsi.application.shared.model.CartItemModel
 import com.wutsi.application.shared.model.CategoryModel
 import com.wutsi.application.shared.model.OrderItemModel
@@ -11,15 +12,18 @@ import com.wutsi.application.shared.model.PriceModel
 import com.wutsi.application.shared.model.PriceSummaryModel
 import com.wutsi.application.shared.model.ProductModel
 import com.wutsi.application.shared.model.SavingsModel
+import com.wutsi.application.shared.model.ShippingModel
 import com.wutsi.application.shared.model.TransactionModel
-import com.wutsi.application.shared.service.TransactionUtil.getText
+import com.wutsi.application.shared.service.TranslationUtil.getText
 import com.wutsi.ecommerce.cart.dto.Cart
 import com.wutsi.ecommerce.catalog.dto.CategorySummary
 import com.wutsi.ecommerce.catalog.dto.PictureSummary
 import com.wutsi.ecommerce.catalog.dto.Product
 import com.wutsi.ecommerce.catalog.dto.ProductSummary
+import com.wutsi.ecommerce.order.dto.Address
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.order.dto.OrderItem
+import com.wutsi.ecommerce.shipping.dto.Shipping
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.Category
@@ -34,6 +38,36 @@ import java.util.Locale
 open class SharedUIMapper(
     private val cityService: CityService,
 ) {
+    open fun toShippingModel(order: Order, shipping: Shipping, tenant: Tenant): ShippingModel {
+        val locale = LocaleContextHolder.getLocale()
+
+        return ShippingModel(
+            type = getText("shipping.type.${shipping.type}"),
+            expectedDelivered = order.expectedDelivered?.let {
+                DateTimeFormatter.ofPattern(tenant.dateFormat, locale).format(it)
+            },
+            message = shipping.message,
+            rate = if (shipping.rate == null || shipping.rate == 0.0)
+                getText("label.free")
+            else
+                DecimalFormat(tenant.monetaryFormat).format(shipping.rate!!)
+        )
+    }
+
+    open fun toAddressModel(address: Address): AddressModel {
+        val locale = LocaleContextHolder.getLocale()
+        val city = address.cityId?.let { cityService.get(it) }
+        val country = Locale("en", city?.country ?: address.country).getDisplayCountry(locale)
+
+        return AddressModel(
+            fullName = "${address.firstName} ${address.lastName}".trim(),
+            street = if (address.street.isNullOrEmpty()) null else address.street,
+            location = city?.let { "${city.name}, $country" } ?: country,
+            zipCode = address.zipCode,
+            email = address.email
+        )
+    }
+
     open fun toPriceSummaryModel(obj: Order, tenant: Tenant): PriceSummaryModel = PriceSummaryModel(
         itemCount = obj.items.size,
         subTotal = toPriceModel(obj.subTotalPrice, tenant),
