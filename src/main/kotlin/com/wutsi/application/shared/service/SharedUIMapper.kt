@@ -72,7 +72,7 @@ open class SharedUIMapper(
         itemCount = obj.items.size,
         subTotal = toPriceModel(obj.subTotalPrice, tenant),
         total = toPriceModel(obj.totalPrice, tenant),
-        deliveryFees = null,
+        deliveryFees = toPriceModel(obj.deliveryFees, tenant),
         savings = toSavings(obj.totalPrice, obj.subTotalPrice, tenant)
     )
 
