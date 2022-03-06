@@ -16,7 +16,7 @@ open class TogglesProvider(
         toggles.business
 
     open fun isCartEnabled(): Boolean =
-        isNotProd() && (toggles.cart || isTester())
+        toggles.cart || isTester()
 
     open fun isContactEnabled(): Boolean =
         toggles.contact
@@ -43,7 +43,7 @@ open class TogglesProvider(
         toggles.shippingInternational
 
     open fun isStoreEnabled(): Boolean =
-        isNotProd() && ((toggles.store && isBusinessAccountEnabled()) || isTester())
+        toggles.store || isTester()
 
     open fun isSwitchEnvironmentEnabled(): Boolean =
         toggles.switchEnvironment || isTester()
