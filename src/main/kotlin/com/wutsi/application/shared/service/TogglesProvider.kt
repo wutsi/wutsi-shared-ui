@@ -1,6 +1,5 @@
 package com.wutsi.application.shared.service
 
-import com.wutsi.platform.account.dto.Account
 import org.springframework.core.env.Environment
 import org.springframework.core.env.Profiles
 
@@ -27,8 +26,8 @@ open class TogglesProvider(
     open fun isLogoutEnabled(): Boolean =
         toggles.logout
 
-    open fun isPaymentEnabled(account: Account): Boolean =
-        isNotProd() && (account.business && (toggles.payment || isTester(account.id)))
+    open fun isPaymentEnabled(): Boolean =
+        isNotProd() && (toggles.payment || isTester())
 
     open fun isScanEnabled(): Boolean =
         toggles.scan
