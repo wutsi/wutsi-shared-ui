@@ -52,14 +52,9 @@ class TransactionListItem(
     }
 
     private fun amount(): WidgetAware {
-        val amount = if ((model.feesToSender && isSender()) || (!model.feesToSender && isRecipient()))
-            model.amount
-        else
-            model.net
-
         val children = mutableListOf(
             Text(
-                caption = amount.text,
+                caption = model.amount.text,
                 bold = true,
                 color = getColor(),
                 alignment = TextAlignment.Right
