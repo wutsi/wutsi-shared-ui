@@ -256,7 +256,6 @@ open class SharedUIMapper(
         tenant: Tenant,
         tenantProvider: TenantProvider,
     ): TransactionModel {
-        val fmt = DecimalFormat(tenant.monetaryFormat)
         val locale = LocaleContextHolder.getLocale()
         val timezoneId = currentUser?.timezoneId
         return TransactionModel(
@@ -264,16 +263,17 @@ open class SharedUIMapper(
             type = obj.type,
             status = obj.status,
             statusText = getText("shared-ui.transaction.status.${obj.status}"),
-            amountText = fmt.format(obj.amount),
-            netText = fmt.format(obj.net),
-            feesText = fmt.format(obj.fees),
+            amount = toPriceModel(obj.amount, tenant),
+            net = toPriceModel(obj.net, tenant),
+            fees = toPriceModel(obj.fees, tenant),
             recipient = accounts[obj.recipientId]?.let { toAccountModel(it) },
             account = accounts[obj.accountId]?.let { toAccountModel(it) },
             paymentMethod = paymentMethod?.let { toPaymentMethodModel(it, tenant, tenantProvider) },
-            description = toDescription(obj, currentUser?.id),
+            description = toDescription(obj),
             createdText = DateTimeUtil.convert(obj.created, timezoneId)
                 .format(DateTimeFormatter.ofPattern(tenant.dateFormat, locale)),
-            currentUserId = currentUser?.id ?: -1
+            currentUserId = currentUser?.id ?: -1,
+            feesToSender = obj.feesToSender,
         )
     }
 
@@ -292,22 +292,8 @@ open class SharedUIMapper(
         )
     }
 
-    private fun toDescription(
-        obj: TransactionSummary,
-        currentUserId: Long?,
-    ): String =
-        if (obj.type == "CASHIN") {
-            getText("shared-ui.transaction.type.CASHIN")
-        } else if (obj.type == "CASHOUT") {
-            getText("shared-ui.transaction.type.CASHOUT")
-        } else if (obj.type == "PAYMENT") {
-            getText("shared-ui.transaction.type.PAYMENT")
-        } else {
-            if (obj.recipientId == currentUserId)
-                getText("shared-ui.transaction.type.TRANSFER.receive")
-            else
-                getText("shared-ui.transaction.type.TRANSFER.send")
-        }
+    private fun toDescription(obj: TransactionSummary): String =
+        getText("shared-ui.transaction.type.${obj.type}")
 
     open fun toLocationText(city: CityEntity?, country: String): String {
         val locale = LocaleContextHolder.getLocale()

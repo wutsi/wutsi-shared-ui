@@ -11,6 +11,8 @@ import com.wutsi.flutter.sdui.WidgetAware
 import com.wutsi.flutter.sdui.enums.CrossAxisAlignment
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.TextAlignment
+import com.wutsi.platform.payment.core.Status
+import com.wutsi.platform.payment.entity.TransactionType
 
 class TransactionListItem(
     private val model: TransactionModel,
@@ -24,15 +26,23 @@ class TransactionListItem(
         action = action
     )
 
+    private fun isCashIn() = model.type == TransactionType.CASHIN.name
+
+    private fun isCashOut() = model.type == TransactionType.CASHOUT.name
+
+    private fun isSender() = model.account?.id == model.currentUserId
+
+    private fun isRecipient() = model.recipient?.id == model.currentUserId
+
     private fun icon(): WidgetAware? {
-        if (model.type == "CASHIN" || model.type == "CASHOUT")
+        if (isCashIn() || isCashOut())
             return Image(
                 width = 48.0,
                 height = 48.0,
                 url = model.paymentMethod?.iconUrl ?: ""
             )
         else {
-            val account = if (model.account?.id == model.currentUserId)
+            val account = if (isSender())
                 model.recipient
             else
                 model.account
@@ -42,12 +52,14 @@ class TransactionListItem(
     }
 
     private fun amount(): WidgetAware {
+        val amount = if ((model.feesToSender && isSender()) || (!model.feesToSender && isRecipient()))
+            model.amount
+        else
+            model.net
+
         val children = mutableListOf(
             Text(
-                caption = if (model.recipient?.id == model.currentUserId)
-                    model.netText
-                else
-                    model.amountText,
+                caption = amount.text,
                 bold = true,
                 color = getColor(),
                 alignment = TextAlignment.Right
@@ -58,7 +70,7 @@ class TransactionListItem(
                 alignment = TextAlignment.Right
             ),
         )
-        if (model.status != "SUCCESSFUL")
+        if (model.status != Status.SUCCESSFUL.name)
             children.add(
                 Text(
                     caption = model.statusText,
@@ -77,12 +89,12 @@ class TransactionListItem(
 
     private fun getColor(): String =
         when (model.status.uppercase()) {
-            "FAILED" -> Theme.COLOR_DANGER
-            "PENDING" -> Theme.COLOR_WARNING
+            Status.FAILED.name -> Theme.COLOR_DANGER
+            Status.PENDING.name -> Theme.COLOR_WARNING
             else -> when (model.type.uppercase()) {
-                "CASHIN" -> Theme.COLOR_SUCCESS
-                "CASHOUT" -> Theme.COLOR_DANGER
-                else -> if (model.recipient?.id == model.currentUserId)
+                TransactionType.CASHIN.name -> Theme.COLOR_SUCCESS
+                TransactionType.CASHOUT.name -> Theme.COLOR_DANGER
+                else -> if (isRecipient())
                     Theme.COLOR_SUCCESS
                 else
                     Theme.COLOR_DANGER
@@ -90,10 +102,10 @@ class TransactionListItem(
         }
 
     private fun getSubCaption(): String? {
-        if (model.type == "CASHIN" || model.type == "CASHOUT") {
+        if (isCashIn() || isCashOut()) {
             return model.paymentMethod?.phoneNumber
         } else {
-            return if (model.account?.id == model.currentUserId)
+            return if (isSender())
                 model.recipient?.displayName
             else
                 model.account?.displayName
