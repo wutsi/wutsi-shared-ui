@@ -20,6 +20,9 @@ open class TogglesProvider(
     open fun isContactEnabled(): Boolean =
         toggles.contact
 
+    open fun isDigitalProductEnabled(): Boolean =
+        toggles.digitalProduct
+
     open fun isFeedbackEnabled(): Boolean =
         toggles.feedback
 
@@ -34,9 +37,6 @@ open class TogglesProvider(
 
     open fun isSendSmsCodeEnabled(phoneNumber: String): Boolean =
         toggles.sendSmsCode && !isTestPhoneNumber(phoneNumber)
-
-    open fun isShippingEmailEnabled(): Boolean =
-        toggles.shippingEmail
 
     open fun isShippingInternationalEnabled(): Boolean =
         toggles.shippingInternational
