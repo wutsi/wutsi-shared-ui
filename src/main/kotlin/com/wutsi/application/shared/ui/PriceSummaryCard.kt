@@ -16,10 +16,11 @@ import com.wutsi.flutter.sdui.enums.TextAlignment
 
 class PriceSummaryCard(
     private val model: PriceSummaryModel,
-    private val action: ActionModel? = null
+    private val action: ActionModel? = null,
+    private val showPaymentStatus: Boolean = false,
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware {
-        val children = mutableListOf(
+        val children = mutableListOf<WidgetAware?>(
             toRow(
                 getText(
                     if (model.itemCount > 1)
@@ -51,6 +52,29 @@ class PriceSummaryCard(
                 ),
             ),
         )
+
+        if (showPaymentStatus)
+            children.addAll(
+                listOf(
+                    Container(
+                        background = Theme.COLOR_PRIMARY_LIGHT,
+                        child = toRow(
+                            getText("shared-ui.price-summary.total-paid"),
+                            model.totalPaid.text,
+                            true,
+                        ),
+                    ),
+                    Container(
+                        background = Theme.COLOR_PRIMARY_LIGHT,
+                        child = toRow(
+                            getText("shared-ui.price-summary.balance"),
+                            model.balance.text,
+                            true,
+                            if (model.paid) Theme.COLOR_SUCCESS else null
+                        ),
+                    )
+                )
+            )
 
         if (action != null)
             children.addAll(

@@ -23,6 +23,7 @@ import com.wutsi.ecommerce.catalog.dto.ProductSummary
 import com.wutsi.ecommerce.order.dto.Address
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.order.dto.OrderItem
+import com.wutsi.ecommerce.order.entity.PaymentStatus
 import com.wutsi.ecommerce.shipping.dto.Shipping
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
@@ -73,7 +74,10 @@ open class SharedUIMapper(
         subTotal = toPriceModel(obj.subTotalPrice, tenant),
         total = toPriceModel(obj.totalPrice, tenant),
         deliveryFees = toPriceModel(obj.deliveryFees, tenant),
-        savings = toSavings(obj.totalPrice, obj.subTotalPrice, tenant)
+        savings = toSavings(obj.totalPrice, obj.subTotalPrice, tenant),
+        paid = obj.paymentStatus == PaymentStatus.PAID.name,
+        totalPaid = toPriceModel(obj.totalPaid, tenant),
+        balance = toPriceModel(obj.totalPaid - obj.totalPrice, tenant)
     )
 
     open fun toPriceSummaryModel(obj: Cart, products: List<ProductSummary>, tenant: Tenant): PriceSummaryModel {
@@ -85,7 +89,10 @@ open class SharedUIMapper(
             subTotal = toPriceModel(subTotal, tenant),
             total = toPriceModel(total, tenant),
             deliveryFees = null,
-            savings = toSavings(total, subTotal, tenant)
+            savings = toSavings(total, subTotal, tenant),
+            paid = false,
+            totalPaid = PriceModel(),
+            balance = toPriceModel(total, tenant),
         )
     }
 
