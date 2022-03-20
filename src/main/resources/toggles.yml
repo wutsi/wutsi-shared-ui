@@ -4,10 +4,10 @@ wutsi:
     business: true               # Business account enabled?
     cart: true                   # Cart enabled?
     contact: true                # Contacts enabled?
+    digital-product: false       # Digital products enabled?
     feedback: true               # Feedback enabled?
     logout: true                 # Logout button
     payment: false               # Payment enabled?
-    shipping-email: true         # Email shipping enabled?
     shipping-international: false # International shipping enabled?
     scan: true                   # Scanning enabled?
     store: true                  # Store enabled?
