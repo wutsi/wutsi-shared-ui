@@ -24,7 +24,7 @@ object Theme {
     const val ICON_CART = "f37f"
     const val ICON_CASHIN = "e3f8"
     const val ICON_CASHOUT = "e3f8"
-    const val ICON_CATEGORY = "e148"
+    const val ICON_CATEGORY = "ef37"
     const val ICON_CHAT = "ef42"
     const val ICON_CHECK = "e156"
     const val ICON_CHECK_CIRCLE = "ef48"
