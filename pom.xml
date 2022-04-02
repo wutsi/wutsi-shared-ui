@@ -23,7 +23,7 @@
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <klint.version>0.45.1</klint.version>
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
-    <libphonenumber.version>8.12.45</libphonenumber.version>
+    <libphonenumber.version>8.12.46</libphonenumber.version>
     <spring.version>5.3.17</spring.version>
     <spring-boot.version>2.6.5</spring-boot.version>
     <spring-security.version>5.6.2</spring-security.version>
