@@ -8,6 +8,7 @@ open class Toggles {
     var digitalProduct: Boolean = false
     var feedback: Boolean = false
     var logout: Boolean = false
+    var order: Boolean = false
     var payment: Boolean = false
     var scan: Boolean = false
     var sendSmsCode: Boolean = false

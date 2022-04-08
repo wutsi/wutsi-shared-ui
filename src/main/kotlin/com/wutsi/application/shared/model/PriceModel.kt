@@ -4,4 +4,6 @@ data class PriceModel(
     val amount: Double = 0.0,
     val currency: String = "",
     val text: String = "",
+    val numberFormat: String? = null,
+    val currencySymbol: String = ""
 )

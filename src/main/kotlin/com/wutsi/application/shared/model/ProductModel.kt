@@ -10,5 +10,5 @@ data class ProductModel(
     val thumbnail: PictureModel? = null,
     val pictures: List<PictureModel>? = null,
     val savings: SavingsModel? = null,
-    val visible: Boolean = true
+    val merchant: AccountModel? = null,
 )

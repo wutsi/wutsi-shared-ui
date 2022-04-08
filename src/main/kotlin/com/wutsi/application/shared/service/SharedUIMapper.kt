@@ -147,6 +147,7 @@ open class SharedUIMapper(
     open fun toProductModel(
         obj: ProductSummary,
         tenant: Tenant,
+        merchant: AccountSummary? = null
     ) = ProductModel(
         id = obj.id,
         title = obj.title,
@@ -154,7 +155,8 @@ open class SharedUIMapper(
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice, tenant),
-        thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl)
+        thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl),
+        merchant = merchant?.let { toAccountModel(merchant) }
     )
 
     open fun toProductModel(
@@ -169,7 +171,6 @@ open class SharedUIMapper(
         savings = toSavings(obj.price, obj.comparablePrice, tenant),
         thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl),
         pictures = obj.pictures.map { toPictureModel(it, tenant.product.defaultPictureUrl) },
-        visible = obj.visible
     )
 
     private fun toComparablePrice(price: Double?, comparablePrice: Double?, tenant: Tenant): PriceModel? {
@@ -186,7 +187,9 @@ open class SharedUIMapper(
         PriceModel(
             amount = amount,
             currency = tenant.currency,
-            text = DecimalFormat(tenant.monetaryFormat).format(amount)
+            text = DecimalFormat(tenant.monetaryFormat).format(amount),
+            currencySymbol = tenant.currencySymbol,
+            numberFormat = tenant.numberFormat
         )
 
     fun toSavings(
@@ -202,10 +205,6 @@ open class SharedUIMapper(
                     value = value,
                     percent = percent,
                     text = DecimalFormat(tenant.monetaryFormat).format(value),
-                    percentText = getText(
-                        "shared-ui.product.saving.percentage",
-                        arrayOf(percent.toString())
-                    )
                 )
         }
         return null

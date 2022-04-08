@@ -1,7 +1,9 @@
 wutsi:
   toggles:
     account: false               # Manage account?
-    payment: false               # Payment enabled?
+    payment: false               # Payment disabled
+    order: false                 # Order disabled (until we have integrated a payment provider)
+    cart: false                  # Disabled cart (until we have integrated a payment provider)
     tester-user-ids:
       - 1  # Herve
       - 2  # Louis

@@ -7,6 +7,7 @@ wutsi:
     digital-product: false       # Digital products enabled?
     feedback: true               # Feedback enabled?
     logout: true                 # Logout button
+    order: true                  # Orders Enabled?
     payment: false               # Payment enabled?
     shipping-international: false # International shipping enabled?
     scan: true                   # Scanning enabled?

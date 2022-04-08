@@ -29,8 +29,11 @@ open class TogglesProvider(
     open fun isLogoutEnabled(): Boolean =
         toggles.logout
 
+    open fun isOrderEnabled(): Boolean =
+        toggles.order
+
     open fun isPaymentEnabled(): Boolean =
-        isNotProd() && (toggles.payment || isTester())
+        toggles.payment
 
     open fun isScanEnabled(): Boolean =
         toggles.scan
@@ -42,7 +45,7 @@ open class TogglesProvider(
         toggles.shippingInternational
 
     open fun isStoreEnabled(): Boolean =
-        toggles.store || isTester()
+        toggles.store
 
     open fun isSwitchEnvironmentEnabled(): Boolean =
         toggles.switchEnvironment || isTester()
