@@ -1,6 +1,5 @@
 wutsi:
   toggles:
-    account: false               # Manage account?
     payment: false               # Payment disabled
     order: false                 # Order disabled (until we have integrated a payment provider)
     cart: false                  # Disabled cart (until we have integrated a payment provider)
