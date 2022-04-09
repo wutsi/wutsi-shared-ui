@@ -15,7 +15,7 @@ open class TogglesProvider(
         toggles.business
 
     open fun isCartEnabled(): Boolean =
-        toggles.cart || isTester()
+        toggles.cart
 
     open fun isContactEnabled(): Boolean =
         toggles.contact
