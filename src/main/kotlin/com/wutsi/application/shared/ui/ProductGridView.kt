@@ -1,5 +1,6 @@
 package com.wutsi.application.shared.ui
 
+import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.model.ProductModel
 import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.Column
@@ -67,9 +68,11 @@ class ProductGridView(
         savingsPercentageThreshold = savingsPercentageThreshold,
         model = model,
         action = actionProvider.getAction(model),
+        merchantAction = model.merchant?.let { actionProvider.getAction(it) }
     )
 }
 
 interface ProductActionProvider {
     fun getAction(model: ProductModel): Action
+    fun getAction(model: AccountModel): Action?
 }

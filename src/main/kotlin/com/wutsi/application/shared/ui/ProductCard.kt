@@ -3,6 +3,7 @@ package com.wutsi.application.shared.ui
 import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.ProductModel
 import com.wutsi.application.shared.service.StringUtil
+import com.wutsi.application.shared.service.TranslationUtil.getText
 import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.AspectRatio
 import com.wutsi.flutter.sdui.Column
@@ -18,12 +19,14 @@ import com.wutsi.flutter.sdui.enums.BoxFit
 import com.wutsi.flutter.sdui.enums.CrossAxisAlignment
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.TextAlignment
+import com.wutsi.flutter.sdui.enums.TextDecoration
 import com.wutsi.flutter.sdui.enums.TextOverflow
 
 class ProductCard(
     private val model: ProductModel,
     private val savingsPercentageThreshold: Int = 1,
     private val action: Action? = null,
+    private val merchantAction: Action? = null,
     private val margin: Double? = null,
 ) : CompositeWidgetAware() {
     companion object {
@@ -126,16 +129,26 @@ class ProductCard(
 
     private fun toMerchantWidget(): WidgetAware? =
         model.merchant?.let {
-            Row(
-                mainAxisAlignment = MainAxisAlignment.end,
-                crossAxisAlignment = CrossAxisAlignment.end,
-                children = listOfNotNull(
-                    Container(
-                        padding = PADDING,
-                        child = Text(
-                            caption = it.displayName ?: "",
+            Container(
+                padding = PADDING,
+                child = Row(
+                    mainAxisAlignment = MainAxisAlignment.end,
+                    crossAxisAlignment = CrossAxisAlignment.end,
+                    children = listOfNotNull(
+                        Text(
+                            caption = getText("shared-ui.product.sold-by") + ":",
                             size = Theme.TEXT_SIZE_SMALL,
-                            alignment = TextAlignment.Right
+                        ),
+                        Container(
+                            child = Text(
+                                caption = it.displayName ?: "",
+                                size = Theme.TEXT_SIZE_SMALL,
+                                alignment = TextAlignment.Right,
+                                color = if (merchantAction != null) Theme.COLOR_PRIMARY else null,
+                                decoration = if (merchantAction != null) TextDecoration.Underline else null,
+                                overflow = TextOverflow.Elipsis
+                            ),
+                            action = merchantAction
                         )
                     )
                 )
