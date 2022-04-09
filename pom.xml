@@ -13,7 +13,7 @@
   <properties>
     <jacoco.threshold.line>0.30</jacoco.threshold.line>
     <jacoco.threshold.class>0.30</jacoco.threshold.class>
-    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     <jdk.version>11</jdk.version>
 
     <commons-csv.version>1.9.0</commons-csv.version>
