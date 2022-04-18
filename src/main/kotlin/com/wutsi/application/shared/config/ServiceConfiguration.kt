@@ -8,6 +8,7 @@ import com.wutsi.application.shared.service.SharedUIMapper
 import com.wutsi.application.shared.service.TenantProvider
 import com.wutsi.application.shared.service.URLBuilder
 import com.wutsi.platform.account.WutsiAccountApi
+import com.wutsi.platform.core.image.ImageService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.LocaleResolver
 class ServiceConfiguration(
     private val tenantProvider: TenantProvider,
     private val accountApi: WutsiAccountApi,
+    private val imageService: ImageService,
     private val env: Environment,
 
     @Value("\${wutsi.application.server-url}") private val serverUrl: String,
@@ -48,7 +50,7 @@ class ServiceConfiguration(
 
     @Bean
     fun sharedUIMapper(): SharedUIMapper =
-        SharedUIMapper(cityService())
+        SharedUIMapper(cityService(), imageService)
 
     @Bean
     fun urlBuilder(): URLBuilder =

@@ -29,6 +29,10 @@ import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.Category
 import com.wutsi.platform.account.dto.PaymentMethodSummary
+import com.wutsi.platform.core.image.Dimension
+import com.wutsi.platform.core.image.Focus
+import com.wutsi.platform.core.image.ImageService
+import com.wutsi.platform.core.image.Transformation
 import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
 import org.springframework.context.i18n.LocaleContextHolder
@@ -38,7 +42,15 @@ import java.util.Locale
 
 open class SharedUIMapper(
     private val cityService: CityService,
+    private val imageService: ImageService,
 ) {
+    companion object {
+        private const val THUMBNAIL_WIDTH = 250
+        private const val THUMBNAIL_HEIGHT = 250
+        private const val IMAGE_WIDTH = 600
+        private const val IMAGE_HEIGHT = 450
+    }
+
     open fun toShippingModel(order: Order, shipping: Shipping, tenant: Tenant): ShippingModel {
         val locale = LocaleContextHolder.getLocale()
 
@@ -117,7 +129,12 @@ open class SharedUIMapper(
                 )
             },
             savings = toSavings(obj.quantity * price, product.comparablePrice?.let { obj.quantity * it }, tenant),
-            thumbnail = toPictureModel(product.thumbnail, tenant.product.defaultPictureUrl),
+            thumbnail = toPictureModel(
+                product.thumbnail,
+                tenant.product.defaultPictureUrl,
+                width = THUMBNAIL_WIDTH,
+                height = THUMBNAIL_HEIGHT
+            ),
             quantity = obj.quantity,
             quantityInStock = product.quantity,
             maxQuantity = if (product.maxOrder == null || product.maxOrder == 0) obj.quantity else product.maxOrder!!
@@ -140,7 +157,12 @@ open class SharedUIMapper(
             )
         },
         savings = toSavings(obj.quantity * obj.unitPrice, obj.unitComparablePrice?.let { obj.quantity * it }, tenant),
-        thumbnail = toPictureModel(product.thumbnail, tenant.product.defaultPictureUrl),
+        thumbnail = toPictureModel(
+            obj = product.thumbnail,
+            defaultPictureUrl = tenant.product.defaultPictureUrl,
+            width = THUMBNAIL_WIDTH,
+            height = THUMBNAIL_HEIGHT
+        ),
         quantity = obj.quantity
     )
 
@@ -155,7 +177,12 @@ open class SharedUIMapper(
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice, tenant),
-        thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl),
+        thumbnail = toPictureModel(
+            obj = obj.thumbnail,
+            defaultPictureUrl = tenant.product.defaultPictureUrl,
+            width = THUMBNAIL_WIDTH,
+            height = THUMBNAIL_HEIGHT
+        ),
         merchant = merchant?.let { toAccountModel(merchant) }
     )
 
@@ -169,8 +196,19 @@ open class SharedUIMapper(
         price = obj.price?.let { toPriceModel(it, tenant) },
         comparablePrice = toComparablePrice(obj.price, obj.comparablePrice, tenant),
         savings = toSavings(obj.price, obj.comparablePrice, tenant),
-        thumbnail = toPictureModel(obj.thumbnail, tenant.product.defaultPictureUrl),
-        pictures = obj.pictures.map { toPictureModel(it, tenant.product.defaultPictureUrl) },
+        thumbnail = toPictureModel(
+            obj = obj.thumbnail,
+            defaultPictureUrl = tenant.product.defaultPictureUrl,
+            width = THUMBNAIL_WIDTH,
+            height = THUMBNAIL_HEIGHT
+        ),
+        pictures = obj.pictures.map {
+            toPictureModel(
+                obj = it,
+                defaultPictureUrl = tenant.product.defaultPictureUrl,
+                height = IMAGE_HEIGHT
+            )
+        },
     )
 
     private fun toComparablePrice(price: Double?, comparablePrice: Double?, tenant: Tenant): PriceModel? {
@@ -210,8 +248,21 @@ open class SharedUIMapper(
         return null
     }
 
-    private fun toPictureModel(obj: PictureSummary?, defaultPictureUrl: String) = PictureModel(
-        url = obj?.url ?: defaultPictureUrl
+    private fun toPictureModel(
+        obj: PictureSummary?,
+        defaultPictureUrl: String,
+        width: Int? = null,
+        height: Int? = null
+    ) = PictureModel(
+        url = obj?.url?.let {
+            imageService.transform(
+                url = it,
+                transformation = Transformation(
+                    dimension = Dimension(width = width, height = height),
+                    focus = Focus.AUTO
+                )
+            )
+        } ?: defaultPictureUrl
     )
 
     open fun toAccountModel(obj: AccountSummary) = AccountModel(
