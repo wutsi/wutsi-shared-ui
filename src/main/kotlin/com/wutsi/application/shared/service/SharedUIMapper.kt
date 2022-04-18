@@ -45,9 +45,7 @@ open class SharedUIMapper(
     private val imageService: ImageService,
 ) {
     companion object {
-        private const val THUMBNAIL_WIDTH = 250
         private const val THUMBNAIL_HEIGHT = 250
-        private const val IMAGE_WIDTH = 600
         private const val IMAGE_HEIGHT = 450
     }
 
@@ -132,7 +130,6 @@ open class SharedUIMapper(
             thumbnail = toPictureModel(
                 product.thumbnail,
                 tenant.product.defaultPictureUrl,
-                width = THUMBNAIL_WIDTH,
                 height = THUMBNAIL_HEIGHT
             ),
             quantity = obj.quantity,
@@ -160,7 +157,6 @@ open class SharedUIMapper(
         thumbnail = toPictureModel(
             obj = product.thumbnail,
             defaultPictureUrl = tenant.product.defaultPictureUrl,
-            width = THUMBNAIL_WIDTH,
             height = THUMBNAIL_HEIGHT
         ),
         quantity = obj.quantity
@@ -180,7 +176,6 @@ open class SharedUIMapper(
         thumbnail = toPictureModel(
             obj = obj.thumbnail,
             defaultPictureUrl = tenant.product.defaultPictureUrl,
-            width = THUMBNAIL_WIDTH,
             height = THUMBNAIL_HEIGHT
         ),
         merchant = merchant?.let { toAccountModel(merchant) }
@@ -199,7 +194,6 @@ open class SharedUIMapper(
         thumbnail = toPictureModel(
             obj = obj.thumbnail,
             defaultPictureUrl = tenant.product.defaultPictureUrl,
-            width = THUMBNAIL_WIDTH,
             height = THUMBNAIL_HEIGHT
         ),
         pictures = obj.pictures.map {
