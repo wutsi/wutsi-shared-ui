@@ -75,7 +75,7 @@ class CartItemListItem(
                                     children = listOf(
                                         Icon(code = Theme.ICON_CANCEL, color = Theme.COLOR_DANGER),
                                         Text(
-                                            getText("shared-ui.cart-item-list.out-of-stock"),
+                                            caption = getText("shared-ui.cart-list-item.out-of-stock"),
                                             color = Theme.COLOR_DANGER,
                                             size = Theme.TEXT_SIZE_SMALL
                                         )
