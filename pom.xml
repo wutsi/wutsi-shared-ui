@@ -40,7 +40,9 @@
     <wutsi-qr.version>0.0.10</wutsi-qr.version>
     <wutsi-sms.version>1.0.10</wutsi-sms.version>
     <wutsi-tenant.version>0.0.29</wutsi-tenant.version>
-    <wutsi-tracking.version>0.0.11</wutsi-tracking.version>
+
+    <!-- Analytics -->
+    <wutsi-tracking.version>0.0.12</wutsi-tracking.version>
 
     <!-- e-commerce -->
     <wutsi-cart.version>0.0.5</wutsi-cart.version>
