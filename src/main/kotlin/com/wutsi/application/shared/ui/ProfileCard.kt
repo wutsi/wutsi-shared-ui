@@ -25,7 +25,7 @@ class ProfileCard(
     private val model: AccountModel,
     private val showWebsite: Boolean = true,
     private val showPhoneNumber: Boolean = true,
-    private val type: ProfileCardType = ProfileCardType.Full
+    private val type: ProfileCardType = ProfileCardType.FULL
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware {
         var pad = 0
@@ -80,7 +80,7 @@ class ProfileCard(
         }
 
         // Bio
-        if (!model.biography.isNullOrEmpty() && type == ProfileCardType.Full)
+        if (!model.biography.isNullOrEmpty() && type == ProfileCardType.FULL)
             children.add(
                 Container(
                     padding = if (pad++ % 2 == 0) 10.0 else null,
@@ -93,7 +93,7 @@ class ProfileCard(
             )
 
         // Web site
-        if (showWebsite && !model.website.isNullOrEmpty() && type == ProfileCardType.Full)
+        if (showWebsite && !model.website.isNullOrEmpty() && type == ProfileCardType.FULL)
             children.add(
                 Container(
                     padding = if (pad++ % 2 == 0) 10.0 else null,
@@ -111,7 +111,7 @@ class ProfileCard(
             )
 
         // More
-        if (type == ProfileCardType.Full) {
+        if (type == ProfileCardType.FULL) {
             val more = mutableListOf<WidgetAware>()
             if (!model.location.isNullOrEmpty()) {
                 more.add(

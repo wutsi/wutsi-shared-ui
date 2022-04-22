@@ -28,31 +28,37 @@ class ProductCard(
     private val action: Action? = null,
     private val merchantAction: Action? = null,
     private val margin: Double? = null,
+    private val type: ProductCardType = ProductCardType.FULL
 ) : CompositeWidgetAware() {
     companion object {
         const val PADDING = 5.0
     }
 
-    override fun toWidgetAware(): WidgetAware = Container(
-        border = 0.2,
-        borderColor = Theme.COLOR_DIVIDER,
-        action = action,
-        margin = margin,
-        child = Column(
-            mainAxisAlignment = MainAxisAlignment.start,
-            crossAxisAlignment = CrossAxisAlignment.start,
-            children = listOfNotNull(
-                toThumbnailWidget(),
-                toInfoWidget(),
-                toMerchantWidget()
+    override fun toWidgetAware(): WidgetAware {
+        val children = mutableListOf<WidgetAware>()
+        children.add(toThumbnailWidget())
+        if (type == ProductCardType.FULL)
+            children.addAll(
+                listOfNotNull(
+                    toInfoWidget(),
+                    toMerchantWidget()
+                )
             )
-        ),
-    )
 
-    private fun toThumbnailWidget(): WidgetAware? {
-        if (model.thumbnail?.url == null)
-            return null
+        return Container(
+            border = 0.2,
+            borderColor = Theme.COLOR_DIVIDER,
+            action = action,
+            margin = margin,
+            child = Column(
+                mainAxisAlignment = MainAxisAlignment.start,
+                crossAxisAlignment = CrossAxisAlignment.start,
+                children = children.filterNotNull()
+            ),
+        )
+    }
 
+    private fun toThumbnailWidget(): WidgetAware {
         return Container(
             background = Theme.COLOR_GRAY_LIGHT,
             child = Stack(
@@ -64,7 +70,7 @@ class ProductCard(
                             aspectRatio = 4.0 / 3.0,
                             child = Container(
                                 child = Image(
-                                    url = model.thumbnail.url,
+                                    url = model.thumbnail!!.url,
                                     fit = BoxFit.fitHeight,
                                 )
                             )
@@ -86,6 +92,26 @@ class ProductCard(
                                 ),
                             )
                         )
+                    else
+                        null,
+
+                    if (type == ProductCardType.SUMMARY)
+                        model.price?.let {
+                            Positioned(
+                                left = PADDING,
+                                bottom = PADDING,
+                                child = Container(
+                                    background = Theme.COLOR_WHITE,
+                                    borderRadius = 2.0,
+                                    padding = 4.0,
+                                    child = Text(
+                                        caption = it.text,
+                                        size = Theme.TEXT_SIZE_SMALL,
+                                        color = Theme.COLOR_PRIMARY,
+                                    ),
+                                )
+                            )
+                        }
                     else
                         null,
                 )

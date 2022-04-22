@@ -17,7 +17,8 @@ class ProductGridView(
     private val savingsPercentageThreshold: Int = 1,
     private val productsPerRow: Int = 2,
     private val spacing: Double = 5.0,
-    private val actionProvider: ProductActionProvider
+    private val actionProvider: ProductActionProvider,
+    private val type: ProductCardType = ProductCardType.FULL
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware {
         val productRows = toProductRows(models, productsPerRow)
@@ -68,7 +69,8 @@ class ProductGridView(
         savingsPercentageThreshold = savingsPercentageThreshold,
         model = model,
         action = actionProvider.getAction(model),
-        merchantAction = model.merchant?.let { actionProvider.getAction(it) }
+        merchantAction = model.merchant?.let { actionProvider.getAction(it) },
+        type = type
     )
 }
 

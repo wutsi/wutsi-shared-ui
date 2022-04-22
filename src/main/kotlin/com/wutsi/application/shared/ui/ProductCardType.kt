@@ -1,6 +1,6 @@
 package com.wutsi.application.shared.ui
 
-enum class ProfileCardType {
+enum class ProductCardType {
     FULL,
     SUMMARY
 }
