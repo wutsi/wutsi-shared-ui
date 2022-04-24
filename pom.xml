@@ -29,7 +29,7 @@
     <spring-boot.version>2.6.7</spring-boot.version>
     <spring-security.version>5.6.3</spring-security.version>
 
-    <sdui-kotlin.version>0.0.97</sdui-kotlin.version>
+    <sdui-kotlin.version>0.0.96</sdui-kotlin.version>
 
     <!-- Platform -->
     <wutsi-platform-core.version>0.0.107</wutsi-platform-core.version>
