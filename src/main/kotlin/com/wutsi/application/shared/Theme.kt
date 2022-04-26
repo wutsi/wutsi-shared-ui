@@ -13,6 +13,7 @@ object Theme {
     const val COLOR_PRIMARY_LIGHT = "#e4edf7"
     const val COLOR_WARNING = "#856404"
     const val COLOR_WARNING_LIGHT = "#fff3cd"
+    const val COLOR_WHATSAPP = "#075E54"
     const val COLOR_SUCCESS = "#4CAF50"
     const val COLOR_SUCCESS_LIGHT = "#d4edda"
     const val COLOR_DANGER = "#8B0000"
@@ -66,4 +67,5 @@ object Theme {
     const val ICON_VERIFIED = "e699"
     const val ICON_VERIFIED_USER = "e69a"
     const val ICON_WARNING = "e6cb"
+    const val ICON_WHATSAPP = "f05a6"
 }
