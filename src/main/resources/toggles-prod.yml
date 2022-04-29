@@ -1,9 +1,0 @@
-wutsi:
-  toggles:
-    order: false                 # Order disabled (until we have integrated a payment provider)
-    cart: false                  # Disabled cart (until we have integrated a payment provider)
-    tester-user-ids:
-      - 1  # Herve
-      - 2  # Louis
-      - 5  # Patrick
-      - 7  # Eric

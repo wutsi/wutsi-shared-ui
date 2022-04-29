@@ -1,72 +1,46 @@
 package com.wutsi.application.shared.service
 
 import com.wutsi.platform.tenant.entity.ToggleName
-import org.springframework.core.env.Environment
-import org.springframework.core.env.Profiles
 
 open class TogglesProvider(
-    private val toggles: Toggles,
     private val tenantProvider: TenantProvider,
-    private val securityContext: SecurityContext,
-    private val env: Environment
 ) {
     private fun isToggleEnabled(toggle: ToggleName): Boolean =
         tenantProvider.get().toggles.find { it.name.equals(toggle.name, true) } != null
 
-    fun isAccountEnabled(): Boolean =
+    open fun isAccountEnabled(): Boolean =
         isToggleEnabled(ToggleName.ACCOUNT)
+
+    open fun isMobileMoneyEnabled(): Boolean =
+        isToggleEnabled(ToggleName.ACCOUNT_MOBILE_MONEY)
+
+    open fun isBankEnabled(): Boolean =
+        isToggleEnabled(ToggleName.ACCOUNT_BANK)
 
     open fun isCartEnabled(): Boolean =
         isToggleEnabled(ToggleName.CART)
 
-    open fun isContactEnabled(): Boolean =
-        toggles.contact
-
     open fun isDigitalProductEnabled(): Boolean =
-        toggles.digitalProduct
-
-    open fun isFeedbackEnabled(): Boolean =
-        toggles.feedback
-
-    open fun isLogoutEnabled(): Boolean =
-        toggles.logout
+        isToggleEnabled(ToggleName.STORE_DIGITAL_PRODUCT)
 
     open fun isOrderEnabled(): Boolean =
-        toggles.order
+        isToggleEnabled(ToggleName.ORDER)
 
     open fun isPaymentEnabled(): Boolean =
-        toggles.payment
+        isToggleEnabled(ToggleName.PAYMENT)
 
     open fun isScanEnabled(): Boolean =
-        toggles.scan
+        isToggleEnabled(ToggleName.SCAN)
 
-    open fun isSendSmsCodeEnabled(phoneNumber: String): Boolean =
-        toggles.sendSmsCode && !isTestPhoneNumber(phoneNumber)
+    open fun isShippingEnabled(): Boolean =
+        isToggleEnabled(ToggleName.SHIPPING)
 
     open fun isShippingInternationalEnabled(): Boolean =
-        toggles.shippingInternational
+        isToggleEnabled(ToggleName.SHIPPING_INTERNATIONAL)
 
     open fun isStoreEnabled(): Boolean =
-        toggles.store
+        isToggleEnabled(ToggleName.STORE)
 
     open fun isSwitchEnvironmentEnabled(): Boolean =
-        toggles.switchEnvironment || isTester()
-
-    open fun isVerifySmsCodeEnabled(phoneNumber: String): Boolean =
-        toggles.verifySmsCode && !isTestPhoneNumber(phoneNumber)
-
-    private fun isTester(): Boolean =
-        isTester(securityContext.currentAccountId())
-
-    private fun isTester(userId: Long?): Boolean =
-        userId != null && toggles.testerUserIds.contains(userId)
-
-    private fun isTestPhoneNumber(phoneNumber: String): Boolean =
-        toggles.testPhoneNumbers.contains(phoneNumber)
-
-    private fun isNotProd(): Boolean =
-        !isProd()
-
-    private fun isProd(): Boolean =
-        env.acceptsProfiles(Profiles.of("prod"))
+        isToggleEnabled(ToggleName.SWITCH_ENVIRONMENT)
 }
