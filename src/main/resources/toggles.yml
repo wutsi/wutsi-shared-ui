@@ -1,8 +1,5 @@
 wutsi:
   toggles:
-    account: true                # Manage account?
-    business: true               # Business account enabled?
-    cart: true                   # Cart enabled?
     contact: true                # Contacts enabled?
     digital-product: false       # Digital products enabled?
     feedback: true               # Feedback enabled?

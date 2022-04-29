@@ -1,6 +1,7 @@
 package com.wutsi.application.shared.config
 
 import com.wutsi.application.shared.service.SecurityContext
+import com.wutsi.application.shared.service.TenantProvider
 import com.wutsi.application.shared.service.Toggles
 import com.wutsi.application.shared.service.TogglesProvider
 import com.wutsi.application.shared.spring.YamlPropertySourceFactory
@@ -24,6 +25,7 @@ import org.springframework.core.env.Environment
 )
 class TogglesConfiguration(
     private val securityContext: SecurityContext,
+    private val tenantProvider: TenantProvider,
     private val env: Environment
 ) {
     @Bean
@@ -33,5 +35,5 @@ class TogglesConfiguration(
 
     @Bean
     fun toggleProvider(): TogglesProvider =
-        TogglesProvider(toggles(), securityContext, env)
+        TogglesProvider(toggles(), tenantProvider, securityContext, env)
 }

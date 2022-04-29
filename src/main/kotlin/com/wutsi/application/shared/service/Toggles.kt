@@ -1,9 +1,6 @@
 package com.wutsi.application.shared.service
 
 open class Toggles {
-    var account: Boolean = false
-    var business: Boolean = false
-    var cart: Boolean = false
     var contact: Boolean = false
     var digitalProduct: Boolean = false
     var feedback: Boolean = false

@@ -1,21 +1,23 @@
 package com.wutsi.application.shared.service
 
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.springframework.core.env.Environment
 import org.springframework.core.env.Profiles
 
 open class TogglesProvider(
     private val toggles: Toggles,
+    private val tenantProvider: TenantProvider,
     private val securityContext: SecurityContext,
     private val env: Environment
 ) {
-    open fun isAccountEnabled(): Boolean =
-        toggles.account
+    private fun isToggleEnabled(toggle: ToggleName): Boolean =
+        tenantProvider.get().toggles.find { it.name.equals(toggle.name, true) } != null
 
-    open fun isBusinessAccountEnabled(): Boolean =
-        toggles.business
+    fun isAccountEnabled(): Boolean =
+        isToggleEnabled(ToggleName.ACCOUNT)
 
     open fun isCartEnabled(): Boolean =
-        toggles.cart
+        isToggleEnabled(ToggleName.CART)
 
     open fun isContactEnabled(): Boolean =
         toggles.contact

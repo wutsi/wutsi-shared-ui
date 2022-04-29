@@ -22,7 +22,7 @@ open class CityService {
     }
 
     private fun accept(city: CityEntity, query: String, countries: List<String>?): Boolean =
-        (query == null || city.asciiName.startsWith(query, ignoreCase = true)) &&
+        (city.asciiName.startsWith(query, ignoreCase = true)) &&
             (countries == null || countries.contains(city.country))
 
     open fun all(): List<CityEntity> {
