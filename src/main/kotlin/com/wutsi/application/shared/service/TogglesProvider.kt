@@ -29,6 +29,9 @@ open class TogglesProvider(
     open fun isScanEnabled(): Boolean =
         isToggleEnabled(ToggleName.SCAN)
 
+    open fun isSendEnabled(): Boolean =
+        isToggleEnabled(ToggleName.SEND)
+
     open fun isShippingEnabled(): Boolean =
         isToggleEnabled(ToggleName.SHIPPING)
 
