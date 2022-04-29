@@ -35,7 +35,7 @@ open class TogglesProvider(
     open fun isShippingEnabled(): Boolean =
         isToggleEnabled(ToggleName.SHIPPING)
 
-    open fun isShippingInternationalEnabled(): Boolean =
+    open fun isInternationalShippingEnabled(): Boolean =
         isToggleEnabled(ToggleName.SHIPPING_INTERNATIONAL)
 
     open fun isStoreEnabled(): Boolean =
