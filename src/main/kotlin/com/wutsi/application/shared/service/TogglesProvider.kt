@@ -5,9 +5,6 @@ import com.wutsi.platform.tenant.entity.ToggleName
 open class TogglesProvider(
     private val tenantProvider: TenantProvider,
 ) {
-    private fun isToggleEnabled(toggle: ToggleName): Boolean =
-        tenantProvider.get().toggles.find { it.name.equals(toggle.name, true) } != null
-
     open fun isAccountEnabled(): Boolean =
         isToggleEnabled(ToggleName.ACCOUNT)
 
@@ -43,4 +40,7 @@ open class TogglesProvider(
 
     open fun isSwitchEnvironmentEnabled(): Boolean =
         isToggleEnabled(ToggleName.SWITCH_ENVIRONMENT)
+
+    private fun isToggleEnabled(toggle: ToggleName): Boolean =
+        tenantProvider.get().toggles.find { it.name.equals(toggle.name, true) } != null
 }
