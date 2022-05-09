@@ -11,5 +11,8 @@ data class AccountModel(
     val biography: String? = null,
     val retail: Boolean = false,
     val business: Boolean = false,
-    val businessText: String? = null
+    val businessText: String? = null,
+    val facebookUrl: String? = null,
+    val twitterUrl: String? = null,
+    val instagramUrl: String? = null
 )

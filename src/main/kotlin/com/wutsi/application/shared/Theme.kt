@@ -43,7 +43,7 @@ object Theme {
     const val ICON_HISTORY = "e314"
     const val ICON_HOME = "f107"
     const val ICON_INFO = "f128"
-    const val ICON_LINK = "e380"
+    const val ICON_LINK = "f169"
     const val ICON_LOGIN = "eaab"
     const val ICON_MONEY = "f1dd"
     const val ICON_MOTORCYCLE = "e40a"

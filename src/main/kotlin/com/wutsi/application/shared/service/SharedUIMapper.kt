@@ -280,7 +280,10 @@ open class SharedUIMapper(
         category = toCategoryModel(obj.category),
         phoneNumber = PhoneUtil.format(obj.phone?.number, obj.phone?.country),
         biography = obj.biography,
-        businessText = toBusinessText(obj.business, obj.retail)
+        businessText = toBusinessText(obj.business, obj.retail),
+        facebookUrl = if (!obj.facebookId.isNullOrEmpty()) "https://www.facebook.com/${obj.facebookId}" else null,
+        instagramUrl = if (!obj.instagramId.isNullOrEmpty()) "https://www.instagram.com/${obj.instagramId}" else null,
+        twitterUrl = if (!obj.twitterId.isNullOrEmpty()) "https://www.twitter.com/${obj.twitterId}" else null
     )
 
     private fun toBusinessText(business: Boolean, retail: Boolean): String? {
