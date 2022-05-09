@@ -192,7 +192,7 @@ class ProfileCard(
                     Container(
                         padding = if (pad++ % 2 == 0) 10.0 else null,
                         child = Row(
-                            mainAxisAlignment = MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment = MainAxisAlignment.spaceAround,
                             crossAxisAlignment = CrossAxisAlignment.center,
                             children = socialIcons
                         )
