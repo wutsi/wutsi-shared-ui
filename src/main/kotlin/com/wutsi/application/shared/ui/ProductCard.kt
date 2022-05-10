@@ -60,7 +60,7 @@ class ProductCard(
 
     private fun toThumbnailWidget(): WidgetAware {
         return Container(
-            background = Theme.COLOR_GRAY_LIGHT,
+            background = Theme.COLOR_WHITE,
             child = Stack(
                 children = listOfNotNull(
                     // Thumbnail
