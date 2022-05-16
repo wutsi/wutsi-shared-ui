@@ -53,7 +53,7 @@ class ProductCard(
             child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
                 crossAxisAlignment = CrossAxisAlignment.start,
-                children = children.filterNotNull()
+                children = children
             ),
         )
     }
