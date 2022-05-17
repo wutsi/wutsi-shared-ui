@@ -23,6 +23,9 @@ open class TogglesProvider(
     open fun isOrderEnabled(): Boolean =
         isToggleEnabled(ToggleName.ORDER)
 
+    open fun isOrderPaymentEnabled(): Boolean =
+        isToggleEnabled(ToggleName.ORDER_PAYMENT)
+
     open fun isPaymentEnabled(): Boolean =
         isToggleEnabled(ToggleName.PAYMENT)
 
