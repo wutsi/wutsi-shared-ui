@@ -3,6 +3,7 @@ package com.wutsi.application.shared.service
 import com.wutsi.application.shared.entity.CityEntity
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.model.AddressModel
+import com.wutsi.application.shared.model.BottomNavigationBarModel
 import com.wutsi.application.shared.model.CartItemModel
 import com.wutsi.application.shared.model.CategoryModel
 import com.wutsi.application.shared.model.OrderItemModel
@@ -48,6 +49,23 @@ open class SharedUIMapper(
         private const val THUMBNAIL_HEIGHT = 250
         private const val IMAGE_HEIGHT = 450
     }
+
+    open fun toBottomNavigationBarModel(
+        shellUrl: String,
+        cashUrl: String,
+        togglesProvider: TogglesProvider,
+        urlBuilder: URLBuilder
+    ) = BottomNavigationBarModel(
+        profileUrl = toUrl(shellUrl, "profile", urlBuilder),
+        settingsUrl = toUrl(shellUrl, "settings", urlBuilder),
+        transactionUrl = if (togglesProvider.isSendEnabled() || togglesProvider.isPaymentEnabled())
+            toUrl(cashUrl, "history", urlBuilder)
+        else
+            null
+    )
+
+    private fun toUrl(baseUrl: String, path: String, urlBuilder: URLBuilder): String =
+        urlBuilder.build(baseUrl, path)
 
     open fun toShippingModel(order: Order, shipping: Shipping, tenant: Tenant): ShippingModel {
         val locale = LocaleContextHolder.getLocale()
