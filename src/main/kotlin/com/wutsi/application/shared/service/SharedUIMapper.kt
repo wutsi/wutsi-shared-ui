@@ -65,7 +65,10 @@ open class SharedUIMapper(
     )
 
     private fun toUrl(baseUrl: String, path: String, urlBuilder: URLBuilder): String =
-        urlBuilder.build(baseUrl, path)
+        if (baseUrl.isNullOrEmpty())
+            urlBuilder.build(path)
+        else
+            urlBuilder.build(baseUrl, path)
 
     open fun toShippingModel(order: Order, shipping: Shipping, tenant: Tenant): ShippingModel {
         val locale = LocaleContextHolder.getLocale()
