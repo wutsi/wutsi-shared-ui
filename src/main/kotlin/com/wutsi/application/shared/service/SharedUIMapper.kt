@@ -37,6 +37,7 @@ import com.wutsi.platform.core.image.Transformation
 import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
 import org.springframework.context.i18n.LocaleContextHolder
+import java.lang.Integer.min
 import java.text.DecimalFormat
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -104,7 +105,7 @@ open class SharedUIMapper(
         itemCount = obj.items.size,
         subTotal = toPriceModel(obj.subTotalPrice, tenant),
         total = toPriceModel(obj.totalPrice, tenant),
-        deliveryFees = toPriceModel(obj.deliveryFees, tenant),
+        deliveryFees = obj.shippingId?.let { toPriceModel(obj.deliveryFees, tenant) },
         savings = toSavings(obj.totalPrice, obj.subTotalPrice, tenant),
         paid = obj.paymentStatus == PaymentStatus.PAID.name,
         totalPaid = toPriceModel(obj.totalPaid, tenant),
@@ -155,7 +156,10 @@ open class SharedUIMapper(
             ),
             quantity = obj.quantity,
             quantityInStock = product.quantity,
-            maxQuantity = if (product.maxOrder == null || product.maxOrder == 0) obj.quantity else product.maxOrder!!
+            maxQuantity = if (product.maxOrder == null || product.maxOrder == 0)
+                min(obj.quantity, 10)
+            else
+                product.maxOrder!!
         )
     }
 
