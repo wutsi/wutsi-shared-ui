@@ -12,7 +12,6 @@ import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 class ShippingCard(
     private val model: ShippingModel,
     private val textSize: Double = Theme.TEXT_SIZE_DEFAULT,
-    private val showShoppingInstructions: Boolean = true,
     private val showExpectedDeliveryDate: Boolean = true,
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware = Column(
@@ -29,12 +28,7 @@ class ShippingCard(
                     else
                         "",
                 size = textSize
-            ),
-
-            if (showShoppingInstructions && model.message != null)
-                Text(model.message, maxLines = 5, size = textSize)
-            else
-                null,
+            )
         )
     )
 }

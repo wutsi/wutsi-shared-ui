@@ -28,7 +28,8 @@ class ProfileCard(
     private val showWebsite: Boolean = true,
     private val showPhoneNumber: Boolean = true,
     private val type: ProfileCardType = ProfileCardType.FULL,
-    private val assetUrl: String? = null
+    private val assetUrl: String? = null,
+    private val action: Action? = null
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware {
         var pad = 0
@@ -38,7 +39,8 @@ class ProfileCard(
                 alignment = Alignment.Center,
                 child = Avatar(
                     radius = 32.0,
-                    model = model
+                    model = model,
+                    action = action
                 )
             ),
             Container(
@@ -50,7 +52,8 @@ class ProfileCard(
                     size = Theme.TEXT_SIZE_LARGE,
                     color = Theme.COLOR_PRIMARY,
                     bold = true,
-                )
+                ),
+                action = action
             )
         )
 
