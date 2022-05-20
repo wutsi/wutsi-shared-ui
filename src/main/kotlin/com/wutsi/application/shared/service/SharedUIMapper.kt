@@ -272,8 +272,8 @@ open class SharedUIMapper(
         defaultPictureUrl: String,
         width: Int? = null,
         height: Int? = null
-    ) = PictureModel(
-        url = obj?.url?.let {
+    ): PictureModel {
+        var url = obj?.url?.let {
             imageService.transform(
                 url = it,
                 transformation = Transformation(
@@ -281,8 +281,12 @@ open class SharedUIMapper(
                     focus = Focus.AUTO
                 )
             )
-        } ?: defaultPictureUrl
-    )
+        }
+        if (url.isNullOrEmpty())
+            url = defaultPictureUrl
+
+        return PictureModel(url = url)
+    }
 
     open fun toAccountModel(obj: AccountSummary) = AccountModel(
         id = obj.id,
