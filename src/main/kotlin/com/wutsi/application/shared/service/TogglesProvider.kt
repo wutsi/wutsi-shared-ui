@@ -14,6 +14,9 @@ open class TogglesProvider(
     open fun isBankEnabled(): Boolean =
         isToggleEnabled(ToggleName.ACCOUNT_BANK)
 
+    open fun isContactEnabled(): Boolean =
+        isToggleEnabled(ToggleName.CONTACT)
+
     open fun isCartEnabled(): Boolean =
         isToggleEnabled(ToggleName.CART)
 
