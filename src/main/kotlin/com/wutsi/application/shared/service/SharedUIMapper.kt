@@ -203,7 +203,8 @@ open class SharedUIMapper(
             defaultPictureUrl = tenant.product.defaultPictureUrl,
             height = THUMBNAIL_HEIGHT
         ),
-        merchant = merchant?.let { toAccountModel(merchant) }
+        merchant = merchant?.let { toAccountModel(merchant) },
+        status = obj.status
     )
 
     open fun toProductModel(
@@ -228,6 +229,7 @@ open class SharedUIMapper(
                 height = IMAGE_HEIGHT
             )
         },
+        status = obj.status
     )
 
     private fun toComparablePrice(price: Double?, comparablePrice: Double?, tenant: Tenant): PriceModel? {

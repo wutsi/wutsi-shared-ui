@@ -1,5 +1,7 @@
 package com.wutsi.application.shared.model
 
+import com.wutsi.ecommerce.catalog.entity.ProductStatus
+
 data class ProductModel(
     val id: Long = -1,
     val title: String = "",
@@ -11,4 +13,5 @@ data class ProductModel(
     val pictures: List<PictureModel>? = null,
     val savings: SavingsModel? = null,
     val merchant: AccountModel? = null,
+    val status: String = ProductStatus.DRAFT.name
 )
