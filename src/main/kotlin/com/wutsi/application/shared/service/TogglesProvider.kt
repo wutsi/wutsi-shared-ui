@@ -41,6 +41,9 @@ open class TogglesProvider(
     open fun isShippingEnabled(): Boolean =
         isToggleEnabled(ToggleName.SHIPPING)
 
+    open fun isShippingInStorePickup(): Boolean =
+        isToggleEnabled(ToggleName.SHIPPING_IN_STORE_PICKUP)
+
     open fun isShippingLocalPickupEnabled(): Boolean =
         isToggleEnabled(ToggleName.SHIPPING_LOCAL_PICKUP)
 
