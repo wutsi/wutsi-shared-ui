@@ -46,6 +46,7 @@ object Theme {
     const val ICON_LINK = "f169"
     const val ICON_LOGIN = "eaab"
     const val ICON_MONEY = "f1dd"
+    const val ICON_MORE = "f8d9"
     const val ICON_MOTORCYCLE = "e40a"
     const val ICON_ORDERS = "f37a"
     const val ICON_PLACE = "f2ac"
