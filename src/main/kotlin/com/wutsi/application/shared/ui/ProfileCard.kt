@@ -26,7 +26,7 @@ import com.wutsi.flutter.sdui.enums.TextDecoration
 class ProfileCard(
     private val model: AccountModel,
     private val showWebsite: Boolean = true,
-    private val showPhoneNumber: Boolean = true,
+    private val showPhoneNumber: Boolean = false,
     private val type: ProfileCardType = ProfileCardType.FULL,
     private val assetUrl: String? = null,
     private val action: Action? = null

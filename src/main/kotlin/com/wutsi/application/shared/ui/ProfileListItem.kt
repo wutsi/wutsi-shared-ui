@@ -26,11 +26,10 @@ class ProfileListItem(
         trailing = action?.let { Icon(code = Theme.ICON_CHEVRON_RIGHT) }
     )
 
-    private fun toSubCaption(): String? {
-        if (!model.business)
+    private fun toSubCaption(): String? =
+        if (model.business == null)
             null
-
-        return TranslationUtil.getText("shared-ui.account.business") +
-            (model.category?.let { " - ${it.title}" } ?: "")
-    }
+        else
+            TranslationUtil.getText("shared-ui.account.business") +
+                (model.category?.let { " - ${it.title}" } ?: "")
 }
