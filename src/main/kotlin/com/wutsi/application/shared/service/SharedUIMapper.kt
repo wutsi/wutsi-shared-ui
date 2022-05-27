@@ -157,7 +157,7 @@ open class SharedUIMapper(
             quantity = obj.quantity,
             quantityInStock = product.quantity,
             maxQuantity = if (product.maxOrder == null || product.maxOrder == 0)
-                min(obj.quantity, 10)
+                min(product.quantity, 10)
             else
                 product.maxOrder!!
         )
