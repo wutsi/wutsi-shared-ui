@@ -78,7 +78,7 @@ open class CityService {
                 )
         }
 
-        LOGGER.info("$${items.size} cities loaded from $country")
+        LOGGER.info("${items.size} cities loaded from $country")
         return items
     }
 }
