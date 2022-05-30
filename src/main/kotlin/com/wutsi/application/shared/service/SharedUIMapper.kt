@@ -290,14 +290,15 @@ open class SharedUIMapper(
         return PictureModel(url = url)
     }
 
-    open fun toAccountModel(obj: AccountSummary) = AccountModel(
+    open fun toAccountModel(obj: AccountSummary, category: Category? = null) = AccountModel(
         id = obj.id,
         displayName = obj.displayName,
         pictureUrl = obj.pictureUrl,
         business = obj.business,
         retail = obj.retail,
-        location = toLocationText(null, obj.country),
-        businessText = toBusinessText(obj.business, obj.retail)
+        location = toLocationText(cityService.get(obj.cityId), obj.country),
+        businessText = toBusinessText(obj.business, obj.retail),
+        category = category?.let { toCategoryModel(it) }
     )
 
     open fun toAccountModel(obj: Account) = AccountModel(

@@ -11,7 +11,9 @@ import com.wutsi.flutter.sdui.WidgetAware
 
 class ProfileListItem(
     private val model: AccountModel,
-    private val action: Action? = null
+    private val action: Action? = null,
+    private val showAccountType: Boolean = true,
+    private val showLocation: Boolean = true
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware = ListItem(
         caption = StringUtil.capitalizeFirstLetter(model.displayName),
@@ -26,10 +28,23 @@ class ProfileListItem(
         trailing = action?.let { Icon(code = Theme.ICON_CHEVRON_RIGHT) }
     )
 
-    private fun toSubCaption(): String? =
-        if (model.business == null)
-            null
-        else
-            TranslationUtil.getText("shared-ui.account.business") +
-                (model.category?.let { " - ${it.title}" } ?: "")
+    private fun toSubCaption(): String? {
+        val buff = StringBuilder()
+        if (showAccountType && model.business)
+            buff.append(TranslationUtil.getText("shared-ui.account.business"))
+
+        if (model.category != null) {
+            if (buff.isNotEmpty())
+                buff.append(" - ")
+            buff.append(model.category.title)
+        }
+
+        if (showLocation && !model.location.isNullOrEmpty()) {
+            if (buff.isNotEmpty())
+                buff.append(" - ")
+            buff.append(model.location)
+        }
+
+        return if (buff.isEmpty()) null else buff.toString()
+    }
 }
