@@ -93,6 +93,7 @@ class PriceSummaryCard(
             borderColor = Theme.COLOR_DIVIDER,
             borderRadius = 2.0,
             margin = 10.0,
+            background = Theme.COLOR_WHITE,
             child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
                 mainAxisSize = MainAxisSize.min,
