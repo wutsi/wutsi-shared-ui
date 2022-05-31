@@ -22,6 +22,7 @@ object Theme {
     const val ICON_ACCOUNT = "f1dd"
     const val ICON_ADD = "e758"
     const val ICON_ADD_PERSON = "f278"
+    const val ICON_BAR_CHART = "f3d9"
     const val ICON_BUSINESS = "ef0b"
     const val ICON_CAMERA = "f60b"
     const val ICON_CANCEL = "ef28"
