@@ -36,6 +36,7 @@ import com.wutsi.platform.core.image.ImageService
 import com.wutsi.platform.core.image.Transformation
 import com.wutsi.platform.payment.dto.TransactionSummary
 import com.wutsi.platform.tenant.dto.Tenant
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.springframework.context.i18n.LocaleContextHolder
 import java.lang.Integer.min
 import java.text.DecimalFormat
@@ -59,7 +60,7 @@ open class SharedUIMapper(
     ) = BottomNavigationBarModel(
         profileUrl = toUrl(shellUrl, "profile", urlBuilder),
         settingsUrl = toUrl(shellUrl, "settings", urlBuilder),
-        transactionUrl = if (togglesProvider.isSendEnabled() || togglesProvider.isPaymentEnabled())
+        transactionUrl = if (togglesProvider.isToggleEnabled(ToggleName.TRANSACTION_HISTORY))
             toUrl(cashUrl, "history", urlBuilder)
         else
             null
