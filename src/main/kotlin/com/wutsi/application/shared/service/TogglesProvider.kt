@@ -62,6 +62,6 @@ open class TogglesProvider(
     open fun isSwitchEnvironmentEnabled(): Boolean =
         isToggleEnabled(ToggleName.SWITCH_ENVIRONMENT)
 
-    private fun isToggleEnabled(toggle: ToggleName): Boolean =
+    fun isToggleEnabled(toggle: ToggleName): Boolean =
         tenantProvider.get().toggles.find { it.name.equals(toggle.name, true) } != null
 }
