@@ -110,7 +110,7 @@ open class SharedUIMapper(
         savings = toSavings(obj.totalPrice, obj.subTotalPrice, tenant),
         paid = obj.paymentStatus == PaymentStatus.PAID.name,
         totalPaid = toPriceModel(obj.totalPaid, tenant),
-        balance = toPriceModel(obj.totalPaid - obj.totalPrice, tenant)
+        balance = toPriceModel(obj.totalPrice - obj.totalPaid, tenant)
     )
 
     open fun toPriceSummaryModel(obj: Cart, products: List<ProductSummary>, tenant: Tenant): PriceSummaryModel {
@@ -360,7 +360,6 @@ open class SharedUIMapper(
             createdText = DateTimeUtil.convert(obj.created, timezoneId)
                 .format(DateTimeFormatter.ofPattern(tenant.dateFormat, locale)),
             currentUserId = currentUser?.id ?: -1,
-            feesToSender = obj.feesToSender,
         )
     }
 

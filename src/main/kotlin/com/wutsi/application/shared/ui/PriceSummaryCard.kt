@@ -70,7 +70,12 @@ class PriceSummaryCard(
                             getText("shared-ui.price-summary.balance"),
                             model.balance.text,
                             true,
-                            if (model.paid) Theme.COLOR_SUCCESS else null
+                            if (model.paid)
+                                Theme.COLOR_SUCCESS
+                            else if (model.balance.amount > 0)
+                                Theme.COLOR_DANGER
+                            else
+                                null
                         ),
                     )
                 )
