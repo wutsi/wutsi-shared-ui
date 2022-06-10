@@ -54,7 +54,7 @@ class TransactionListItem(
     private fun amount(): WidgetAware {
         val children = mutableListOf(
             Text(
-                caption = model.amount.text,
+                caption = if (isSender()) model.amount.text else model.net.text,
                 bold = true,
                 color = getColor(),
                 alignment = TextAlignment.Right
