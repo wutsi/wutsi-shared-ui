@@ -19,7 +19,7 @@
     <commons-csv.version>1.9.0</commons-csv.version>
     <javax.servlet.version>4.0.1</javax.servlet.version>
     <junit.version>5.8.2</junit.version>
-    <kotlin.version>1.6.21</kotlin.version>
+    <kotlin.version>1.7.0</kotlin.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <klint.version>0.45.2</klint.version>
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
