@@ -15,5 +15,5 @@ data class TransactionModel(
     val createdText: String = "",
     val description: String? = null,
     val orderId: String? = null,
-    val feesToSender: Boolean = false,
+    val applyFeesToSender: Boolean = false,
 )

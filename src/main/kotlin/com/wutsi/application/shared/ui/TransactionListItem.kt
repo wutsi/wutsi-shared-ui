@@ -1,6 +1,7 @@
 package com.wutsi.application.shared.ui
 
 import com.wutsi.application.shared.Theme
+import com.wutsi.application.shared.model.PriceModel
 import com.wutsi.application.shared.model.TransactionModel
 import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.Column
@@ -19,8 +20,8 @@ class TransactionListItem(
     private val action: Action? = null
 ) : CompositeWidgetAware() {
     override fun toWidgetAware(): WidgetAware = ListItem(
-        leading = icon(),
-        trailing = amount(),
+        leading = toIconWidget(),
+        trailing = toAmountWidget(),
         caption = model.description ?: "",
         subCaption = getSubCaption(),
         action = action
@@ -34,7 +35,7 @@ class TransactionListItem(
 
     private fun isRecipient() = model.recipient?.id == model.currentUserId
 
-    private fun icon(): WidgetAware? {
+    private fun toIconWidget(): WidgetAware? {
         if (isCashIn() || isCashOut())
             return Image(
                 width = 48.0,
@@ -51,10 +52,10 @@ class TransactionListItem(
         }
     }
 
-    private fun amount(): WidgetAware {
+    private fun toAmountWidget(): WidgetAware {
         val children = mutableListOf(
             Text(
-                caption = if (isSender()) model.amount.text else model.net.text,
+                caption = toAmount().text,
                 bold = true,
                 color = getColor(),
                 alignment = TextAlignment.Right
@@ -81,6 +82,12 @@ class TransactionListItem(
             children = children,
         )
     }
+
+    private fun toAmount(): PriceModel =
+        if (isSender() || !model.applyFeesToSender)
+            model.amount
+        else
+            model.net
 
     private fun getColor(): String =
         when (model.status.uppercase()) {

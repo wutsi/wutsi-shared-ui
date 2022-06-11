@@ -360,6 +360,8 @@ open class SharedUIMapper(
             createdText = DateTimeUtil.convert(obj.created, timezoneId)
                 .format(DateTimeFormatter.ofPattern(tenant.dateFormat, locale)),
             currentUserId = currentUser?.id ?: -1,
+            orderId = obj.orderId,
+            applyFeesToSender = obj.applyFeesToSender
         )
     }
 
