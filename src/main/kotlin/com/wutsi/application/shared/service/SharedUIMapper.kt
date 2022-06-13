@@ -98,7 +98,7 @@ open class SharedUIMapper(
             street = if (address.street.isNullOrEmpty()) null else address.street,
             location = city?.let { "${city.name}, $country" } ?: country,
             zipCode = address.zipCode,
-            email = address.email
+            email = address.email,
         )
     }
 
