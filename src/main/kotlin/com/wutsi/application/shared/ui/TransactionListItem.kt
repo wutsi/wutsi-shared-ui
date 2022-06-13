@@ -31,6 +31,10 @@ class TransactionListItem(
 
     private fun isCashOut() = model.type == TransactionType.CASHOUT.name
 
+    private fun isCharge() = model.type == TransactionType.CHARGE.name
+
+    private fun isTransfer() = model.type == TransactionType.TRANSFER.name
+
     private fun isSender() = model.account?.id == model.currentUserId
 
     private fun isRecipient() = model.recipient?.id == model.currentUserId
@@ -55,7 +59,7 @@ class TransactionListItem(
     private fun toAmountWidget(): WidgetAware {
         val children = mutableListOf(
             Text(
-                caption = toAmount().text,
+                caption = toAmountSign() + toAmount().text,
                 bold = true,
                 color = getColor(),
                 alignment = TextAlignment.Right
@@ -88,6 +92,15 @@ class TransactionListItem(
             model.amount
         else
             model.net
+
+    private fun toAmountSign(): String =
+        if (isCashOut() ||
+            (isCharge() && isSender()) ||
+            (isTransfer() && isSender())
+        )
+            "-"
+        else
+            ""
 
     private fun getColor(): String? =
         when (model.status.uppercase()) {
