@@ -89,18 +89,11 @@ class TransactionListItem(
         else
             model.net
 
-    private fun getColor(): String =
+    private fun getColor(): String? =
         when (model.status.uppercase()) {
             Status.FAILED.name -> Theme.COLOR_DANGER
             Status.PENDING.name -> Theme.COLOR_WARNING
-            else -> when (model.type.uppercase()) {
-                TransactionType.CASHIN.name -> Theme.COLOR_SUCCESS
-                TransactionType.CASHOUT.name -> Theme.COLOR_DANGER
-                else -> if (isRecipient())
-                    Theme.COLOR_SUCCESS
-                else
-                    Theme.COLOR_DANGER
-            }
+            else -> null
         }
 
     private fun getSubCaption(): String? {
