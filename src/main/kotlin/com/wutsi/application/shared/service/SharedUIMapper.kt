@@ -24,6 +24,7 @@ import com.wutsi.ecommerce.catalog.dto.ProductSummary
 import com.wutsi.ecommerce.order.dto.Address
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.order.dto.OrderItem
+import com.wutsi.ecommerce.order.entity.AddressType
 import com.wutsi.ecommerce.order.entity.PaymentStatus
 import com.wutsi.ecommerce.shipping.dto.Shipping
 import com.wutsi.platform.account.dto.Account
@@ -99,6 +100,7 @@ open class SharedUIMapper(
             location = city?.let { "${city.name}, $country" } ?: country,
             zipCode = address.zipCode,
             email = address.email,
+            type = AddressType.valueOf(address.type),
         )
     }
 
