@@ -90,6 +90,13 @@ open class SharedUIMapper(
     }
 
     open fun toAddressModel(address: Address): AddressModel {
+        if (address.type == AddressType.EMAIL.name)
+            return AddressModel(
+                fullName = "${address.firstName} ${address.lastName}".trim(),
+                email = address.email,
+                type = AddressType.valueOf(address.type),
+            )
+
         val locale = LocaleContextHolder.getLocale()
         val city = address.cityId?.let { cityService.get(it) }
         val country = Locale("en", city?.country ?: address.country).getDisplayCountry(locale)
