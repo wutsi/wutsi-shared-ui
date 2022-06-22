@@ -94,7 +94,7 @@ open class SharedUIMapper(
             return AddressModel(
                 fullName = "${address.firstName} ${address.lastName}".trim(),
                 email = address.email,
-                type = AddressType.valueOf(address.type),
+                type = AddressType.EMAIL,
             )
 
         val locale = LocaleContextHolder.getLocale()

@@ -5,6 +5,7 @@ import com.wutsi.application.shared.service.QrService
 import com.wutsi.application.shared.service.RequestLocaleResolver
 import com.wutsi.application.shared.service.SecurityContext
 import com.wutsi.application.shared.service.SharedUIMapper
+import com.wutsi.application.shared.service.TenantIdProvider
 import com.wutsi.application.shared.service.TenantProvider
 import com.wutsi.application.shared.service.URLBuilder
 import com.wutsi.platform.account.WutsiAccountApi
@@ -21,6 +22,7 @@ class ServiceConfiguration(
     private val tenantProvider: TenantProvider,
     private val accountApi: WutsiAccountApi,
     private val imageService: ImageService,
+    private val tenantIdProvider: TenantIdProvider,
     private val env: Environment,
 
     @Value("\${wutsi.application.server-url}") private val serverUrl: String,
@@ -42,7 +44,7 @@ class ServiceConfiguration(
 
     @Bean
     fun qrService(): QrService =
-        QrService(env)
+        QrService(env, tenantIdProvider)
 
     @Bean
     fun securityContext(): SecurityContext =
