@@ -25,7 +25,7 @@
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
     <libphonenumber.version>8.12.50</libphonenumber.version>
     <spring.version>5.3.21</spring.version>
-    <spring-boot.version>2.7.0</spring-boot.version>
+    <spring-boot.version>2.7.1</spring-boot.version>
     <spring-security.version>5.7.1</spring-security.version>
 
     <sdui-kotlin.version>0.0.101</sdui-kotlin.version>
