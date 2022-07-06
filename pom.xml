@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
   <modelVersion>4.0.0</modelVersion>
@@ -33,22 +34,22 @@
     <!-- Platform -->
     <wutsi-platform-core.version>0.0.120</wutsi-platform-core.version>
     <wutsi-platform-payment.version>0.0.75</wutsi-platform-payment.version>
-    <wutsi-account.version>1.0.57</wutsi-account.version>
-    <wutsi-contact.version>0.0.7</wutsi-contact.version>
+    <wutsi-account.version>1.0.59</wutsi-account.version>
+    <wutsi-contact.version>0.0.13</wutsi-contact.version>
     <wutsi-payment.version>0.0.63</wutsi-payment.version>
     <wutsi-qr.version>0.0.16</wutsi-qr.version>
-    <wutsi-security.version>0.0.21</wutsi-security.version>
-    <wutsi-sms.version>1.0.10</wutsi-sms.version>
+    <wutsi-security.version>0.0.23</wutsi-security.version>
+    <wutsi-sms.version>1.0.16</wutsi-sms.version>
     <wutsi-tenant.version>0.0.50</wutsi-tenant.version>
 
     <!-- Analytics -->
     <wutsi-tracking.version>0.0.18</wutsi-tracking.version>
 
     <!-- e-commerce -->
-    <wutsi-cart.version>0.0.10</wutsi-cart.version>
-    <wutsi-catalog.version>0.0.45</wutsi-catalog.version>
-    <wutsi-order.version>0.0.31</wutsi-order.version>
-    <wutsi-shipping.version>0.0.27</wutsi-shipping.version>
+    <wutsi-cart.version>0.0.12</wutsi-cart.version>
+    <wutsi-catalog.version>0.0.47</wutsi-catalog.version>
+    <wutsi-order.version>0.0.32</wutsi-order.version>
+    <wutsi-shipping.version>0.0.28</wutsi-shipping.version>
   </properties>
 
   <dependencies>
@@ -347,11 +348,12 @@
             <phase>validate</phase>
             <configuration>
               <target name="ktlint">
-                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true" classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                  <arg value="src/**/*.kt" />
+                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
+                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
+                  <arg value="src/**/*.kt"/>
                   <!-- to generate report in checkstyle format prepend following args: -->
-                  <arg value="--reporter=plain" />
-                  <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml" />
+                  <arg value="--reporter=plain"/>
+                  <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
 
                   <!-- see https://github.com/pinterest/ktlint#usage for more -->
                 </java>
@@ -365,9 +367,10 @@
             <id>ktlint-format</id>
             <configuration>
               <target name="ktlint">
-                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true" classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                  <arg value="-F" />
-                  <arg value="src/**/*.kt" />
+                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
+                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
+                  <arg value="-F"/>
+                  <arg value="src/**/*.kt"/>
                 </java>
               </target>
             </configuration>
