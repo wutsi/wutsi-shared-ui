@@ -16,6 +16,6 @@ open class URLBuilder(
         else
             path
 
-        return "$xprefix/$xpath"
+        return if (xpath.isEmpty()) xprefix else "$xprefix/$xpath"
     }
 }
