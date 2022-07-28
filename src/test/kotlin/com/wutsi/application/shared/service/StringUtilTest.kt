@@ -9,6 +9,7 @@ internal class StringUtilTest {
         assertEquals("RS", StringUtil.initials("Ray Sponsible"))
         assertEquals("RS", StringUtil.initials("ray sponsible"))
         assertEquals("R", StringUtil.initials("Ray"))
+        assertEquals("", StringUtil.initials("     "))
         assertEquals("", StringUtil.initials(""))
         assertEquals("", StringUtil.initials(null))
     }

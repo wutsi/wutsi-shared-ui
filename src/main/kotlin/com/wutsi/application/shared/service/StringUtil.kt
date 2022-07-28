@@ -6,10 +6,10 @@ object StringUtil {
     private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
     fun initials(fullName: String?): String {
-        if (fullName.isNullOrEmpty())
+        val xfullName = fullName?.trim() ?: ""
+        if (xfullName.isNullOrEmpty())
             return ""
 
-        val xfullName = fullName.trim()
         val index = xfullName.lastIndexOf(' ')
         return if (index > 0)
             (xfullName.substring(0, 1) + xfullName.substring(index + 1, index + 2)).uppercase()
