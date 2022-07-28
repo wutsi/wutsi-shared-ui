@@ -19,7 +19,7 @@
 
     <commons-csv.version>1.9.0</commons-csv.version>
     <javax.servlet.version>4.0.1</javax.servlet.version>
-    <junit.version>5.8.2</junit.version>
+    <junit.version>5.9.0</junit.version>
     <kotlin.version>1.7.10</kotlin.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <klint.version>0.46.1</klint.version>
